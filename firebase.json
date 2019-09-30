@@ -1,0 +1,7 @@
+{
+    "hosting": {
+        "public": "hosting_root",
+        "cleanUrls": true,
+        "trailingSlash": false
+    }
+}
