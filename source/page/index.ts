@@ -1,4 +1,5 @@
 import * as type from "../type";
+import { timingSafeEqual } from "crypto";
 
 const snsLink: type.Element = type.div(
     [type.class_("snsLink-list")],
@@ -32,8 +33,7 @@ const snsLink: type.Element = type.div(
                         ]
                     }
                 ]
-            },
-            type.div([], "narumincho")
+            }
         ]),
         type.a([type.class_("snsLink")], "https://twitter.com/naru_mincho", [
             {
@@ -54,8 +54,7 @@ const snsLink: type.Element = type.div(
                         children: []
                     }
                 ]
-            },
-            type.div([], "@naru_mincho")
+            }
         ])
     ]
 );
@@ -124,6 +123,11 @@ const articleGroupList = type.div(
             ]
         }),
         createArticleGroup({
+            title: "Web",
+            subTitle: "作成中!",
+            article: []
+        }),
+        createArticleGroup({
             title: "PowerShell",
             subTitle: "",
             article: [
@@ -134,6 +138,48 @@ const articleGroupList = type.div(
                     imageAlt: "PowerShellのロゴ"
                 }
             ]
+        }),
+        createArticleGroup({
+            title: "SVG",
+            subTitle: "作成中!",
+            article: [
+                {
+                    title: "SVGの基本",
+                    url: "/svg/basic",
+                    imageUrl: "/assets/orange.svg",
+                    imageAlt: "オレンジ"
+                },
+                {
+                    title: "単体SVGと埋め込みSVG",
+                    url: "/svg/standalone_embed",
+                    imageUrl: "/assets/grape.svg",
+                    imageAlt: "ぶどう"
+                }
+            ]
+        }),
+        createArticleGroup({
+            title: "N Petitcom IME",
+            subTitle: "プチコン3号用の漢字入力IME 🔑BEREV2HV",
+            article: [
+                {
+                    title: "使い方(プチコンまとめwiki)",
+                    url:
+                        "http://wiki.hosiken.jp/petc3gou/?Toukou%2FNPetitcomIME",
+                    imageUrl: "/assets/henkan.jpg",
+                    imageAlt: "IMEの変換画面"
+                },
+                {
+                    title: "対応文字一覧",
+                    url: "/npime/char",
+                    imageUrl: "/assets/qwerty.jpg",
+                    imageAlt: "QWERTY入力画面"
+                }
+            ]
+        }),
+        createArticleGroup({
+            title: "DESIRED Route",
+            subTitle: "プチコン3号で作っていたRPG",
+            article: []
         })
     ]
 );

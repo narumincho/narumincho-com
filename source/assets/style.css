@@ -66,10 +66,10 @@ main {
 
 .snsLink {
     display: grid;
-    grid-template-columns: 48px auto;
+    grid-template-columns: auto;
     align-items: center;
-    gap: 8px;
-    padding: 4px;
+    justify-content: center;
+    padding: 8px;
     color: #111;
     fill: #1da1f2;
     text-decoration: none;
@@ -162,13 +162,12 @@ p {
 
 .articleItem {
     display: grid;
-    border-radius: 8px;
+    border-radius: 4px;
     color: #000;
     background-color: #ddd;
     transition: all 400ms 0s ease;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
     overflow: hidden;
-    padding: 8px;
     text-decoration: none;
 }
 
@@ -178,16 +177,29 @@ p {
     animation: zoom 0.3s;
 }
 
+.articleItem:active {
+    background-color: #f8ab53;
+    color: #17073c;
+}
+
 .articleItem-img {
     width: 100%;
     object-fit: cover;
     display: block;
     height: 150px;
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
 }
 
 .articleItem-title {
     margin: 0;
     font-size: 1.1rem;
+    padding: 8px;
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #ddd;
+    align-self: flex-end;
 }
 
 .screenshot {
