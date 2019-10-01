@@ -181,6 +181,12 @@ const articleGroupList = type.div(
             subTitle: "プチコン3号で作っていたRPG",
             article: [
                 {
+                    title: "DESIRED Routeとは",
+                    url: "/desired_route/about",
+                    imageUrl: "/assets/desiredroute-title.jpg",
+                    imageAlt: "DESIRED Routeのタイトル画面"
+                },
+                {
                     title: "ウィンドウの挙動",
                     url: "/desired_route/window",
                     imageUrl: "/assets/window.jpg",
@@ -233,6 +239,11 @@ const articleGroupList = type.div(
     ]
 );
 
+const copyright: type.Element = type.div(
+    [type.class_("copyright")],
+    "© 2019 narumincho"
+);
+
 const bodyElements: Array<type.Element> = [
     {
         name: "h1",
@@ -252,7 +263,7 @@ const bodyElements: Array<type.Element> = [
     {
         name: "div",
         attributes: [["class", "index-main"]],
-        children: [snsLink, articleGroupList]
+        children: [snsLink, articleGroupList, copyright]
     }
 ];
 
