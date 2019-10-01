@@ -60,49 +60,81 @@ const snsLink: type.Element = type.div(
     ]
 );
 
+const createArticleGroup = (data: {
+    title: string;
+    subTitle: string;
+    article: Array<{
+        title: string;
+        url: string;
+        imageUrl: string;
+        imageAlt: string;
+    }>;
+}): type.Element => ({
+    name: "section",
+    attributes: [type.class_("articleGroup")],
+    children: [
+        {
+            name: "h2",
+            attributes: [type.class_("articleGroup-titleArea")],
+            children: [
+                type.div([type.class_("articleGroup-title")], data.title),
+                type.div([type.class_("articleGroup-subtitle")], data.subTitle)
+            ]
+        },
+        type.div(
+            [type.class_("article-list")],
+            data.article.map(
+                (article): type.Element =>
+                    type.a([type.class_("articleItem")], article.url, [
+                        type.image(
+                            [type.class_("articleItem-img")],
+                            article.imageUrl,
+                            article.imageAlt
+                        ),
+                        {
+                            name: "h3",
+                            attributes: [type.class_("articleItem-title")],
+                            children: article.title
+                        }
+                    ])
+            )
+        )
+    ]
+});
+
 const articleGroupList = type.div(
     [type.class_("articleGroup-list")],
     [
-        {
-            name: "section",
-            attributes: [type.class_("articleGroup")],
-            children: [
+        createArticleGroup({
+            title: "Definy",
+            subTitle: "革新的なプログラミング言語",
+            article: [
                 {
-                    name: "h2",
-                    attributes: [type.class_("articleGroup-titleArea")],
-                    children: [
-                        type.div([type.class_("articleGroup-title")], "Definy"),
-                        type.div(
-                            [type.class_("articleGroup-subtitle")],
-                            "革新的なプログラミング言語"
-                        )
-                    ]
+                    title: "Definy",
+                    url: "https://definy-lang.web.app",
+                    imageUrl: "/assets/definy20190212.jpg",
+                    imageAlt: "Definy2019-02-12のスクリーンショット"
                 },
-                type.div(
-                    [type.class_("article-list")],
-                    [
-                        type.a(
-                            [type.class_("articleItem")],
-                            "https://definy-lang.web.app",
-                            [
-                                type.image(
-                                    [type.class_("articleItem-img")],
-                                    "/assets/definy20190212.jpg",
-                                    "Definy2019-02-12のスクリーンショット"
-                                ),
-                                {
-                                    name: "h3",
-                                    attributes: [
-                                        type.class_("articleItem-title")
-                                    ],
-                                    children: "Definy"
-                                }
-                            ]
-                        )
-                    ]
-                )
+                {
+                    title: "言語仕様",
+                    url: "/definy/spec",
+                    imageUrl: "/assets/definy-spec.svg",
+                    imageAlt: "Definy言語仕様のイメージ画像"
+                }
             ]
-        }
+        }),
+        createArticleGroup({
+            title: "PowerShell",
+            subTitle: "",
+            article: [
+                {
+                    title: "ファイルに対して再帰的にコマンドを実行する",
+                    url: "/powershell/recursion",
+                    imageUrl: "/assets/powershell-icon.png",
+                    imageAlt: "PowerShellのロゴ"
+                }
+            ]
+        })
     ]
 );
 

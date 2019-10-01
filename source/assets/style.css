@@ -10,7 +10,8 @@ body {
 }
 
 .index-main {
-    max-width: 60rem;
+    max-width: 960px;
+    justify-self: center;
 }
 
 main {
@@ -32,11 +33,10 @@ main {
 =========================== */
 
 .title-logo {
-    padding: 4rem 0;
+    padding: 48px 0;
     margin: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    display: grid;
+    justify-items: center;
     width: 100%;
 }
 
@@ -60,26 +60,27 @@ main {
 
 @media screen and (max-width: 50em) {
     .snsLink-list {
-        padding: 1rem;
+        padding: 16px;
     }
 }
 
 .snsLink {
-    display: flex;
-    padding: 1rem;
+    display: grid;
+    grid-template-columns: 48px auto;
+    align-items: center;
+    gap: 8px;
+    padding: 4px;
     color: #111;
     fill: #1da1f2;
     text-decoration: none;
     font-weight: bold;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
-    border-radius: 0.5rem;
+    border-radius: 6px;
     background-color: #eee;
 }
 
 .snsLink:hover {
-    background-color: #1da1f2;
-    color: #f5f8fa;
-    fill: #f5f8fa;
+    background-color: #f68406;
     animation: zoom 0.3s;
 }
 
@@ -90,9 +91,7 @@ main {
 }
 
 .brandLogo {
-    height: 1.8em;
-    vertical-align: middle;
-    padding: 0 0.3rem 0 0;
+    height: 48px;
 }
 
 header {
@@ -111,20 +110,20 @@ header {
 
 .articleGroup {
     background-color: #333;
-    padding: 2rem;
+    padding: 32px;
+    display: grid;
+    gap: 8px;
 }
 
-@media screen and (max-width: 50em) {
+@media screen and (max-width: 800px) {
     .articleGroup {
-        padding: 0;
+        padding: 16px;
     }
 }
 
 .articleGroup-titleArea {
     display: flex;
-    font-size: 1.5em;
     margin: 0;
-    padding: 1rem;
 }
 
 .articleGroup-title {
@@ -150,12 +149,9 @@ p {
 ===================*/
 
 .article-list {
-    padding: 8px;
-    margin: 0;
-    width: 100%;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: 0.5rem;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 8px;
 }
 
 @media screen and (max-width: 50em) {
@@ -166,9 +162,6 @@ p {
 
 .articleItem {
     display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr min-content;
-    margin: 0;
     border-radius: 8px;
     color: #000;
     background-color: #ddd;
@@ -187,8 +180,9 @@ p {
 
 .articleItem-img {
     width: 100%;
-    object-fit: contain;
+    object-fit: cover;
     display: block;
+    height: 150px;
 }
 
 .articleItem-title {
