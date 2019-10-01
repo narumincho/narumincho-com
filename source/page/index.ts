@@ -1,5 +1,4 @@
 import * as type from "../type";
-import { timingSafeEqual } from "crypto";
 
 const snsLink: type.Element = type.div(
     [type.class_("snsLink-list")],
@@ -268,8 +267,9 @@ const bodyElements: Array<type.Element> = [
 ];
 
 export const page: type.Page = {
-    path: "index.html",
+    path: "/",
     title: null,
+    imageUrl: "/assets/icon.png",
     description:
         "革新的なプログラミング言語のDefinyとWeb技術について解説しています",
     bodyElements

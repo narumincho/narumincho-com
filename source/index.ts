@@ -4,7 +4,16 @@ import * as index from "./page/index";
 
 const doctype = "<!doctype html>";
 
-const head = (title: string | null, description: string): type.Element => ({
+const siteName = "ナルミンチョの創作記録";
+
+const domain = "https://narumincho.com";
+
+const head = (
+    title: string | null,
+    description: string,
+    imageUrl: string,
+    path: string
+): type.Element => ({
     name: "head",
     attributes: [],
     children: [
@@ -24,8 +33,7 @@ const head = (title: string | null, description: string): type.Element => ({
         {
             name: "title",
             attributes: [],
-            children:
-                (title === null ? "" : title + " | ") + "ナルミンチョの創作記録"
+            children: (title === null ? "" : title + " | ") + siteName
         },
         {
             name: "meta",
@@ -43,6 +51,45 @@ const head = (title: string | null, description: string): type.Element => ({
             children: null
         },
         {
+            name: "meta",
+            attributes: [["name", "twitter:card"], ["content", "summary"]],
+            children: null
+        },
+        {
+            name: "meta",
+            attributes: [["property", "og:url"], ["content", domain + path]],
+            children: null
+        },
+        {
+            name: "meta",
+            attributes: [
+                ["property", "og:title"],
+                ["content", title === null ? siteName : title]
+            ],
+            children: null
+        },
+        {
+            name: "meta",
+            attributes: [["property", "og:site_name"], ["content", siteName]],
+            children: null
+        },
+        {
+            name: "meta",
+            attributes: [
+                ["property", "og:description"],
+                ["content", description]
+            ],
+            children: null
+        },
+        {
+            name: "meta",
+            attributes: [
+                ["property", "og:image"],
+                ["content", domain + imageUrl]
+            ],
+            children: null
+        },
+        {
             name: "script",
             attributes: [
                 "async",
@@ -56,12 +103,7 @@ const head = (title: string | null, description: string): type.Element => ({
         {
             name: "script",
             attributes: [],
-            children: `window.dataLayer = window.dataLayer || [];
-function gtag() {
-    dataLayer.push(arguments);
-}
-gtag("js", new Date());
-gtag("config", "UA-104964219-1");`
+            children: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","UA-104964219-1");`
         }
     ]
 });
@@ -72,7 +114,7 @@ const pageToHtml = (page: type.Page): string =>
         name: "html",
         attributes: [["lang", "ja"]],
         children: [
-            head(page.title, page.description),
+            head(page.title, page.description, page.imageUrl, page.path),
             { name: "body", attributes: [], children: page.bodyElements }
         ]
     });

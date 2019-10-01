@@ -6,6 +6,7 @@ import * as url from "url";
 export type Page = {
     path: string;
     title: string | null;
+    imageUrl: string;
     description: string;
     bodyElements: Array<Element>;
 };
