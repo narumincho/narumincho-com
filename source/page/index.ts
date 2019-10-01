@@ -179,7 +179,56 @@ const articleGroupList = type.div(
         createArticleGroup({
             title: "DESIRED Route",
             subTitle: "プチコン3号で作っていたRPG",
-            article: []
+            article: [
+                {
+                    title: "ウィンドウの挙動",
+                    url: "/desired_route/window",
+                    imageUrl: "/assets/window.jpg",
+                    imageAlt: "ウィンドウの表示"
+                },
+                {
+                    title: "漢字の表示",
+                    url: "/desired_route/font",
+                    imageUrl: "/assets/font.jpg",
+                    imageAlt: "フォントのグラフィック"
+                },
+                {
+                    title: "リストの選択の挙動",
+                    url: "/desired_route/list",
+                    imageUrl: "/assets/list-ui.jpg",
+                    imageAlt: "UIのリスト表示"
+                },
+                {
+                    title: "GUIの配色",
+                    url: "GUIの配色",
+                    imageUrl: "/assets/color.png",
+                    imageAlt: "色相環"
+                },
+                {
+                    title: "エンカウント",
+                    url: "/desired_route/encount",
+                    imageUrl: "/assets/battle.jpg",
+                    imageAlt: "バトル画面"
+                },
+                {
+                    title: "入力の挙動",
+                    url: "/desired_route/input",
+                    imageUrl: "/assets/3ds.png",
+                    imageAlt: "nintendo 3DSのボタン"
+                },
+                {
+                    title: "星の図形",
+                    url: "/desired_route/input",
+                    imageUrl: "/assets/star.jpg",
+                    imageAlt: "15芒星"
+                },
+                {
+                    title: "モンスター",
+                    url: "/desired_route/monster",
+                    imageUrl: "/assets/kamausagi.png",
+                    imageAlt: "かまうさぎ"
+                }
+            ]
         })
     ]
 );
