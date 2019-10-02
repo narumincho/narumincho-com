@@ -4,12 +4,16 @@ import * as url from "url";
  * ページ
  */
 export type Page = {
-    path: string;
-    title: string | null;
+    path: string | SpecialPath;
+    title: string;
     imageUrl: string;
     description: string;
-    bodyElements: Array<Element>;
+    content: ConcatArray<Element>;
 };
+
+export const enum SpecialPath {
+    FotFound404
+}
 
 /**
  * HTML要素
@@ -125,3 +129,12 @@ export const image = (
 });
 
 export const class_ = (className: string): Attribute => ["class", className];
+
+export const p = (
+    attributes: Array<Attribute>,
+    children: Array<Element> | string
+): Element => ({
+    name: "p",
+    attributes: attributes,
+    children: children
+});

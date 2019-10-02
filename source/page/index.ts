@@ -238,11 +238,6 @@ const articleGroupList = type.div(
     ]
 );
 
-const copyright: type.Element = type.div(
-    [type.class_("copyright")],
-    "© 2019 narumincho"
-);
-
 const bodyElements: Array<type.Element> = [
     {
         name: "h1",
@@ -262,14 +257,11 @@ const bodyElements: Array<type.Element> = [
     {
         name: "div",
         attributes: [["class", "index-main"]],
-        children: [snsLink, articleGroupList, copyright]
+        children: [snsLink, articleGroupList]
     }
 ];
 
-export const page: type.Page = {
-    path: "/",
-    title: null,
-    imageUrl: "/assets/icon.png",
+export const page = {
     description:
         "革新的なプログラミング言語のDefinyとWeb技術について解説しています",
     bodyElements

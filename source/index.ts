@@ -1,6 +1,7 @@
 import * as fs from "fs";
 import * as type from "./type";
 import * as index from "./page/index";
+import * as notFound404 from "./page/404";
 
 const doctype = "<!doctype html>";
 
@@ -8,12 +9,67 @@ const siteName = "ナルミンチョの創作記録";
 
 const domain = "https://narumincho.com";
 
-const head = (
-    title: string | null,
-    description: string,
-    imageUrl: string,
-    path: string
-): type.Element => ({
+const twitterCardMeta = (data: {
+    title: string | null;
+    description: string;
+    imageUrl: string;
+    path: string | type.SpecialPath;
+}): Array<type.Element> => {
+    if (data.path === type.SpecialPath.FotFound404) {
+        return [];
+    }
+    return [
+        {
+            name: "meta",
+            attributes: [["name", "twitter:card"], ["content", "summary"]],
+            children: null
+        },
+        {
+            name: "meta",
+            attributes: [
+                ["property", "og:url"],
+                ["content", domain + data.path]
+            ],
+            children: null
+        },
+        {
+            name: "meta",
+            attributes: [
+                ["property", "og:title"],
+                ["content", data.title === null ? siteName : data.title]
+            ],
+            children: null
+        },
+        {
+            name: "meta",
+            attributes: [["property", "og:site_name"], ["content", siteName]],
+            children: null
+        },
+        {
+            name: "meta",
+            attributes: [
+                ["property", "og:description"],
+                ["content", data.description]
+            ],
+            children: null
+        },
+        {
+            name: "meta",
+            attributes: [
+                ["property", "og:image"],
+                ["content", domain + data.imageUrl]
+            ],
+            children: null
+        }
+    ];
+};
+
+const head = (data: {
+    title: string | null;
+    description: string;
+    imageUrl: string;
+    path: string | type.SpecialPath;
+}): type.Element => ({
     name: "head",
     attributes: [],
     children: [
@@ -33,11 +89,14 @@ const head = (
         {
             name: "title",
             attributes: [],
-            children: (title === null ? "" : title + " | ") + siteName
+            children: (data.title === null ? "" : data.title + " | ") + siteName
         },
         {
             name: "meta",
-            attributes: [["name", "description"], ["content", description]],
+            attributes: [
+                ["name", "description"],
+                ["content", data.description]
+            ],
             children: null
         },
         {
@@ -50,45 +109,7 @@ const head = (
             attributes: [["rel", "stylesheet"], ["href", "/assets/style.css"]],
             children: null
         },
-        {
-            name: "meta",
-            attributes: [["name", "twitter:card"], ["content", "summary"]],
-            children: null
-        },
-        {
-            name: "meta",
-            attributes: [["property", "og:url"], ["content", domain + path]],
-            children: null
-        },
-        {
-            name: "meta",
-            attributes: [
-                ["property", "og:title"],
-                ["content", title === null ? siteName : title]
-            ],
-            children: null
-        },
-        {
-            name: "meta",
-            attributes: [["property", "og:site_name"], ["content", siteName]],
-            children: null
-        },
-        {
-            name: "meta",
-            attributes: [
-                ["property", "og:description"],
-                ["content", description]
-            ],
-            children: null
-        },
-        {
-            name: "meta",
-            attributes: [
-                ["property", "og:image"],
-                ["content", domain + imageUrl]
-            ],
-            children: null
-        },
+        ...twitterCardMeta(data),
         {
             name: "script",
             attributes: [
@@ -108,25 +129,98 @@ const head = (
     ]
 });
 
+const copyright: type.Element = type.div(
+    [type.class_("copyright")],
+    "© 2019 narumincho"
+);
+
 const pageToHtml = (page: type.Page): string =>
     doctype +
     type.elementToString({
         name: "html",
         attributes: [["lang", "ja"]],
         children: [
-            head(page.title, page.description, page.imageUrl, page.path),
-            { name: "body", attributes: [], children: page.bodyElements }
+            head(page),
+            {
+                name: "body",
+                attributes: [],
+                children: [
+                    {
+                        name: "header",
+                        attributes: [],
+                        children: [
+                            type.a([type.class_("title-logo")], "/", [
+                                type.image(
+                                    [type.class_("logo")],
+                                    "/assets/logo.svg",
+                                    "ナルミンチョの創作記録のロゴ"
+                                )
+                            ])
+                        ]
+                    },
+                    {
+                        name: "main",
+                        attributes: [],
+                        children: [
+                            {
+                                name: "h1",
+                                attributes: [],
+                                children: page.title
+                            } as type.Element
+                        ]
+                            .concat(page.content)
+                            .concat([
+                                type.a([type.class_("return-to-home")], "/", [
+                                    type.image(
+                                        [type.class_("home-icon")],
+                                        "/assets/home.svg",
+                                        "home"
+                                    ),
+                                    type.div([], "ホームに戻る")
+                                ])
+                            ])
+                    }
+                ]
+            }
         ]
     });
 
-const indexHtml: string = pageToHtml(index.page);
+const notFound404Html: string = pageToHtml(notFound404.page);
+
+const indexHtml: string =
+    doctype +
+    type.elementToString({
+        name: "html",
+        attributes: [["lang", "ja"]],
+        children: [
+            head({
+                title: null,
+                description: index.page.description,
+                imageUrl: "/assets/icon.png",
+                path: "/"
+            }),
+            {
+                name: "body",
+                attributes: [],
+                children: index.page.bodyElements.concat(copyright)
+            }
+        ]
+    });
 
 fs.writeFile("../distribution/index.html", indexHtml, error => {
     if (error !== null) {
         console.log("エラーが発生しました", error);
         return;
     }
-    console.log("HTMLの書き込み成功!");
+    console.log("indexHTMLの書き込み成功!");
+});
+
+fs.writeFile("../distribution/404.html", notFound404Html, error => {
+    if (error !== null) {
+        console.log("404のファイルの書き込みに失敗しました");
+        return;
+    }
+    console.log("404の書き込みに成功!");
 });
 
 const copyAssetsFiles = (): void => {
