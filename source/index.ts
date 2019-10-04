@@ -1,7 +1,9 @@
-import * as fs from "fs";
+import * as fse from "fs-extra";
 import * as type from "./type";
 import * as index from "./page/index";
 import * as notFound404 from "./page/404";
+import * as desiredRouteAbout from "./page/desiredRoute/about";
+import * as desiredRouteWindow from "./page/desiredRoute/window";
 
 const doctype = "<!doctype html>";
 
@@ -185,8 +187,6 @@ const pageToHtml = (page: type.Page): string =>
         ]
     });
 
-const notFound404Html: string = pageToHtml(notFound404.page);
-
 const indexHtml: string =
     doctype +
     type.elementToString({
@@ -207,64 +207,34 @@ const indexHtml: string =
         ]
     });
 
-fs.writeFile("../distribution/index.html", indexHtml, error => {
-    if (error !== null) {
-        console.log("エラーが発生しました", error);
-        return;
-    }
+console.log("出力先のフォルダを削除中…");
+fse.removeSync("../distribution");
+console.log("出力先のフォルダを削除完了");
+
+fse.outputFile("../distribution/index.html", indexHtml).then(() => {
     console.log("indexHTMLの書き込み成功!");
 });
 
-fs.writeFile("../distribution/404.html", notFound404Html, error => {
-    if (error !== null) {
-        console.log("404のファイルの書き込みに失敗しました");
-        return;
+fse.outputFile("../distribution/404.html", pageToHtml(notFound404.page)).then(
+    () => {
+        console.log("404の書き込みに成功!");
     }
-    console.log("404の書き込みに成功!");
+);
+
+fse.outputFile(
+    "../distribution/desiredroute/about.html",
+    pageToHtml(desiredRouteAbout.page)
+).then(() => {
+    console.log("DRのaboutの書き込みに成功!");
 });
 
-const copyAssetsFiles = (): void => {
-    fs.readdir("assets", (error, files) => {
-        if (error !== null) {
-            console.log("アセットファイルが見つかりませんでした");
-            return;
-        }
-        for (let i = 0; i < files.length; i++) {
-            fs.copyFile(
-                "assets/" + files[i],
-                "../distribution/assets/" + files[i],
-                error => {
-                    if (error !== null) {
-                        console.log(
-                            "アセットファイルの" +
-                                files[i] +
-                                "のコピーに失敗しました",
-                            error
-                        );
-                        return;
-                    }
-                    console.log(
-                        "アセットファイルの" + files[i] + "のコピーに成功!"
-                    );
-                }
-            );
-        }
-    });
-};
+fse.outputFile(
+    "../distribution/desiredroute/window.html",
+    pageToHtml(desiredRouteWindow.page)
+).then(() => {
+    console.log("DRのwindowの書き込みに成功!");
+});
 
-const distributionAssetsPath = "../distribution/assets";
-
-fs.exists(distributionAssetsPath, exists => {
-    if (exists) {
-        copyAssetsFiles();
-        return;
-    }
-    fs.mkdir(distributionAssetsPath, error => {
-        if (error !== null) {
-            console.log("アセットファイルの出力先フォルダの作成に失敗しました");
-            return;
-        }
-        console.log("アセットファイルの出力先フォルダの作成に成功!");
-        copyAssetsFiles();
-    });
+fse.copy("assets", "../distribution/assets").then(() => {
+    console.log("アセットファイルのコピーに成功!");
 });

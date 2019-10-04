@@ -5,7 +5,11 @@
     "main": "index.js",
     "author": "narumincho",
     "license": "ISC",
+    "dependencies": {
+        "fs-extra": "^8.1.0"
+    },
     "devDependencies": {
+        "@types/fs-extra": "^8.0.0",
         "@types/node": "^12.7.8"
     }
 }
