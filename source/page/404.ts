@@ -1,7 +1,6 @@
 import * as type from "../type";
 
-export const page: type.Page = {
-    path: type.SpecialPath.FotFound404,
+export const page = {
     title: "ページが見つかりませんでした",
     description: "ページが見つかりませんでした",
     imageUrl: "",

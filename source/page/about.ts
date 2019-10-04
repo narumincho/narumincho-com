@@ -1,8 +1,10 @@
-import * as type from "../../type";
+import * as type from "../type";
 
 export const page: type.Page = {
-    path: type.SpecialPath.FotFound404,
+    path: "about-desired-route",
     title: "DESIRED Routeについて",
+    createdAt: new Date("2019-10-04T22:42:00"),
+    updateAt: new Date("2019-10-04T22:42:00"),
     description: "DESIRED Routeについて話します",
     imageUrl: "",
     content: [
