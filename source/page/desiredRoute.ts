@@ -1,12 +1,35 @@
 import * as type from "../type";
 
-export const page: type.Page = {
+const abut: type.Page = {
+    path: "about-desired-route",
+    title: "DESIRED Routeについて",
+    createdAt: new Date("2019-10-04T22:42:00"),
+    updateAt: new Date("2019-10-04T22:42:00"),
+    description: "DESIRED Routeについて話します",
+    imageUrl: "",
+    content: [
+        type.p([], "DESIRED Routeはプチコン3号で作られていたRPGです"),
+        type.div(
+            [],
+            [
+                type.div([], "当時プチコンファンミーティングのLT会に登壇した"),
+                type.a(
+                    [],
+                    "https://www.itmedia.co.jp/pcuser/articles/1510/20/news137_3.html",
+                    "IT mediaの記事"
+                )
+            ]
+        )
+    ]
+};
+
+const window: type.Page = {
     path: "message-window",
     createdAt: new Date("2015-09-20T00:00:00"),
     updateAt: new Date("2019-10-04T22:14:00"),
     title: "メッセージウィンドウの話",
     description: "メッセージウィンドウについて話します",
-    imageUrl: "",
+    imageUrl: "/assets/window.jpg",
     content: [
         {
             name: "h2",
@@ -27,14 +50,14 @@ export const page: type.Page = {
             attributes: [],
             children: [
                 type.a(
-                    [type.class_("normal-image")],
+                    [],
                     "https://www.atlus.co.jp/title-archive/ssq/",
                     "新世界樹の迷宮"
                 )
             ]
         },
         type.image(
-            [],
+            [type.class_("normal-image")],
             "/assets/window-sqq.jpg",
             "新世界樹の迷宮のメッセージウィンドウ"
         ),
@@ -56,3 +79,15 @@ export const page: type.Page = {
         )
     ]
 };
+
+const font: type.Page = {
+    path: "desired-route-font",
+    title: "フォントについて",
+    description: "DESIRED Routeで使われたフォントの話をします",
+    createdAt: new Date("2015-09-22"),
+    updateAt: new Date("2019-10-05"),
+    imageUrl: "/assets/font.jpg",
+    content: []
+};
+
+export const pages: Array<type.Page> = [abut, window, font];

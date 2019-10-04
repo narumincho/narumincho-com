@@ -2,8 +2,7 @@ import * as fse from "fs-extra";
 import * as type from "./type";
 import * as index from "./page/index";
 import * as notFound404 from "./page/404";
-import * as desiredRouteAbout from "./page/about";
-import * as desiredRouteWindow from "./page/window";
+import * as desiredRoute from "./page/desiredRoute";
 
 const siteName = "ナルミンチョの創作記録";
 
@@ -12,10 +11,10 @@ const domain = "https://narumincho.com";
 const twitterCardMeta = (data: {
     title: string | null;
     description: string;
-    imageUrl: string;
+    imageUrl: string | null;
     path: string | null;
 }): Array<type.Element> => {
-    if (data.path === null) {
+    if (data.path === null || data.imageUrl === null) {
         return [];
     }
     return [
@@ -67,7 +66,7 @@ const twitterCardMeta = (data: {
 const headElement = (data: {
     title: string | null;
     description: string;
-    imageUrl: string;
+    imageUrl: string | null;
     path: string | null;
 }): type.Element => ({
     name: "head",
@@ -134,7 +133,15 @@ const copyright: type.Element = type.div(
     "© 2019 narumincho"
 );
 
-const pageToHtml = (page: type.Page): string =>
+const pageToHtml = (page: {
+    path: string | null;
+    title: string;
+    createdAt: Date | null;
+    updateAt: Date | null;
+    imageUrl: string | null;
+    description: string;
+    content: ConcatArray<type.Element>;
+}): string =>
     type.htmlToString(
         type.html([
             headElement(page),
@@ -165,6 +172,21 @@ const pageToHtml = (page: type.Page): string =>
                                 children: page.title
                             } as type.Element
                         ]
+                            .concat(
+                                page.updateAt !== null &&
+                                    page.createdAt !== null
+                                    ? date(page.updateAt, page.createdAt)
+                                    : []
+                            )
+                            .concat(
+                                page.imageUrl !== null
+                                    ? type.image(
+                                          [type.class_("normal-image")],
+                                          page.imageUrl,
+                                          page.title + "のイメージ画像"
+                                      )
+                                    : []
+                            )
                             .concat(page.content)
                             .concat([
                                 type.a([type.class_("return-to-home")], "/", [
@@ -176,11 +198,61 @@ const pageToHtml = (page: type.Page): string =>
                                     type.div([], "ホームに戻る")
                                 ])
                             ])
-                    }
+                    },
+                    copyright
                 ]
             }
         ])
     );
+
+const date = (updateAt: Date, createdAt: Date): type.Element => ({
+    name: "div",
+    attributes: [],
+    children: [
+        {
+            name: "div",
+            attributes: [],
+            children: [
+                {
+                    name: "div",
+                    attributes: [],
+                    children: "更新日時"
+                },
+                {
+                    name: "time",
+                    attributes: [],
+                    children:
+                        updateAt.getUTCFullYear() +
+                        "/" +
+                        (updateAt.getMonth() + 1) +
+                        "/" +
+                        updateAt.getDate()
+                }
+            ]
+        },
+        {
+            name: "div",
+            attributes: [],
+            children: [
+                {
+                    name: "div",
+                    attributes: [],
+                    children: "作成日"
+                },
+                {
+                    name: "time",
+                    attributes: [],
+                    children:
+                        createdAt.getUTCFullYear() +
+                        "/" +
+                        (createdAt.getMonth() + 1) +
+                        "/" +
+                        createdAt.getDate()
+                }
+            ]
+        }
+    ]
+});
 
 console.log("出力先のフォルダを削除中…");
 fse.removeSync("../distribution");
@@ -209,33 +281,27 @@ fse.outputFile(
 
 fse.outputFile(
     "../distribution/404.html",
-    type.htmlToString(
-        type.html([
-            headElement({
-                title: notFound404.page.title,
-                description: notFound404.page.description,
-                imageUrl: "/assets/icon.png",
-                path: null
-            })
-        ])
-    )
+    pageToHtml({
+        title: notFound404.page.title,
+        imageUrl: null,
+        description: notFound404.page.description,
+        createdAt: null,
+        updateAt: null,
+        path: null,
+        content: notFound404.page.content
+    })
 ).then(() => {
     console.log("404の書き込みに成功!");
 });
 
-fse.outputFile(
-    "../distribution/desired-route-about.html",
-    pageToHtml(desiredRouteAbout.page)
-).then(() => {
-    console.log("DRのaboutの書き込みに成功!");
-});
-
-fse.outputFile(
-    "../distribution/desired-route-message-window.html",
-    pageToHtml(desiredRouteWindow.page)
-).then(() => {
-    console.log("DRのwindowの書き込みに成功!");
-});
+for (const page of desiredRoute.pages) {
+    fse.outputFile(
+        "../distribution/" + page.path + ".html",
+        pageToHtml(page)
+    ).then(() => {
+        console.log("「" + page.title + "」の書き込みに成功!");
+    });
+}
 
 fse.copy("assets", "../distribution/assets").then(() => {
     console.log("アセットファイルのコピーに成功!");
