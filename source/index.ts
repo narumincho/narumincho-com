@@ -66,70 +66,63 @@ const twitterCardMeta = (data: {
     ];
 };
 
-const headElement = (data: {
+const headElementChildren = (data: {
     title: string | null;
     description: string;
     imageUrl: string | null;
     path: string | null;
-}): type.Element => ({
-    name: "head",
-    attributes: [],
-    children: [
-        {
-            name: "meta",
-            attributes: [["charset", "utf-8"]],
-            children: null
-        },
-        {
-            name: "meta",
-            attributes: [
-                ["name", "viewport"],
-                ["content", "width=device-width,initial-scale=1"]
-            ],
-            children: null
-        },
-        {
-            name: "title",
-            attributes: [],
-            children: (data.title === null ? "" : data.title + " | ") + siteName
-        },
-        {
-            name: "meta",
-            attributes: [
-                ["name", "description"],
-                ["content", data.description]
-            ],
-            children: null
-        },
-        {
-            name: "link",
-            attributes: [["rel", "icon"], ["href", "/assets/icon.png"]],
-            children: null
-        },
-        {
-            name: "link",
-            attributes: [["rel", "stylesheet"], ["href", "/assets/style.css"]],
-            children: null
-        },
-        ...twitterCardMeta(data),
-        {
-            name: "script",
-            attributes: [
-                "async",
-                [
-                    "src",
-                    "https://www.googletagmanager.com/gtag/js?id=UA-104964219-1"
-                ]
-            ],
-            children: []
-        },
-        {
-            name: "script",
-            attributes: [],
-            children: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","UA-104964219-1");`
-        }
-    ]
-});
+}): Array<type.Element> => [
+    {
+        name: "meta",
+        attributes: [["charset", "utf-8"]],
+        children: null
+    },
+    {
+        name: "meta",
+        attributes: [
+            ["name", "viewport"],
+            ["content", "width=device-width,initial-scale=1"]
+        ],
+        children: null
+    },
+    {
+        name: "title",
+        attributes: [],
+        children: (data.title === null ? "" : data.title + " | ") + siteName
+    },
+    {
+        name: "meta",
+        attributes: [["name", "description"], ["content", data.description]],
+        children: null
+    },
+    {
+        name: "link",
+        attributes: [["rel", "icon"], ["href", "/assets/icon.png"]],
+        children: null
+    },
+    {
+        name: "link",
+        attributes: [["rel", "stylesheet"], ["href", "/assets/style.css"]],
+        children: null
+    },
+    ...twitterCardMeta(data),
+    {
+        name: "script",
+        attributes: [
+            "async",
+            [
+                "src",
+                "https://www.googletagmanager.com/gtag/js?id=UA-104964219-1"
+            ]
+        ],
+        children: []
+    },
+    {
+        name: "script",
+        attributes: [],
+        children: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","UA-104964219-1");`
+    }
+];
 
 const copyright: type.Element = type.div(
     [type.class_("copyright")],
@@ -144,69 +137,59 @@ const pageToHtml = (page: {
     imageUrl: string | null;
     description: string;
     content: ConcatArray<type.Element>;
-}): string =>
-    type.htmlToString(
-        type.html([
-            headElement(page),
-            {
-                name: "body",
-                attributes: [],
-                children: [
-                    {
-                        name: "header",
-                        attributes: [],
-                        children: [
-                            type.a([type.class_("title-logo")], "/", [
-                                type.image(
-                                    [type.class_("logo")],
-                                    "/assets/logo.svg",
-                                    "ナルミンチョの創作記録のロゴ"
-                                )
-                            ])
-                        ]
-                    },
-                    {
-                        name: "main",
-                        attributes: [],
-                        children: [
-                            {
-                                name: "h1",
-                                attributes: [],
-                                children: page.title
-                            } as type.Element
-                        ]
-                            .concat(
-                                page.updateAt !== null &&
-                                    page.createdAt !== null
-                                    ? date(page.updateAt, page.createdAt)
-                                    : []
-                            )
-                            .concat(
-                                page.imageUrl !== null
-                                    ? type.image(
-                                          [type.class_("normal-image")],
-                                          page.imageUrl,
-                                          page.title + "のイメージ画像"
-                                      )
-                                    : []
-                            )
-                            .concat(page.content)
-                            .concat([
-                                type.a([type.class_("return-to-home")], "/", [
-                                    type.image(
-                                        [type.class_("home-icon")],
-                                        "/assets/home.svg",
-                                        "home"
-                                    ),
-                                    type.div([], "ホームに戻る")
-                                ])
-                            ])
-                    },
-                    copyright
-                ]
-            }
-        ])
-    );
+}): type.Html =>
+    type.html(headElementChildren(page), [
+        {
+            name: "header",
+            attributes: [],
+            children: [
+                type.a([type.class_("title-logo")], "/", [
+                    type.image(
+                        [type.class_("logo")],
+                        "/assets/logo.svg",
+                        "ナルミンチョの創作記録のロゴ"
+                    )
+                ])
+            ]
+        },
+        {
+            name: "main",
+            attributes: [],
+            children: [
+                {
+                    name: "h1",
+                    attributes: [],
+                    children: page.title
+                } as type.Element
+            ]
+                .concat(
+                    page.updateAt !== null && page.createdAt !== null
+                        ? date(page.updateAt, page.createdAt)
+                        : []
+                )
+                .concat(
+                    page.imageUrl !== null
+                        ? type.image(
+                              [type.class_("normal-image")],
+                              page.imageUrl,
+                              page.title + "のイメージ画像"
+                          )
+                        : []
+                )
+                .concat(page.content)
+                .concat([
+                    type.a([type.class_("return-to-home")], "/", [
+                        type.image(
+                            [type.class_("home-icon")],
+                            "/assets/home.svg",
+                            "home"
+                        ),
+                        type.div([], "ホームに戻る")
+                    ])
+                ])
+        },
+        copyright
+    ]);
 
 const date = (updateAt: Date, createdAt: Date): type.Element => ({
     name: "div",
@@ -257,33 +240,36 @@ const date = (updateAt: Date, createdAt: Date): type.Element => ({
     ]
 });
 
+const outputHtml = (path: string, title: string, html: type.Html): void => {
+    fse.outputFile(
+        distributionFolder + "/" + path + ".html",
+        type.htmlToString(html)
+    ).then(() => {
+        console.log("「" + title + "」の書き込みに成功!");
+    });
+};
+
 console.log("出力先のフォルダを削除中…");
 fse.removeSync(distributionFolder);
 console.log("出力先のフォルダを削除完了");
 
-fse.outputFile(
-    distributionFolder + "/index.html",
-    type.htmlToString(
-        type.html([
-            headElement({
-                title: null,
-                description: index.page.description,
-                imageUrl: "/assets/icon.png",
-                path: "/"
-            }),
-            {
-                name: "body",
-                attributes: [],
-                children: index.page.bodyElements.concat(copyright)
-            }
-        ])
+outputHtml(
+    "index",
+    "indexHtml",
+    type.html(
+        headElementChildren({
+            title: null,
+            description: index.page.description,
+            imageUrl: "/assets/icon.png",
+            path: "/"
+        }),
+        index.page.bodyElements.concat(copyright)
     )
-).then(() => {
-    console.log("indexHTMLの書き込み成功!");
-});
+);
 
-fse.outputFile(
-    distributionFolder + "/404.html",
+outputHtml(
+    "404",
+    "404",
     pageToHtml({
         title: notFound404.page.title,
         imageUrl: null,
@@ -293,17 +279,10 @@ fse.outputFile(
         path: null,
         content: notFound404.page.content
     })
-).then(() => {
-    console.log("404の書き込みに成功!");
-});
+);
 
 for (const page of desiredRoute.pages) {
-    fse.outputFile(
-        distributionFolder + "/" + page.path + ".html",
-        pageToHtml(page)
-    ).then(() => {
-        console.log("「" + page.title + "」の書き込みに成功!");
-    });
+    outputHtml(page.path, page.title, pageToHtml(page));
 }
 
 fse.copy("assets", distributionFolder + "/assets").then(() => {

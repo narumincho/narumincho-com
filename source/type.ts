@@ -32,6 +32,26 @@ export type Html = {
     children: Array<Element>;
 };
 
+export const html = (
+    headChildren: Array<Element>,
+    bodyChildren: Array<Element>
+): Html => ({
+    name: "html",
+    attributes: [["lang", "ja"]],
+    children: [
+        {
+            name: "head",
+            attributes: [],
+            children: headChildren
+        },
+        {
+            name: "body",
+            attributes: [],
+            children: bodyChildren
+        }
+    ]
+});
+
 /**
  * 属性
  */
@@ -106,12 +126,6 @@ const escapeHtml = (text: string): string =>
             ? "&gt;"
             : ""
     );
-
-export const html = (children: Array<Element>): Html => ({
-    name: "html",
-    attributes: [["lang", "ja"]],
-    children: children
-});
 
 export const div = (
     attributes: Array<Attribute>,
