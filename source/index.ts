@@ -8,6 +8,9 @@ const siteName = "ナルミンチョの創作記録";
 
 const domain = "https://narumincho.com";
 
+/** 出力先のフォルダの指定 最後に/が付いていないので注意 */
+const distributionFolder = "../distribution";
+
 const twitterCardMeta = (data: {
     title: string | null;
     description: string;
@@ -255,11 +258,11 @@ const date = (updateAt: Date, createdAt: Date): type.Element => ({
 });
 
 console.log("出力先のフォルダを削除中…");
-fse.removeSync("../distribution");
+fse.removeSync(distributionFolder);
 console.log("出力先のフォルダを削除完了");
 
 fse.outputFile(
-    "../distribution/index.html",
+    distributionFolder + "/index.html",
     type.htmlToString(
         type.html([
             headElement({
@@ -280,7 +283,7 @@ fse.outputFile(
 });
 
 fse.outputFile(
-    "../distribution/404.html",
+    distributionFolder + "/404.html",
     pageToHtml({
         title: notFound404.page.title,
         imageUrl: null,
@@ -296,13 +299,13 @@ fse.outputFile(
 
 for (const page of desiredRoute.pages) {
     fse.outputFile(
-        "../distribution/" + page.path + ".html",
+        distributionFolder + "/" + page.path + ".html",
         pageToHtml(page)
     ).then(() => {
         console.log("「" + page.title + "」の書き込みに成功!");
     });
 }
 
-fse.copy("assets", "../distribution/assets").then(() => {
+fse.copy("assets", distributionFolder + "/assets").then(() => {
     console.log("アセットファイルのコピーに成功!");
 });
