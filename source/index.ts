@@ -191,6 +191,19 @@ const pageToHtml = (page: {
         copyright
     ]);
 
+const dateToString = (date: Date) => {
+    if (Number.isNaN(date.getTime())) {
+        return "?";
+    }
+    return (
+        date.getUTCFullYear() +
+        "/" +
+        (date.getMonth() + 1) +
+        "/" +
+        date.getDate()
+    );
+};
+
 const date = (updateAt: Date, createdAt: Date): type.Element => ({
     name: "div",
     attributes: [],
@@ -207,12 +220,7 @@ const date = (updateAt: Date, createdAt: Date): type.Element => ({
                 {
                     name: "time",
                     attributes: [],
-                    children:
-                        updateAt.getUTCFullYear() +
-                        "/" +
-                        (updateAt.getMonth() + 1) +
-                        "/" +
-                        updateAt.getDate()
+                    children: dateToString(updateAt)
                 }
             ]
         },
@@ -228,12 +236,7 @@ const date = (updateAt: Date, createdAt: Date): type.Element => ({
                 {
                     name: "time",
                     attributes: [],
-                    children:
-                        createdAt.getUTCFullYear() +
-                        "/" +
-                        (createdAt.getMonth() + 1) +
-                        "/" +
-                        createdAt.getDate()
+                    children: dateToString(createdAt)
                 }
             ]
         }
