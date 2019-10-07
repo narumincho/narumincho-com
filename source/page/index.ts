@@ -181,7 +181,7 @@ const articleGroupList = type.div(
             article: [
                 {
                     title: "DESIRED Routeとは",
-                    url: "/desired_route/about",
+                    url: "/about-desired-route",
                     imageUrl: "/assets/desiredroute-title.jpg",
                     imageAlt: "DESIRED Routeのタイトル画面"
                 },
