@@ -248,6 +248,10 @@ p {
     object-fit: contain;
 }
 
+.inline {
+    display: inline;
+}
+
 /* window */
 
 .window-bg {
