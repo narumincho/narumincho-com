@@ -198,9 +198,9 @@ const dateToString = (date: Date) => {
     return (
         date.getUTCFullYear() +
         "/" +
-        (date.getMonth() + 1) +
+        (date.getUTCMonth() + 1) +
         "/" +
-        date.getDate()
+        date.getUTCDate()
     );
 };
 
