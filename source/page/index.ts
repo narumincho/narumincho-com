@@ -187,7 +187,7 @@ const articleGroupList = type.div(
                 },
                 {
                     title: "ウィンドウの挙動",
-                    url: "/desired_route/window",
+                    url: "/message-window",
                     imageUrl: "/assets/window.jpg",
                     imageAlt: "ウィンドウの表示"
                 },

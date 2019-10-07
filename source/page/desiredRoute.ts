@@ -7,29 +7,46 @@ export const pages: Array<type.Page> = [
         createdAt: new Date("2019-10-04T22:42:00"),
         updateAt: new Date("2019-10-04T22:42:00"),
         description: "DESIRED Routeについて話します",
-        imageUrl: "",
+        imageUrl: "/assets/desiredroute-title.jpg",
         content: [
             type.p(
                 [type.class_("inline")],
                 [
-                    type.div([], "DESIRED Routeは"),
-                    type.a([], "http://smilebasic.com/", "プチコン3号"),
-                    type.div([], "で作られていたRPGです")
+                    type.div([type.class_("inline")], "DESIRED Routeは"),
+                    type.a(
+                        [type.class_("inline")],
+                        "http://smilebasic.com/",
+                        "プチコン3号"
+                    ),
+                    type.div([type.class_("inline")], "で作られていたRPGです")
                 ]
             ),
-            type.div(
+            type.p(
+                [],
+                "2015年前後にメニュー画面とバトル画面とBGMが多少作られたが、マップなどグラフィック、セリフが不足して断念。"
+            ),
+            type.p(
                 [type.class_("inline")],
                 [
                     type.div(
-                        [],
-                        "当時プチコンファンミーティングのLT会に登壇した"
+                        [type.class_("inline")],
+                        "当時プチコンファンミーティングのLT会に登壇した("
                     ),
                     type.a(
-                        [],
+                        [type.class_("inline")],
                         "https://www.itmedia.co.jp/pcuser/articles/1510/20/news137_3.html",
                         "IT mediaの記事"
                     ),
-                    type.div([], "そのことが記事に書かれている")
+                    type.div(
+                        [type.class_("inline")],
+                        ")。そのことが少しだけ記事に書かれている。"
+                    ),
+                    type.a(
+                        [],
+                        "http://penkogoma.blog6.fc2.com/?mode=m&no=223&photo=true",
+                        "「ペンコ改の知らね」(プチコンファンミーティングin東京レポートその3)"
+                    ),
+                    type.div([], "でも紹介されている")
                 ]
             )
         ]
@@ -50,7 +67,7 @@ export const pages: Array<type.Page> = [
             },
             type.p(
                 [],
-                "メッセージウィンドウは、キャラクターが喋ったことか、ナレーションの言葉を表示し、プレイヤーに伝えるものです。"
+                "メッセージウィンドウは、登場人物やが言ったことや、ナレーションの言葉を表示し、プレイヤーに伝えるUIです。DESIRED Routeを作る上で、登場人物たちのセリフをプレイヤーに伝えるために必要でした。市販のゲームを見てどんなメッセージウィンドウを作れば良いか考えてみよう!"
             ),
             {
                 name: "h2",
@@ -88,6 +105,124 @@ export const pages: Array<type.Page> = [
             type.p(
                 [],
                 "またウィンドウ非表示中でもAボタンを押したら話を進めてしまうというバグもあった。(新世界樹の迷宮2で修正)"
+            ),
+            {
+                name: "h3",
+                attributes: [],
+                children: [
+                    type.a(
+                        [],
+                        "http://www.jp.square-enix.com/bdfts/",
+                        "BRAVELY DEFAULT"
+                    )
+                ]
+            },
+            type.image(
+                [type.class_("normal-image")],
+                "/assets/bdff.jpg",
+                "BRAVELY DEFAULTのイベント画面"
+            ),
+            type.ul(
+                [],
+                [],
+                [
+                    "黒の背景に、白の文字、25文字2行",
+                    "すべて文字は同じ幅で、句読点「、」などで位置が調整されない(等幅フォント?)",
+                    "Aボタンで進める(長押しでは、進めない)",
+                    "Yボタンでボイス合わせて進めるオート",
+                    "Xボタンでスキップ",
+                    "常に名前表示あり"
+                ]
+            ),
+            type.p(
+                [],
+                "2行とすることで1つのページにセリフがたくさん表示されないようにしている。実際2行で十分なことが多い。"
+            ),
+            type.p(
+                [],
+                "また、推理ゲームなどに多かったが、セリフのログが残されていて後で確認できるようになっているものも最近はある。"
+            ),
+            {
+                name: "h3",
+                attributes: [],
+                children: "DESIRED Routeでは"
+            },
+            type.p(
+                [],
+                "DESIRED ROUTEでは、現代的な快適さとシンプルさを合わせ持つように、"
+            ),
+            type.image(
+                [type.class_("normal-image")],
+                "/assets/window.jpg",
+                "DESIRED Routeでのメッセージウィンドウ表示"
+            ),
+            type.ul(
+                [],
+                [],
+                [
+                    "青の半透明の背景に、白の文字、20文字3行",
+                    "文字はすべて同じ幅で、句読点「、」などで位置が調整されない",
+                    "Aボタンで進める",
+                    "Aボタン長押しで、メッセージスキップ",
+                    "名前表示ありと、名前表示なしを変更できる"
+                ]
+            ),
+            type.p(
+                [],
+                "にしました。このRPGは下画面にメニューを常に表示しているので、上画面のウィンドウに使えるボタンはAボタンだけですが、Aボタン長押しでメッセージスキップもできるようにしています。"
+            ),
+            {
+                name: "h2",
+                attributes: [],
+                children: "ページ内スキップ"
+            },
+            type.p(
+                [],
+                "他に、スキップ以外に快適さに必要なのは、ページ内スキップです。ページ内スキップとは、文字がぽつぽつ表示されている途中に、Aボタンを押すと、セリフの文字が一気に表示される機能です。忘れがちの処理ですが、有ると無いとでは、かなりと操作感が違います。紹介してきたRPG全てと、このDESIRED ROUTEはページ内スキップ機能はあります。PRGは文字で内容を伝えるゲームだと思うので、ウィンドウはこだわるべきです。"
+            ),
+            {
+                name: "h2",
+                attributes: [],
+                children: "文字の配色"
+            },
+            type.p(
+                [],
+                "開発初期のメッセージウィンドウの文字色は、10種類の中から選ぶことができましたが、色を多用していると何が重要かわからなくなってしまうのです。"
+            ),
+            type.image(
+                [type.class_("normal-image")],
+                "/assets/bad-color-message-window.jpg",
+                "10種類の文字色を使用したメッセージウィンドウの表示"
+            ),
+            type.p(
+                [],
+                "というわけで、文字色は、白とオレンジと水色の3種類に絞りました。"
+            ),
+            type.image(
+                [type.class_("normal-image")],
+                "/assets/simple-color-message-window.jpg",
+                "3色を使ったメッセージウィンドウの表示"
+            ),
+            type.p([], "オレンジは重要な単語につけることとします。"),
+            type.div(
+                [type.class_("window-bg")],
+                [
+                    type.div([type.class_("window-strong")], "テアー"),
+                    type.div(
+                        [type.class_("window-nomal")],
+                        "を持ってきてくれ。"
+                    )
+                ]
+            ),
+            type.p([], "水色はシステムなどの説明に使うことにします。"),
+            type.div(
+                [type.class_("window-bg")],
+                [
+                    type.div(
+                        [type.class_("window-info")],
+                        "このRPGでは、下画面の決定をYボタンとします。"
+                    )
+                ]
             )
         ]
     },

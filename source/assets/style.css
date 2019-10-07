@@ -242,6 +242,11 @@ p {
 /*======================
         Page
 ======================*/
+h1 {
+    margin: 0;
+    padding: 20px 0;
+}
+
 .normal-image {
     width: 100%;
     height: 256px;
@@ -262,14 +267,17 @@ p {
 
 .window-strong {
     color: #f68406;
+    display: inline;
 }
 
 .window-info {
     color: #80deea;
+    display: inline;
 }
 
 .window-nomal {
     color: #fff;
+    display: inline;
 }
 
 .copyright {
