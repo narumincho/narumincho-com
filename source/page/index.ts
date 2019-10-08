@@ -204,8 +204,8 @@ const articleGroupList = type.div(
                     imageAlt: "UIのリスト表示"
                 },
                 {
-                    title: "GUIの配色",
-                    url: "/desired_route/guicolor",
+                    title: "UIの配色",
+                    url: "/ui-color",
                     imageUrl: "/assets/color.png",
                     imageAlt: "色相環"
                 },
