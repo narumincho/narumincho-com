@@ -10,15 +10,15 @@ export const pages: Array<type.Page> = [
         imageUrl: "/assets/desiredroute-title.jpg",
         content: [
             type.p(
-                [type.class_("inline")],
+                [],
                 [
-                    type.div([type.class_("inline")], "DESIRED Routeは"),
+                    type.span("DESIRED Routeは"),
                     type.a(
                         [type.class_("inline")],
                         "http://smilebasic.com/",
                         "プチコン3号"
                     ),
-                    type.div([type.class_("inline")], "で作られていたRPGです")
+                    type.span("で作られていたRPGです")
                 ]
             ),
             type.p(
@@ -26,10 +26,9 @@ export const pages: Array<type.Page> = [
                 "2015年前後にメニュー画面とバトル画面とBGMが多少作られたが、マップなどグラフィック、セリフが不足して断念。"
             ),
             type.p(
-                [type.class_("inline")],
+                [],
                 [
-                    type.div(
-                        [type.class_("inline")],
+                    type.span(
                         "当時プチコンファンミーティングのLT会に登壇した("
                     ),
                     type.a(
@@ -37,21 +36,17 @@ export const pages: Array<type.Page> = [
                         "https://www.itmedia.co.jp/pcuser/articles/1510/20/news137_3.html",
                         "IT mediaの記事"
                     ),
-                    type.div(
-                        [type.class_("inline")],
-                        ")。そのことが少しだけ記事に書かれている。"
-                    ),
+                    type.span(")。そのことが少しだけ記事に書かれている。"),
                     type.a(
                         [],
                         "http://penkogoma.blog6.fc2.com/?mode=m&no=223&photo=true",
                         "「ペンコ改の知らね」(プチコンファンミーティングin東京レポートその3)"
                     ),
-                    type.div([], "でも紹介されている")
+                    type.span("でも紹介されている")
                 ]
             )
         ]
     },
-
     {
         path: "message-window",
         createdAt: new Date("2015-09-20T00:00:00"),
@@ -60,20 +55,12 @@ export const pages: Array<type.Page> = [
         description: "メッセージウィンドウについて話します",
         imageUrl: "/assets/window.jpg",
         content: [
-            {
-                name: "h2",
-                attributes: [],
-                children: "メッセージウィンドウとは"
-            },
+            type.h2("メッセージウィンドウとは"),
             type.p(
                 [],
                 "メッセージウィンドウは、登場人物やが言ったことや、ナレーションの言葉を表示し、プレイヤーに伝えるUIです。DESIRED Routeを作る上で、登場人物たちのセリフをプレイヤーに伝えるために必要でした。市販のゲームを見てどんなメッセージウィンドウを作れば良いか考えてみよう!"
             ),
-            {
-                name: "h2",
-                attributes: [],
-                children: "市販のゲームの例"
-            },
+            type.h2("市販のゲームの例"),
             {
                 name: "h3",
                 attributes: [],
@@ -85,9 +72,8 @@ export const pages: Array<type.Page> = [
                     )
                 ]
             },
-            type.image(
-                [type.class_("normal-image")],
-                "/assets/window-sqq.jpg",
+            type.normalImage(
+                "window-sqq.jpg",
                 "新世界樹の迷宮のメッセージウィンドウ"
             ),
             type.ul(
@@ -117,11 +103,7 @@ export const pages: Array<type.Page> = [
                     )
                 ]
             },
-            type.image(
-                [type.class_("normal-image")],
-                "/assets/bdff.jpg",
-                "BRAVELY DEFAULTのイベント画面"
-            ),
+            type.normalImage("bdff.jpg", "BRAVELY DEFAULTのイベント画面"),
             type.ul(
                 [],
                 [],
@@ -180,27 +162,21 @@ export const pages: Array<type.Page> = [
                 [],
                 "他に、スキップ以外に快適さに必要なのは、ページ内スキップです。ページ内スキップとは、文字がぽつぽつ表示されている途中に、Aボタンを押すと、セリフの文字が一気に表示される機能です。忘れがちの処理ですが、有ると無いとでは、かなりと操作感が違います。紹介してきたRPG全てと、このDESIRED ROUTEはページ内スキップ機能はあります。PRGは文字で内容を伝えるゲームだと思うので、ウィンドウはこだわるべきです。"
             ),
-            {
-                name: "h2",
-                attributes: [],
-                children: "文字の配色"
-            },
+            type.h2("文字の配色"),
             type.p(
                 [],
                 "開発初期のメッセージウィンドウの文字色は、10種類の中から選ぶことができましたが、色を多用していると何が重要かわからなくなってしまうのです。"
             ),
-            type.image(
-                [type.class_("normal-image")],
-                "/assets/bad-color-message-window.jpg",
+            type.normalImage(
+                "bad-color-message-window.jpg",
                 "10種類の文字色を使用したメッセージウィンドウの表示"
             ),
             type.p(
                 [],
                 "というわけで、文字色は、白とオレンジと水色の3種類に絞りました。"
             ),
-            type.image(
-                [type.class_("normal-image")],
-                "/assets/simple-color-message-window.jpg",
+            type.normalImage(
+                "simple-color-message-window.jpg",
                 "3色を使ったメッセージウィンドウの表示"
             ),
             type.p([], "オレンジは重要な単語につけることとします。"),
@@ -228,12 +204,79 @@ export const pages: Array<type.Page> = [
     },
     {
         path: "desired-route-font",
-        title: "フォントについて",
-        description: "DESIRED Routeで使われたフォントの話をします",
+        title: "DESIRED RouteとNPIMEのフォントの描画処理",
+        description: "DESIRED RouteとNPIMEのフォントの描画処理について話します",
         createdAt: new Date("2015-09-22"),
-        updateAt: new Date("2019-10-05"),
+        updateAt: new Date("2019-10-08"),
         imageUrl: "/assets/font.jpg",
-        content: []
+        content: [
+            type.h2("漢字表示処理を自作する理由"),
+            type.p(
+                [],
+                "プチコン3号のPRINTで出力されるコンソールの表示の文字は小さいです。こんな小さな文字を見ていると目が疲れてきます。初期バージョンは漢字が表示できなかったが、今はプチコン3号の更新により美咲フォントによってJIS第1水準相当までの漢字が表示されます。"
+            ),
+            type.normalImage(
+                "font-petitcom3.jpg",
+                "プチコン3号のコンソール表示"
+            ),
+            type.h2("経緯"),
+            type.p(
+                [],
+                "そこで、16x16の1マスに手書きで文字を書いて、BGで表示することにしました。グラフィック面に書いてもいいのですが、グラフィック面への描画速度が遅いので使いませんでした"
+            ),
+            type.normalImage("freehand-font.jpg", "手書きの文字表示"),
+            type.p(
+                [],
+                "手書きフォントでは読みづらいので、MicrosoftWordのMSゴシックで50音を入力して、コピーし、Microsoft Paintに貼り付けて、パソコンの画面を見ながら、フォントを作成しました"
+            ),
+            type.normalImage(
+                "ms-paint-font.png",
+                "Microsoft Paintでのフォントの表示"
+            ),
+            type.normalImage(
+                "message-window-font.jpg",
+                "MSゴシックをプチコンで表示"
+            ),
+            type.p(
+                [],
+                "しかし、BGでやると1文字1文字の色を変えられないので、スプライトを使うことにしました。BGCOLOR命令で、できそうだが1チップごとの指定ではない。レイヤーを何枚か使えばできなくもないが、 あんまりウィンドウにBGを何枚も使いたくなかった"
+            ),
+            type.normalImage(
+                "window.jpg",
+                "スプライトを使ったメッセージウィンドウ"
+            ),
+            type.p(
+                [],
+                "また、文字の種類がGRP4の512x512のサイズに左右されてしまい、他のキャラクターの画像も同じ1枚に収めなければならなかったので、160種類の漢字しか使えませんでした。"
+            ),
+            type.normalImage(
+                "font-data-sprite-grp.jpg",
+                "スプライトで使うグラフィック面"
+            ),
+            type.p(
+                [],
+                [
+                    type.span("そこで、ほしけんさんの"),
+                    type.a(
+                        [],
+                        "http://wiki.hosiken.jp/petc3gou/?Toukou%2F%A5%D7%A5%C1%A5%B3%A5%F3%B4%C1%BB%FA%A5%E9%A5%A4%A5%D6%A5%E9%A5%EA",
+                        "プチコン漢字ライブラリ"
+                    ),
+                    type.span(
+                        "を使うことにしました。このライブラリは素晴らしく、フォントデータはテキスト形式なので、GRPを使わず、JIS第2水準までの漢字が扱えます。ですが、グラフィック面に直接書くタイプなので、改造をし、ひらがなカタカナはGRP4に最初から書いておき、漢字が、必要になったらGRP4に書いて、スプライトで使うようにしました。うまく漢字を分担させる機能もあり、普通に使うよりも速度が上がっていると思います"
+                    )
+                ]
+            ),
+            type.p(
+                [],
+                "漢字表示ライブラリには、 沢山のフォントとエフェクトをサポートしていますが、 東雲ゴシック16を右にずらした 影つきの書体のみを使用することにしました。 また、東雲フォントはパブリックドメインなので、 著作権に心配することもなくなりました。"
+            ),
+            type.h2("その後の発展"),
+            type.p(
+                [],
+                "今回のRPGでは、フォントの処理方法は、これに決定しましたが、 また作ることがあれば、複数のサイズのフォントを扱えるようにしたいです。SPSCALE命令でもできなくはないが、縮小すると輪郭がギザギザして見える"
+            )
+        ]
     },
     {
         path: "list-select-behavior",

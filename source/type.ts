@@ -136,6 +136,21 @@ export const div = (
     children: children
 });
 
+export const span = (text: string): Element => ({
+    name: "span",
+    attributes: [],
+    children: text
+});
+
+export const normalImage = (fileName: string, alternativeText: string) =>
+    image([class_("normal-image")], "/assets/" + fileName, alternativeText);
+
+export const h2 = (children: Array<Element> | string): Element => ({
+    name: "h2",
+    attributes: [],
+    children: children
+});
+
 export const a = (
     attributes: Array<Attribute>,
     url: string,

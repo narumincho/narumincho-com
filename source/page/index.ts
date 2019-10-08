@@ -192,8 +192,8 @@ const articleGroupList = type.div(
                     imageAlt: "ウィンドウの表示"
                 },
                 {
-                    title: "漢字の表示",
-                    url: "/desired_route/font",
+                    title: "DESIRED RouteとNPIMEのフォントの描画処理",
+                    url: "/desired-route-font",
                     imageUrl: "/assets/font.jpg",
                     imageAlt: "フォントのグラフィック"
                 },
