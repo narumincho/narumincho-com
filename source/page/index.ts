@@ -199,13 +199,13 @@ const articleGroupList = type.div(
                 },
                 {
                     title: "リストの選択の挙動",
-                    url: "/desired_route/list",
+                    url: "/list-select-behavior",
                     imageUrl: "/assets/list-ui.jpg",
                     imageAlt: "UIのリスト表示"
                 },
                 {
                     title: "GUIの配色",
-                    url: "GUIの配色",
+                    url: "/desired_route/guicolor",
                     imageUrl: "/assets/color.png",
                     imageAlt: "色相環"
                 },

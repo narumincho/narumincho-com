@@ -151,6 +151,18 @@ export const h2 = (children: Array<Element> | string): Element => ({
     children: children
 });
 
+export const h3 = (children: Array<Element> | string): Element => ({
+    name: "h3",
+    attributes: [],
+    children: children
+});
+
+export const blockCodeNoHightLight = (code: string): Element => ({
+    name: "code",
+    attributes: [class_("blockCode")],
+    children: code
+});
+
 export const a = (
     attributes: Array<Attribute>,
     url: string,
