@@ -210,8 +210,8 @@ const articleGroupList = type.div(
                     imageAlt: "色相環"
                 },
                 {
-                    title: "エンカウント",
-                    url: "/desired_route/encount",
+                    title: "モンスターとのエンカウントについて",
+                    url: "desired-route-encounter",
                     imageUrl: "/assets/battle.jpg",
                     imageAlt: "バトル画面"
                 },

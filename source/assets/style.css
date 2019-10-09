@@ -261,6 +261,7 @@ p {
     display: block;
     padding: 16px;
     font-size: 1rem;
+    white-space: pre-wrap;
 }
 
 /* window */
