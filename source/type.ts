@@ -8,6 +8,7 @@ export type Page = {
     updateAt: Date;
     imageUrl: string;
     description: string;
+    extendScript: null | string;
     content: ConcatArray<Element>;
 };
 

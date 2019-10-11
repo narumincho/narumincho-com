@@ -70,6 +70,7 @@ const headElementChildren = (data: {
     title: string | null;
     description: string;
     imageUrl: string | null;
+    extendScript: string | null;
     path: string | null;
 }): Array<type.Element> => [
     {
@@ -121,7 +122,16 @@ const headElementChildren = (data: {
         name: "script",
         attributes: [],
         children: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","UA-104964219-1");`
-    }
+    },
+    ...(data.extendScript === null
+        ? []
+        : ([
+              {
+                  name: "script",
+                  attributes: [["type", "module"]],
+                  children: data.extendScript
+              }
+          ] as Array<type.Element>))
 ];
 
 const copyright: type.Element = type.div(
@@ -136,6 +146,7 @@ const pageToHtml = (page: {
     updateAt: Date | null;
     imageUrl: string | null;
     description: string;
+    extendScript: string | null;
     content: ConcatArray<type.Element>;
 }): type.Html =>
     type.html(headElementChildren(page), [
@@ -264,6 +275,7 @@ outputHtml(
             title: null,
             description: index.page.description,
             imageUrl: "/assets/icon.png",
+            extendScript: null,
             path: "/"
         }),
         index.page.bodyElements.concat(copyright)
@@ -280,6 +292,7 @@ outputHtml(
         createdAt: null,
         updateAt: null,
         path: null,
+        extendScript: null,
         content: notFound404.page.content
     })
 );

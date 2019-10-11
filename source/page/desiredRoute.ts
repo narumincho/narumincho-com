@@ -8,6 +8,7 @@ export const pages: Array<type.Page> = [
         updateAt: new Date("2019-10-04T22:42:00"),
         description: "DESIRED Routeについて話します",
         imageUrl: "/assets/desiredroute-title.jpg",
+        extendScript: null,
         content: [
             type.p(
                 [],
@@ -54,6 +55,7 @@ export const pages: Array<type.Page> = [
         title: "メッセージウィンドウの話",
         description: "メッセージウィンドウについて話します",
         imageUrl: "/assets/window.jpg",
+        extendScript: null,
         content: [
             type.h2("メッセージウィンドウとは"),
             type.p(
@@ -197,6 +199,7 @@ export const pages: Array<type.Page> = [
         createdAt: new Date("2015-09-22"),
         updateAt: new Date("2019-10-08"),
         imageUrl: "/assets/font.jpg",
+        extendScript: null,
         content: [
             type.h2("漢字表示処理を自作する理由"),
             type.p(
@@ -273,6 +276,7 @@ export const pages: Array<type.Page> = [
         createdAt: new Date("2015-10-18"),
         updateAt: new Date("2019-10-09"),
         imageUrl: "/assets/list-ui.jpg",
+        extendScript: null,
         content: [
             type.h2("挙動を考えた理由"),
             type.p(
@@ -355,6 +359,7 @@ export const pages: Array<type.Page> = [
         createdAt: new Date("2015-11-02"),
         updateAt: new Date("2019-10-09"),
         imageUrl: "/assets/color.png",
+        extendScript: null,
         content: [
             type.h2("配色ミス"),
             type.p(
@@ -461,6 +466,7 @@ export const pages: Array<type.Page> = [
         createdAt: new Date("2015-11-08"),
         updateAt: new Date("2019-10-09"),
         imageUrl: "/assets/battle.jpg",
+        extendScript: null,
         content: [
             type.h2("エンカウントとは"),
             type.p(
@@ -524,23 +530,81 @@ DATA [指定する敵パーティになる確率(%指定)],"[敵パーティの�
         ]
     },
     {
-        path: "desired-route-input-behavior",
-        title: "プチコン3号で入力の処理をまとめてメンテナンス性能を高める",
-        description:
-            "プチコン3号で入力の処理をまとめてメンテナンス性能を高める",
-        createdAt: new Date(""),
-        updateAt: new Date(""),
-        imageUrl: "/assets/3ds.png",
-        content: []
-    },
-    {
         path: "star",
         title: "星の図形について",
         description: "星の図形について",
-        createdAt: new Date(""),
-        updateAt: new Date(""),
+        createdAt: new Date("2016-01-01"),
+        updateAt: new Date("2019-10-10"),
         imageUrl: "/assets/star.jpg",
-        content: []
+        extendScript: `
+console.log(document.getElementById("star"))
+`,
+        content: [
+            type.div([["id", "star"]], []),
+            type.p(
+                [],
+                "タイトル画面の下画面にαバージョンでは、星の模様が 描かれていく、アニメーションを見ることができます。"
+            ),
+            type.normalImage(
+                "press-any-button.jpg",
+                "タイトルの下画面の星の模様"
+            ),
+            type.p(
+                [],
+                "私は星の図形に思い入れがあります。 今回は星の図形について話したいと思います。"
+            ),
+            type.h2("七芒星の可能性"),
+            type.normalImage("star-5.jpg", "五芒星"),
+            type.p(
+                [],
+                "これは皆さんご存知な「五芒星」です。 中学1年生の時、ふと思ったのです。7つの頂点がある星がないのかと… 五芒星は中心に正五角形があるので、大きな紙に正七角形を書き、辺を伸ばしてみたのです。そしたら、このような図形ができました。"
+            ),
+            type.normalImage("star-7-pre.jpg", "七芒星?"),
+            type.p(
+                [],
+                "思った以上に、綺麗じゃない… そして、諦めずに更に辺を伸ばすと…! 綺麗な星ができました。「七芒星」です。"
+            ),
+            type.normalImage("star-7.jpg", "七芒星"),
+            type.p(
+                [],
+                "定規(目盛りを使わない)っとコンパスによる作図では正七角形が作図できないので「正七芒星」というものは描くことはできません。転じて「不可能を可能にする」という意味もあるそうです。"
+            ),
+            type.h2("その後の発展"),
+            type.p(
+                [],
+                "そのあと、辺を伸ばして描く方法よりも、いい方法を思いつきました。"
+            ),
+            type.p(
+                [],
+                "円周上にn間隔に点を描き、1番上の点から(n-1)/2飛ばしに一筆書きのように点を繋いでいく。"
+            ),
+            type.p(
+                [],
+                "とやると描けます。 そのことを友達に教えたら一緒に、 「九十九芒星」くらいまで描きました。 懐かしい思い出です。"
+            ),
+            type.p(
+                [],
+                "次は、違う方向から考えていきます。 (n-1)/2ずつ飛ばすと決めていましたが、 1つ飛ばしから(n-1)/2飛ばしまでの図形を重ねてみます。"
+            ),
+            type.normalImage("star-7-2.jpg", "七芒星の内側にも線を含めたもの"),
+            type.normalImage("star-15.jpg", "十五芒星の内側にも線を含めたもの"),
+            type.normalImage(
+                "star-29.jpg",
+                "二十九芒星の内側にも線を含めたもの"
+            ),
+            type.normalImage(
+                "star-77.jpg",
+                "七十七芒星の内側にも線を含めたもの"
+            ),
+            type.p(
+                [],
+                "最後の七十七芒星のやつは拡大しましたが。 綺麗な模様になったと思います。"
+            ),
+            type.p(
+                [],
+                "製作者のKish.から「テーマは星だ。」と言われてから、 こういう図形のことを懐かしく思い、話を整理しました。 テーマが星の作品は多々ありますが、こういう面で星を見ることは少ないと思います。"
+            )
+        ]
     },
     {
         path: "desired-route-monster",
@@ -549,6 +613,7 @@ DATA [指定する敵パーティになる確率(%指定)],"[敵パーティの�
             "DESIRED Routeに登場する予定だった敵モンスターについて話します",
         createdAt: new Date(""),
         updateAt: new Date(""),
+        extendScript: null,
         imageUrl: "/assets/kamausagi.png",
         content: []
     }

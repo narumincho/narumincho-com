@@ -216,12 +216,6 @@ const articleGroupList = type.div(
                     imageAlt: "バトル画面"
                 },
                 {
-                    title: "入力の挙動",
-                    url: "/desired_route/input",
-                    imageUrl: "/assets/3ds.png",
-                    imageAlt: "nintendo 3DSのボタン"
-                },
-                {
                     title: "星の図形",
                     url: "/desired_route/input",
                     imageUrl: "/assets/star.jpg",
