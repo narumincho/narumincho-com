@@ -138,18 +138,16 @@ const headElementChildren = (data: {
 ];
 
 const javaScriptCodeFromTypeScriptFileName = (fileName: string): string => {
+    const compileOptionResult = ts.convertCompilerOptionsFromJson(
+        {},
+        ".",
+        "script/tsconfig.json"
+    );
+    console.log("compileOptionResult", compileOptionResult);
     const result = ts.transpileModule(
         fse.readFileSync("script/" + fileName).toString(),
         {
-            compilerOptions: {
-                target: ts.ScriptTarget.ES2019,
-                module: ts.ModuleKind.CommonJS,
-                lib: ["es2019"],
-                strict: true,
-                moduleResolution: ts.ModuleResolutionKind.NodeJs,
-                newLine: ts.NewLineKind.LineFeed,
-                outDir: ""
-            }
+            compilerOptions: compileOptionResult.options
         }
     );
     console.log(result.diagnostics);

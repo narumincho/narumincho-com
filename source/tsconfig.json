@@ -8,5 +8,6 @@
         "removeComments": true,
         "newLine": "LF",
         "outDir": "jsOutDir"
-    }
+    },
+    "files": ["index.ts"]
 }

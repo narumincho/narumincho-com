@@ -23,7 +23,10 @@ export type ArticleContent =
     | { c: "img"; fileName: string; alternativeText: string }
     | { c: "list"; items: Array<string> }
     | { c: "section"; title: string; contents: Array<ArticleContent> }
-    | { c: "window"; contents: Array<InlineContent> };
+    | { c: "window"; contents: Array<InlineContent> }
+    | { c: "divForScript"; id: string }
+    | { c: "quote"; contents: Array<ArticleContent> }
+    | { c: "code"; code: string };
 
 export const p = (contents: Array<InlineContent> | string): ArticleContent => ({
     c: "p",
@@ -58,6 +61,21 @@ export const window = (contents: Array<InlineContent>): ArticleContent => ({
     contents: contents
 });
 
+export const divForScript = (id: string): ArticleContent => ({
+    c: "divForScript",
+    id: id
+});
+
+export const quote = (contents: Array<ArticleContent>): ArticleContent => ({
+    c: "quote",
+    contents: contents
+});
+
+export const blockCodeNoHightLight = (code: string): ArticleContent => ({
+    c: "code",
+    code: code
+});
+
 export type InlineContent =
     | { c: "link"; url: string; text: string }
     | { c: "span"; class: string | null; text: string };
@@ -85,12 +103,13 @@ const articleContentToElementsLoop = (
 ): Array<Element> => {
     switch (content.c) {
         case "p":
-            if (typeof content.contents === "string") {
-                return [
-                    { name: "p", attributes: [], children: content.contents }
-                ];
-            }
-            return content.contents.map(inlineContentToElement);
+            return [
+                {
+                    name: "p",
+                    attributes: [],
+                    children: inlineContentsToElement(content.contents)
+                }
+            ];
         case "img":
             return [
                 image(
@@ -126,7 +145,36 @@ const articleContentToElementsLoop = (
                     content.contents.map(inlineContentToElement)
                 )
             ];
+        case "divForScript":
+            return [div([["id", content.id]], [])];
+        case "quote":
+            return [
+                {
+                    name: "blockquote",
+                    attributes: [],
+                    children: content.contents
+                        .map(c => articleContentToElementsLoop(c, hLevel))
+                        .flat()
+                }
+            ];
+        case "code":
+            return [
+                {
+                    name: "code",
+                    attributes: [class_("blockCode")],
+                    children: content.code
+                }
+            ];
     }
+};
+
+const inlineContentsToElement = (
+    inlineContents: string | ReadonlyArray<InlineContent>
+): string | Array<Element> => {
+    if (typeof inlineContents === "string") {
+        return inlineContents;
+    }
+    return inlineContents.map(inlineContentToElement);
 };
 
 const inlineContentToElement = (inlineContent: InlineContent): Element => {
@@ -272,12 +320,6 @@ export const div = (
     name: "div",
     attributes: attributes,
     children: children
-});
-
-export const blockCodeNoHightLight = (code: string): Element => ({
-    name: "code",
-    attributes: [class_("blockCode")],
-    children: code
 });
 
 export const a = (
