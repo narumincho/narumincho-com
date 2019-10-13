@@ -3,6 +3,7 @@ import * as type from "./type";
 import * as index from "./page/index";
 import * as notFound404 from "./page/404";
 import * as desiredRoute from "./page/desiredRoute";
+import * as ts from "typescript";
 
 const siteName = "ナルミンチョの創作記録";
 
@@ -70,7 +71,7 @@ const headElementChildren = (data: {
     title: string | null;
     description: string;
     imageUrl: string | null;
-    extendScript: string | null;
+    extendScriptPath: string | null;
     path: string | null;
 }): Array<type.Element> => [
     {
@@ -123,17 +124,37 @@ const headElementChildren = (data: {
         attributes: [],
         children: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","UA-104964219-1");`
     },
-    ...(data.extendScript === null
+    ...(data.extendScriptPath === null
         ? []
         : ([
               {
                   name: "script",
                   attributes: [["type", "module"]],
-                  children: data.extendScript
+                  children: javaScriptCodeFromTypeScriptFileName(
+                      data.extendScriptPath
+                  )
               }
           ] as Array<type.Element>))
 ];
 
+const javaScriptCodeFromTypeScriptFileName = (fileName: string): string => {
+    const result = ts.transpileModule(
+        fse.readFileSync("script/" + fileName).toString(),
+        {
+            compilerOptions: {
+                target: ts.ScriptTarget.ES2019,
+                module: ts.ModuleKind.CommonJS,
+                lib: ["es2019"],
+                strict: true,
+                moduleResolution: ts.ModuleResolutionKind.NodeJs,
+                newLine: ts.NewLineKind.LineFeed,
+                outDir: ""
+            }
+        }
+    );
+    console.log(result.diagnostics);
+    return result.outputText;
+};
 const copyright: type.Element = type.div(
     [type.class_("copyright")],
     "© 2019 narumincho"
@@ -146,21 +167,25 @@ const pageToHtml = (page: {
     updateAt: Date | null;
     imageUrl: string | null;
     description: string;
-    extendScript: string | null;
-    content: ConcatArray<type.Element>;
+    extendScriptPath: string | null;
+    contents: Array<type.ArticleContent>;
 }): type.Html =>
     type.html(headElementChildren(page), [
         {
             name: "header",
             attributes: [],
             children: [
-                type.a([type.class_("title-logo")], "/", [
-                    type.image(
-                        [type.class_("logo")],
-                        "/assets/logo.svg",
-                        "ナルミンチョの創作記録のロゴ"
-                    )
-                ])
+                type.a(
+                    "/",
+                    [type.class_("title-logo")],
+                    [
+                        type.image(
+                            [type.class_("logo")],
+                            "/assets/logo.svg",
+                            "ナルミンチョの創作記録のロゴ"
+                        )
+                    ]
+                )
             ]
         },
         {
@@ -187,16 +212,20 @@ const pageToHtml = (page: {
                           )
                         : []
                 )
-                .concat(page.content)
+                .concat(type.articleContentsToElements(page.contents))
                 .concat([
-                    type.a([type.class_("return-to-home")], "/", [
-                        type.image(
-                            [type.class_("home-icon")],
-                            "/assets/home.svg",
-                            "home"
-                        ),
-                        type.div([], "ホームに戻る")
-                    ])
+                    type.a(
+                        "/",
+                        [type.class_("return-to-home")],
+                        [
+                            type.image(
+                                [type.class_("home-icon")],
+                                "/assets/home.svg",
+                                "home"
+                            ),
+                            type.div([], "ホームに戻る")
+                        ]
+                    )
                 ])
         },
         copyright
@@ -275,7 +304,7 @@ outputHtml(
             title: null,
             description: index.page.description,
             imageUrl: "/assets/icon.png",
-            extendScript: null,
+            extendScriptPath: null,
             path: "/"
         }),
         index.page.bodyElements.concat(copyright)
@@ -292,8 +321,8 @@ outputHtml(
         createdAt: null,
         updateAt: null,
         path: null,
-        extendScript: null,
-        content: notFound404.page.content
+        extendScriptPath: null,
+        contents: notFound404.page.contents
     })
 );
 

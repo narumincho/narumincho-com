@@ -3,7 +3,7 @@ import * as type from "../type";
 const snsLink: type.Element = type.div(
     [type.class_("snsLink-list")],
     [
-        type.a([type.class_("snsLink")], "https://github.com/narumincho", [
+        type.link([type.class_("snsLink")], "https://github.com/narumincho", [
             {
                 name: "svg",
                 attributes: [
@@ -34,7 +34,7 @@ const snsLink: type.Element = type.div(
                 ]
             }
         ]),
-        type.a([type.class_("snsLink")], "https://twitter.com/naru_mincho", [
+        type.link([type.class_("snsLink")], "https://twitter.com/naru_mincho", [
             {
                 name: "svg",
                 attributes: [
@@ -83,7 +83,7 @@ const createArticleGroup = (data: {
             [type.class_("article-list")],
             data.article.map(
                 (article): type.Element =>
-                    type.a([type.class_("articleItem")], article.url, [
+                    type.link([type.class_("articleItem")], article.url, [
                         type.image(
                             [type.class_("articleItem-img")],
                             article.imageUrl,
@@ -217,7 +217,7 @@ const articleGroupList = type.div(
                 },
                 {
                     title: "星の図形",
-                    url: "/desired_route/input",
+                    url: "/star",
                     imageUrl: "/assets/star.jpg",
                     imageAlt: "15芒星"
                 },

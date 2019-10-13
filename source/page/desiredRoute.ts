@@ -1,6 +1,6 @@
 import * as type from "../type";
 
-export const pages: Array<type.Page> = [
+export const pages: Array<type.Article> = [
     {
         path: "about-desired-route",
         title: "DESIRED Routeについて",
@@ -8,44 +8,32 @@ export const pages: Array<type.Page> = [
         updateAt: new Date("2019-10-04T22:42:00"),
         description: "DESIRED Routeについて話します",
         imageUrl: "/assets/desiredroute-title.jpg",
-        extendScript: null,
-        content: [
+        extendScriptPath: null,
+        contents: [
+            type.p([
+                type.span(null, "DESIRED Routeは"),
+                type.link("http://smilebasic.com/", "プチコン3号"),
+                type.span(null, "で作られていたRPGです")
+            ]),
             type.p(
-                [],
-                [
-                    type.span("DESIRED Routeは"),
-                    type.a(
-                        [type.class_("inline")],
-                        "http://smilebasic.com/",
-                        "プチコン3号"
-                    ),
-                    type.span("で作られていたRPGです")
-                ]
-            ),
-            type.p(
-                [],
                 "2015年前後にメニュー画面とバトル画面とBGMが多少作られたが、マップなどグラフィック、セリフが不足して断念。"
             ),
-            type.p(
-                [],
-                [
-                    type.span(
-                        "当時プチコンファンミーティングのLT会に登壇した("
-                    ),
-                    type.a(
-                        [type.class_("inline")],
-                        "https://www.itmedia.co.jp/pcuser/articles/1510/20/news137_3.html",
-                        "IT mediaの記事"
-                    ),
-                    type.span(")。そのことが少しだけ記事に書かれている。"),
-                    type.a(
-                        [],
-                        "http://penkogoma.blog6.fc2.com/?mode=m&no=223&photo=true",
-                        "「ペンコ改の知らね」(プチコンファンミーティングin東京レポートその3)"
-                    ),
-                    type.span("でも紹介されている")
-                ]
-            )
+            type.p([
+                type.span(
+                    null,
+                    "当時プチコンファンミーティングのLT会に登壇した("
+                ),
+                type.link(
+                    "https://www.itmedia.co.jp/pcuser/articles/1510/20/news137_3.html",
+                    "IT mediaの記事"
+                ),
+                type.span(null, ")。そのことが少しだけ記事に書かれている。"),
+                type.link(
+                    "http://penkogoma.blog6.fc2.com/?mode=m&no=223&photo=true",
+                    "「ペンコ改の知らね」(プチコンファンミーティングin東京レポートその3)"
+                ),
+                type.span(null, "でも紹介されている")
+            ])
         ]
     },
     {
@@ -55,141 +43,120 @@ export const pages: Array<type.Page> = [
         title: "メッセージウィンドウの話",
         description: "メッセージウィンドウについて話します",
         imageUrl: "/assets/window.jpg",
-        extendScript: null,
-        content: [
-            type.h2("メッセージウィンドウとは"),
-            type.p(
-                [],
-                "メッセージウィンドウは、登場人物やが言ったことや、ナレーションの言葉を表示し、プレイヤーに伝えるUIです。DESIRED Routeを作る上で、登場人物たちのセリフをプレイヤーに伝えるために必要でした。市販のゲームを見てどんなメッセージウィンドウを作れば良いか考えてみよう!"
-            ),
-            type.h2("市販のゲームの例"),
-            type.h3([
-                type.a(
-                    [],
-                    "https://www.atlus.co.jp/title-archive/ssq/",
-                    "新世界樹の迷宮"
+        extendScriptPath: null,
+        contents: [
+            type.section("メッセージウィンドウとは", [
+                type.p(
+                    "メッセージウィンドウは、登場人物やが言ったことや、ナレーションの言葉を表示し、プレイヤーに伝えるUIです。DESIRED Routeを作る上で、登場人物たちのセリフをプレイヤーに伝えるために必要でした。市販のゲームを見てどんなメッセージウィンドウを作れば良いか考えてみよう!"
                 )
             ]),
-            type.normalImage(
-                "window-sqq.jpg",
-                "新世界樹の迷宮のメッセージウィンドウ"
-            ),
-            type.ul(
-                [],
-                [],
-                [
-                    "青の半透明の背景に、水色の文字、20文字3行",
-                    "文字はすべて同じ幅でなく、句読点「、」などで位置が調整される(プロポーショナルフォント?)",
-                    "LかRボタンを押している間、ウィンドウの表示をOFF",
-                    "ボタンで進める(長押しで、すべて文字を表示したら進める)",
-                    "Yボタン長押しで、メッセージスキップ",
-                    "話している人の名前の表示がない"
-                ]
-            ),
-            type.p(
-                [],
-                "またウィンドウ非表示中でもAボタンを押したら話を進めてしまうというバグもあった。(新世界樹の迷宮2で修正)"
-            ),
-            type.h3([
-                type.a(
-                    [],
-                    "http://www.jp.square-enix.com/bdfts/",
-                    "BRAVELY DEFAULT"
+            type.section("市販のゲームの例", [
+                type.section("新世界樹の迷宮", [
+                    type.p([
+                        type.span(null, "("),
+                        type.link(
+                            "https://www.atlus.co.jp/title-archive/ssq/",
+                            "新世界樹の迷宮"
+                        ),
+                        type.span(null, "はNintendo 3DSのRPG)")
+                    ]),
+                    type.normalImage(
+                        "window-sqq.jpg",
+                        "新世界樹の迷宮のメッセージウィンドウ"
+                    ),
+                    type.list([
+                        "青の半透明の背景に、水色の文字、20文字3行",
+                        "文字はすべて同じ幅でなく、句読点「、」などで位置が調整される(プロポーショナルフォント?)",
+                        "LかRボタンを押している間、ウィンドウの表示をOFF",
+                        "ボタンで進める(長押しで、すべて文字を表示したら進める)",
+                        "Yボタン長押しで、メッセージスキップ",
+                        "話している人の名前の表示がない"
+                    ]),
+                    type.p(
+                        "またウィンドウ非表示中でもAボタンを押したら話を進めてしまうというバグもあった。(新世界樹の迷宮2で修正)"
+                    )
+                ]),
+                type.section("BRAVELY DEFAULT", [
+                    type.p([
+                        type.span(null, "("),
+                        type.link(
+                            "http://www.jp.square-enix.com/bdfts/",
+                            "BRAVELY DEFAULT"
+                        ),
+                        type.span(null, "はNintendo 3DSのRPG)")
+                    ]),
+                    type.normalImage(
+                        "bdff.jpg",
+                        "BRAVELY DEFAULTのイベント画面"
+                    ),
+                    type.list([
+                        "黒の背景に、白の文字、25文字2行",
+                        "すべて文字は同じ幅で、句読点「、」などで位置が調整されない(等幅フォント?)",
+                        "Aボタンで進める(長押しでは、進めない)",
+                        "Yボタンでボイス合わせて進めるオート",
+                        "Xボタンでスキップ",
+                        "常に名前表示あり"
+                    ]),
+                    type.p(
+                        "2行とすることで1つのページにセリフがたくさん表示されないようにしている。実際2行で十分なことが多い。"
+                    )
+                ]),
+                type.p(
+                    "また、推理ゲームなどに多かったが、セリフのログが残されていて後で確認できるようになっているものも最近はある。"
                 )
             ]),
-            type.normalImage("bdff.jpg", "BRAVELY DEFAULTのイベント画面"),
-            type.ul(
-                [],
-                [],
-                [
-                    "黒の背景に、白の文字、25文字2行",
-                    "すべて文字は同じ幅で、句読点「、」などで位置が調整されない(等幅フォント?)",
-                    "Aボタンで進める(長押しでは、進めない)",
-                    "Yボタンでボイス合わせて進めるオート",
-                    "Xボタンでスキップ",
-                    "常に名前表示あり"
-                ]
-            ),
-            type.p(
-                [],
-                "2行とすることで1つのページにセリフがたくさん表示されないようにしている。実際2行で十分なことが多い。"
-            ),
-            type.p(
-                [],
-                "また、推理ゲームなどに多かったが、セリフのログが残されていて後で確認できるようになっているものも最近はある。"
-            ),
-            type.h3("DESIRED Routeでは"),
-            type.p(
-                [],
-                "DESIRED ROUTEでは、現代的な快適さとシンプルさを合わせ持つように、"
-            ),
-            type.image(
-                [type.class_("normal-image")],
-                "/assets/window.jpg",
-                "DESIRED Routeでのメッセージウィンドウ表示"
-            ),
-            type.ul(
-                [],
-                [],
-                [
+            type.section("DESIRED Routeでは", [
+                type.p(
+                    "DESIRED ROUTEでは、現代的な快適さとシンプルさを合わせ持つように、"
+                ),
+                type.normalImage(
+                    "window.jpg",
+                    "DESIRED Routeでのメッセージウィンドウ表示"
+                ),
+                type.list([
                     "青の半透明の背景に、白の文字、20文字3行",
                     "文字はすべて同じ幅で、句読点「、」などで位置が調整されない",
                     "Aボタンで進める",
                     "Aボタン長押しで、メッセージスキップ",
                     "名前表示ありと、名前表示なしを変更できる"
-                ]
-            ),
-            type.p(
-                [],
-                "にしました。このRPGは下画面にメニューを常に表示しているので、上画面のウィンドウに使えるボタンはAボタンだけですが、Aボタン長押しでメッセージスキップもできるようにしています。"
-            ),
-            {
-                name: "h2",
-                attributes: [],
-                children: "ページ内スキップ"
-            },
-            type.p(
-                [],
-                "他に、スキップ以外に快適さに必要なのは、ページ内スキップです。ページ内スキップとは、文字がぽつぽつ表示されている途中に、Aボタンを押すと、セリフの文字が一気に表示される機能です。忘れがちの処理ですが、有ると無いとでは、かなりと操作感が違います。紹介してきたRPG全てと、このDESIRED ROUTEはページ内スキップ機能はあります。PRGは文字で内容を伝えるゲームだと思うので、ウィンドウはこだわるべきです。"
-            ),
-            type.h2("文字の配色"),
-            type.p(
-                [],
-                "開発初期のメッセージウィンドウの文字色は、10種類の中から選ぶことができましたが、色を多用していると何が重要かわからなくなってしまうのです。"
-            ),
-            type.normalImage(
-                "bad-color-message-window.jpg",
-                "10種類の文字色を使用したメッセージウィンドウの表示"
-            ),
-            type.p(
-                [],
-                "というわけで、文字色は、白とオレンジと水色の3種類に絞りました。"
-            ),
-            type.normalImage(
-                "simple-color-message-window.jpg",
-                "3色を使ったメッセージウィンドウの表示"
-            ),
-            type.p([], "オレンジは重要な単語につけることとします。"),
-            type.div(
-                [type.class_("window-bg")],
-                [
-                    type.div([type.class_("window-strong")], "テアー"),
-                    type.div(
-                        [type.class_("window-nomal")],
-                        "を持ってきてくれ。"
-                    )
-                ]
-            ),
-            type.p([], "水色はシステムなどの説明に使うことにします。"),
-            type.div(
-                [type.class_("window-bg")],
-                [
-                    type.div(
-                        [type.class_("window-info")],
+                ]),
+                type.p(
+                    "にしました。このRPGは下画面にメニューを常に表示しているので、上画面のウィンドウに使えるボタンはAボタンだけですが、Aボタン長押しでメッセージスキップもできるようにしています。"
+                )
+            ]),
+            type.section("ページ内スキップ", [
+                type.p(
+                    "他に、スキップ以外に快適さに必要なのは、ページ内スキップです。ページ内スキップとは、文字がぽつぽつ表示されている途中に、Aボタンを押すと、セリフの文字が一気に表示される機能です。忘れがちの処理ですが、有ると無いとでは、かなりと操作感が違います。紹介してきたRPG全てと、このDESIRED ROUTEはページ内スキップ機能はあります。PRGは文字で内容を伝えるゲームだと思うので、ウィンドウはこだわるべきです。"
+                )
+            ]),
+            type.section("文字の配色", [
+                type.p(
+                    "開発初期のメッセージウィンドウの文字色は、10種類の中から選ぶことができましたが、色を多用していると何が重要かわからなくなってしまうのです。"
+                ),
+                type.normalImage(
+                    "bad-color-message-window.jpg",
+                    "10種類の文字色を使用したメッセージウィンドウの表示"
+                ),
+                type.p(
+                    "というわけで、文字色は、白とオレンジと水色の3種類に絞りました。"
+                ),
+                type.normalImage(
+                    "simple-color-message-window.jpg",
+                    "3色を使ったメッセージウィンドウの表示"
+                ),
+                type.p("オレンジは重要な単語につけることとします。"),
+                type.window([
+                    type.span("window-strong", "テアー"),
+                    type.span("window-normal", "を持ってきてくれ。")
+                ]),
+                type.p("水色はシステムなどの説明に使うことにします。"),
+                type.window([
+                    type.span(
+                        "window-info",
                         "このRPGでは、下画面の決定をYボタンとします。"
                     )
-                ]
-            )
+                ])
+            ])
         ]
     },
     {
@@ -199,8 +166,8 @@ export const pages: Array<type.Page> = [
         createdAt: new Date("2015-09-22"),
         updateAt: new Date("2019-10-08"),
         imageUrl: "/assets/font.jpg",
-        extendScript: null,
-        content: [
+        extendScriptPath: null,
+        contents: [
             type.h2("漢字表示処理を自作する理由"),
             type.p(
                 [],
@@ -248,7 +215,7 @@ export const pages: Array<type.Page> = [
                 [],
                 [
                     type.span("そこで、ほしけんさんの"),
-                    type.a(
+                    type.link(
                         [],
                         "http://wiki.hosiken.jp/petc3gou/?Toukou%2F%A5%D7%A5%C1%A5%B3%A5%F3%B4%C1%BB%FA%A5%E9%A5%A4%A5%D6%A5%E9%A5%EA",
                         "プチコン漢字ライブラリ"
@@ -276,8 +243,8 @@ export const pages: Array<type.Page> = [
         createdAt: new Date("2015-10-18"),
         updateAt: new Date("2019-10-09"),
         imageUrl: "/assets/list-ui.jpg",
-        extendScript: null,
-        content: [
+        extendScriptPath: null,
+        contents: [
             type.h2("挙動を考えた理由"),
             type.p(
                 [],
@@ -359,8 +326,8 @@ export const pages: Array<type.Page> = [
         createdAt: new Date("2015-11-02"),
         updateAt: new Date("2019-10-09"),
         imageUrl: "/assets/color.png",
-        extendScript: null,
-        content: [
+        extendScriptPath: null,
+        contents: [
             type.h2("配色ミス"),
             type.p(
                 [],
@@ -371,7 +338,7 @@ export const pages: Array<type.Page> = [
                 name: "blockquote",
                 attributes: [],
                 children: [
-                    type.span("配色には"),
+                    type.span(null, "配色には"),
                     type.ul(
                         [],
                         [],
@@ -382,12 +349,12 @@ export const pages: Array<type.Page> = [
                         ]
                     ),
                     type.span(
+                        null,
                         "のバランスで3色をベースに構成するっていう基本テクがあるよ。 配色を工夫することで同じUIでもよりプロっぽく見せられるよ。"
                     )
                 ]
             },
             type.p(
-                [],
                 "という親切なコメントをMiiverseでしてくれました。コメントしてくれた人、ありがとうございます。ベースカラーは緑、メインカラーは青、アクセントカラーは赤です。"
             ),
             type.normalImage("list-ui.jpg", "改良したITEMメニュー"),
@@ -466,8 +433,8 @@ export const pages: Array<type.Page> = [
         createdAt: new Date("2015-11-08"),
         updateAt: new Date("2019-10-09"),
         imageUrl: "/assets/battle.jpg",
-        extendScript: null,
-        content: [
+        extendScriptPath: null,
+        contents: [
             type.h2("エンカウントとは"),
             type.p(
                 [],
@@ -536,10 +503,8 @@ DATA [指定する敵パーティになる確率(%指定)],"[敵パーティの�
         createdAt: new Date("2016-01-01"),
         updateAt: new Date("2019-10-10"),
         imageUrl: "/assets/star.jpg",
-        extendScript: `
-console.log(document.getElementById("star"))
-`,
-        content: [
+        extendScriptPath: "star.ts",
+        contents: [
             type.div([["id", "star"]], []),
             type.p(
                 [],
@@ -613,8 +578,8 @@ console.log(document.getElementById("star"))
             "DESIRED Routeに登場する予定だった敵モンスターについて話します",
         createdAt: new Date(""),
         updateAt: new Date(""),
-        extendScript: null,
+        extendScriptPath: null,
         imageUrl: "/assets/kamausagi.png",
-        content: []
+        contents: []
     }
 ];

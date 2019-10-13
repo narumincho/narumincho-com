@@ -266,7 +266,7 @@ p {
 
 /* window */
 
-.window-bg {
+.window {
     background-color: #0c2aea;
     margin: 20px;
     padding: 30px;
@@ -274,17 +274,14 @@ p {
 
 .window-strong {
     color: #f68406;
-    display: inline;
 }
 
 .window-info {
     color: #80deea;
-    display: inline;
 }
 
-.window-nomal {
+.window-normal {
     color: #fff;
-    display: inline;
 }
 
 .copyright {

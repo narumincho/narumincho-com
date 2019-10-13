@@ -6,7 +6,8 @@
     "author": "narumincho",
     "license": "ISC",
     "dependencies": {
-        "fs-extra": "^8.1.0"
+        "fs-extra": "^8.1.0",
+        "typescript": "^3.6.4"
     },
     "devDependencies": {
         "@types/fs-extra": "^8.0.0",

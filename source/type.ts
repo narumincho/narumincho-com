@@ -1,15 +1,152 @@
 /**
- * ページ
+ * 記事
  */
-export type Page = {
+export type Article = {
     path: string;
     title: string;
     createdAt: Date;
     updateAt: Date;
     imageUrl: string;
     description: string;
-    extendScript: null | string;
-    content: ConcatArray<Element>;
+    extendScriptPath: null | string;
+    contents: Array<ArticleContent>;
+};
+
+/**
+ * 記事の構成要素
+ */
+export type ArticleContent =
+    | {
+          c: "p";
+          contents: string | Array<InlineContent>;
+      }
+    | { c: "img"; fileName: string; alternativeText: string }
+    | { c: "list"; items: Array<string> }
+    | { c: "section"; title: string; contents: Array<ArticleContent> }
+    | { c: "window"; contents: Array<InlineContent> };
+
+export const p = (contents: Array<InlineContent> | string): ArticleContent => ({
+    c: "p",
+    contents: contents
+});
+
+export const normalImage = (
+    fileName: string,
+    alternativeText: string
+): ArticleContent => ({
+    c: "img",
+    fileName: fileName,
+    alternativeText: alternativeText
+});
+
+export const list = (items: Array<string>): ArticleContent => ({
+    c: "list",
+    items: items
+});
+
+export const section = (
+    title: string,
+    contents: Array<ArticleContent>
+): ArticleContent => ({
+    c: "section",
+    title: title,
+    contents: contents
+});
+
+export const window = (contents: Array<InlineContent>): ArticleContent => ({
+    c: "window",
+    contents: contents
+});
+
+export type InlineContent =
+    | { c: "link"; url: string; text: string }
+    | { c: "span"; class: string | null; text: string };
+
+export const span = (class_: string | null, text: string): InlineContent => ({
+    c: "span",
+    class: class_,
+    text: text
+});
+
+export const link = (url: string, text: string): InlineContent => ({
+    c: "link",
+    url: url,
+    text: text
+});
+
+export const articleContentsToElements = (
+    contents: Array<ArticleContent>
+): Array<Element> =>
+    contents.map(c => articleContentToElementsLoop(c, 2)).flat();
+
+const articleContentToElementsLoop = (
+    content: ArticleContent,
+    hLevel: number
+): Array<Element> => {
+    switch (content.c) {
+        case "p":
+            if (typeof content.contents === "string") {
+                return [
+                    { name: "p", attributes: [], children: content.contents }
+                ];
+            }
+            return content.contents.map(inlineContentToElement);
+        case "img":
+            return [
+                image(
+                    [class_("normal-image")],
+                    "/assets/" + content.fileName,
+                    content.alternativeText
+                )
+            ];
+        case "list":
+            return [ul([], [], content.items)];
+        case "section":
+            if (6 < hLevel) {
+                throw new Error(
+                    "セクションの入れ子が深すぎる。(h2～h6までしか使えないため)"
+                );
+            }
+            return [
+                {
+                    name: "h" + hLevel,
+                    attributes: [],
+                    children: content.title
+                } as Element
+            ].concat(
+                content.contents
+                    .map(c => articleContentToElementsLoop(c, hLevel + 1))
+                    .flat()
+            );
+
+        case "window":
+            return [
+                div(
+                    [class_("window")],
+                    content.contents.map(inlineContentToElement)
+                )
+            ];
+    }
+};
+
+const inlineContentToElement = (inlineContent: InlineContent): Element => {
+    switch (inlineContent.c) {
+        case "span":
+            return {
+                name: "span",
+                attributes:
+                    inlineContent.class === null
+                        ? []
+                        : [class_(inlineContent.class)],
+                children: inlineContent.text
+            };
+        case "link":
+            return {
+                name: "a",
+                attributes: [["href", inlineContent.url]],
+                children: inlineContent.text
+            };
+    }
 };
 
 /**
@@ -137,27 +274,6 @@ export const div = (
     children: children
 });
 
-export const span = (text: string): Element => ({
-    name: "span",
-    attributes: [],
-    children: text
-});
-
-export const normalImage = (fileName: string, alternativeText: string) =>
-    image([class_("normal-image")], "/assets/" + fileName, alternativeText);
-
-export const h2 = (children: Array<Element> | string): Element => ({
-    name: "h2",
-    attributes: [],
-    children: children
-});
-
-export const h3 = (children: Array<Element> | string): Element => ({
-    name: "h3",
-    attributes: [],
-    children: children
-});
-
 export const blockCodeNoHightLight = (code: string): Element => ({
     name: "code",
     attributes: [class_("blockCode")],
@@ -165,10 +281,10 @@ export const blockCodeNoHightLight = (code: string): Element => ({
 });
 
 export const a = (
-    attributes: Array<Attribute>,
     url: string,
-    children: Array<Element> | string
-): Element => ({
+    attributes: Array<Attribute>,
+    children: Array<Element>
+) => ({
     name: "a",
     attributes: attributes.concat([["href", url]]),
     children: children
@@ -186,16 +302,7 @@ export const image = (
 
 export const class_ = (className: string): Attribute => ["class", className];
 
-export const p = (
-    attributes: Array<Attribute>,
-    children: Array<Element> | string
-): Element => ({
-    name: "p",
-    attributes: attributes,
-    children: children
-});
-
-export const ul = (
+const ul = (
     ulAttributes: Array<Attribute>,
     liAttributes: Array<Attribute>,
     children: Array<Array<Element> | string>
