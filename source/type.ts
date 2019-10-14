@@ -180,18 +180,22 @@ const articleContentToElementsLoop = (
             return [
                 {
                     name: "div",
-                    attributes: [class_("image-list")],
+                    attributes: [class_("imageList")],
                     children: content.images.map(
                         (i): Element => ({
                             name: "figure",
-                            attributes: [],
+                            attributes: [class_("imageList-item")],
                             children: [
                                 {
                                     name: "figcaption",
-                                    attributes: [],
+                                    attributes: [class_("imageList-title")],
                                     children: i.title
                                 },
-                                image([], "/assets/" + i.fileName, i.title)
+                                image(
+                                    [class_("imageList-image")],
+                                    "/assets/" + i.fileName,
+                                    i.title
+                                )
                             ]
                         })
                     )

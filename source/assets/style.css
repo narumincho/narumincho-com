@@ -241,6 +241,13 @@ h1 {
     padding: 20px 0;
 }
 
+.time {
+    display: grid;
+    grid-auto-flow: column;
+    gap: 4px;
+    justify-content: start;
+}
+
 p {
     margin: 0;
     padding: 16px;
@@ -264,10 +271,35 @@ p {
     white-space: pre-wrap;
 }
 
-.image-list {
+.imageList {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
 }
+
+@media screen and (max-width: 800px) {
+    .imageList {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.imageList-item {
+    margin: 0;
+    display: grid;
+    background-color: orange;
+}
+
+.imageList-title {
+    text-align: center;
+}
+
+.imageList-image {
+    width: 100%;
+    height: 200px;
+    object-fit: contain;
+    background-color: gray;
+}
+
 /* window */
 
 .window {

@@ -248,7 +248,7 @@ const date = (updateAt: Date, createdAt: Date): type.Element => ({
     children: [
         {
             name: "div",
-            attributes: [],
+            attributes: [type.class_("time")],
             children: [
                 {
                     name: "div",
@@ -264,7 +264,7 @@ const date = (updateAt: Date, createdAt: Date): type.Element => ({
         },
         {
             name: "div",
-            attributes: [],
+            attributes: [type.class_("time")],
             children: [
                 {
                     name: "div",
