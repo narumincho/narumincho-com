@@ -238,7 +238,7 @@ const articleGroupList = type.div(
                 },
                 {
                     title: "モンスター",
-                    url: "/desired_route/monster",
+                    url: "/desired-route-monster",
                     imageUrl: "/assets/kamausagi.png",
                     imageAlt: "かまうさぎ"
                 }

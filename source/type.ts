@@ -26,7 +26,8 @@ export type ArticleContent =
     | { c: "window"; contents: Array<InlineContent> }
     | { c: "divForScript"; id: string }
     | { c: "quote"; contents: Array<ArticleContent> }
-    | { c: "code"; code: string };
+    | { c: "code"; code: string }
+    | { c: "imageList"; images: Array<{ title: string; fileName: string }> };
 
 export const p = (contents: Array<InlineContent> | string): ArticleContent => ({
     c: "p",
@@ -76,6 +77,16 @@ export const blockCodeNoHightLight = (code: string): ArticleContent => ({
     code: code
 });
 
+export const imageList = (
+    images: Array<{ title: string; fileName: string }>
+): ArticleContent => ({
+    c: "imageList",
+    images: images
+});
+
+/**
+ *  段落の中にある要素
+ */
 export type InlineContent =
     | { c: "link"; url: string; text: string }
     | { c: "span"; class: string | null; text: string };
@@ -163,6 +174,27 @@ const articleContentToElementsLoop = (
                     name: "code",
                     attributes: [class_("blockCode")],
                     children: content.code
+                }
+            ];
+        case "imageList":
+            return [
+                {
+                    name: "div",
+                    attributes: [class_("image-list")],
+                    children: content.images.map(
+                        (i): Element => ({
+                            name: "figure",
+                            attributes: [],
+                            children: [
+                                {
+                                    name: "figcaption",
+                                    attributes: [],
+                                    children: i.title
+                                },
+                                image([], "/assets/" + i.fileName, i.title)
+                            ]
+                        })
+                    )
                 }
             ];
     }

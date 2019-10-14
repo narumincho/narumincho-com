@@ -264,6 +264,10 @@ p {
     white-space: pre-wrap;
 }
 
+.image-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
 /* window */
 
 .window {

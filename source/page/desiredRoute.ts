@@ -542,9 +542,148 @@ export const pages: Array<type.Article> = [
         description:
             "DESIRED Routeに登場する予定だった敵モンスターについて話します",
         createdAt: new Date(""),
-        updateAt: new Date(""),
+        updateAt: new Date("2019-10-13"),
         extendScriptPath: null,
         imageUrl: "/assets/kamausagi.png",
-        contents: []
+        contents: [
+            type.imageList([
+                {
+                    title: "悪魔の手",
+                    fileName: "akumanote.jpg"
+                },
+                {
+                    title: "アルコールランプ",
+                    fileName: "alcohol_lamp.jpg"
+                },
+                {
+                    title: "バンモン",
+                    fileName: "banmon.jpg"
+                },
+                {
+                    title: "バラの戦士",
+                    fileName: "baranosensi.jpg"
+                },
+                {
+                    title: "電球ホタル",
+                    fileName: "denkyu-hotaru.jpg"
+                },
+                {
+                    title: "泥団子",
+                    fileName: "dorodango.jpg"
+                },
+                {
+                    title: "ゴブリン",
+                    fileName: "goburin.jpg"
+                },
+                {
+                    title: "骨のオーガ",
+                    fileName: "honeno-oga.jpg"
+                },
+                {
+                    title: "ほねつむり",
+                    fileName: "honetumuri.jpg"
+                },
+                {
+                    title: "フードゴブリン",
+                    fileName: "hood_goburin.jpg"
+                },
+                {
+                    title: "一角デメキン",
+                    fileName: "ikkakudemekin.jpg"
+                },
+                {
+                    title: "かまうさぎ",
+                    fileName: "kamausagi.png"
+                },
+                {
+                    title: "カメレオン",
+                    fileName: "kamereon.jpg"
+                },
+                {
+                    title: "枯れ葉宿り",
+                    fileName: "karahayadori.jpg"
+                },
+                {
+                    title: "勾魂",
+                    fileName: "katamari.jpg"
+                },
+                {
+                    title: "木の葉虫",
+                    fileName: "kinohamusi.jpg"
+                },
+                {
+                    title: "紅葉の精",
+                    fileName: "kouyounosei.jpg"
+                },
+                {
+                    title: "メバナ",
+                    fileName: "mabana.jpg"
+                },
+                {
+                    title: "マッシュ",
+                    fileName: "massyu.jpg"
+                },
+                {
+                    title: "ミノカマキリ",
+                    fileName: "minokamakiri.jpg"
+                },
+                {
+                    title: "もぐねずみ",
+                    fileName: "mogunezumi.jpg"
+                },
+                {
+                    title: "モグライダー",
+                    fileName: "moguraida.jpg"
+                },
+                {
+                    title: "なまけデビル",
+                    fileName: "namakedebiru.jpg"
+                },
+                {
+                    title: "ナマコ",
+                    fileName: "namako.jpg"
+                },
+                {
+                    title: "ノナン",
+                    fileName: "nonan.png"
+                },
+                {
+                    title: "龍の指輪",
+                    fileName: "ryuno-udewa.jpg"
+                },
+                {
+                    title: "神秘的なやつ",
+                    fileName: "shinpitekinayatsu.jpg"
+                },
+                {
+                    title: "ソール",
+                    fileName: "so-ru.jpg"
+                },
+                {
+                    title: "トカゲナイト",
+                    fileName: "tokagenaito.jpg"
+                },
+                {
+                    title: "強そうなザコ",
+                    fileName: "tsuyosouna.jpg"
+                },
+                {
+                    title: "ツタマネ",
+                    fileName: "tutamane.jpg"
+                },
+                {
+                    title: "ウパナリア",
+                    fileName: "upanaria.jpg"
+                },
+                {
+                    title: "うるおいわかば",
+                    fileName: "uruoi_wakaba.jpg"
+                },
+                {
+                    title: "邪教の使者",
+                    fileName: "zyasinnoshisya.jpg"
+                }
+            ])
+        ]
     }
 ];
