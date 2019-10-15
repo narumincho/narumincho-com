@@ -685,5 +685,15 @@ export const pages: Array<type.Article> = [
                 }
             ])
         ]
+    },
+    {
+        path: "n-petitcom-ime",
+        title: "Nプチコン漢字入力について",
+        description: "Nプチコン漢字入力について使える文字を中心に話します",
+        createdAt: new Date(""),
+        updateAt: new Date("2019-10-15"),
+        extendScriptPath: null,
+        imageUrl: "/assets/henkan.jpg",
+        contents: []
     }
 ];
