@@ -1,4 +1,5 @@
 import * as type from "../type";
+import * as petitcom from "./petitcom";
 
 const snsLink: type.Element = type.div(
     [type.class_("snsLink-list")],
@@ -172,77 +173,14 @@ const articleGroupList = type.div(
             ]
         }),
         createArticleGroup({
-            title: "N Petitcom IME",
+            title: "プチコン3号関連",
             subTitle: "プチコン3号用の漢字入力IME 🔑BEREV2HV",
-            article: [
-                {
-                    title: "使い方(プチコンまとめwiki)",
-                    url:
-                        "http://wiki.hosiken.jp/petc3gou/?Toukou%2FNPetitcomIME",
-                    imageUrl: "/assets/henkan.jpg",
-                    imageAlt: "IMEの変換画面"
-                },
-                {
-                    title: "対応文字一覧",
-                    url: "/npime/char",
-                    imageUrl: "/assets/qwerty.jpg",
-                    imageAlt: "QWERTY入力画面"
-                }
-            ]
-        }),
-        createArticleGroup({
-            title: "DESIRED Route",
-            subTitle: "プチコン3号で作っていたRPG",
-            article: [
-                {
-                    title: "DESIRED Routeとは",
-                    url: "/about-desired-route",
-                    imageUrl: "/assets/desiredroute-title.jpg",
-                    imageAlt: "DESIRED Routeのタイトル画面"
-                },
-                {
-                    title: "ウィンドウの挙動",
-                    url: "/message-window",
-                    imageUrl: "/assets/window.jpg",
-                    imageAlt: "ウィンドウの表示"
-                },
-                {
-                    title: "DESIRED RouteとNPIMEのフォントの描画処理",
-                    url: "/desired-route-font",
-                    imageUrl: "/assets/font.jpg",
-                    imageAlt: "フォントのグラフィック"
-                },
-                {
-                    title: "リストの選択の挙動",
-                    url: "/list-select-behavior",
-                    imageUrl: "/assets/list-ui.jpg",
-                    imageAlt: "UIのリスト表示"
-                },
-                {
-                    title: "UIの配色",
-                    url: "/ui-color",
-                    imageUrl: "/assets/color.png",
-                    imageAlt: "色相環"
-                },
-                {
-                    title: "モンスターとのエンカウントについて",
-                    url: "desired-route-encounter",
-                    imageUrl: "/assets/battle.jpg",
-                    imageAlt: "バトル画面"
-                },
-                {
-                    title: "星の図形",
-                    url: "/star",
-                    imageUrl: "/assets/star.jpg",
-                    imageAlt: "15芒星"
-                },
-                {
-                    title: "モンスター",
-                    url: "/desired-route-monster",
-                    imageUrl: "/assets/kamausagi.png",
-                    imageAlt: "かまうさぎ"
-                }
-            ]
+            article: petitcom.pages.map(page => ({
+                title: page.title,
+                url: page.path,
+                imageUrl: page.imageUrl,
+                imageAlt: page.title + "のイメージ"
+            }))
         })
     ]
 );

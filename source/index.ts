@@ -2,7 +2,7 @@ import * as fse from "fs-extra";
 import * as type from "./type";
 import * as index from "./page/index";
 import * as notFound404 from "./page/404";
-import * as desiredRoute from "./page/desiredRoute";
+import * as petitcom from "./page/petitcom";
 import * as ts from "typescript";
 
 const siteName = "ナルミンチョの創作記録";
@@ -325,7 +325,7 @@ outputHtml(
 );
 
 const pathList: Array<string> = [];
-for (const page of desiredRoute.pages) {
+for (const page of petitcom.pages) {
     if (pathList.includes(page.path)) {
         throw new Error("パスがかぶっている! path=" + page.path);
     }

@@ -27,7 +27,9 @@ export type ArticleContent =
     | { c: "divForScript"; id: string }
     | { c: "quote"; contents: Array<ArticleContent> }
     | { c: "code"; code: string }
-    | { c: "imageList"; images: Array<{ title: string; fileName: string }> };
+    | { c: "imageList"; images: Array<{ title: string; fileName: string }> }
+    | { c: "definitionList"; items: Array<{ key: string; value: string }> }
+    | { c: "twitterEmbedded"; code: string };
 
 export const p = (contents: Array<InlineContent> | string): ArticleContent => ({
     c: "p",
@@ -82,6 +84,18 @@ export const imageList = (
 ): ArticleContent => ({
     c: "imageList",
     images: images
+});
+
+export const definitionList = (
+    items: Array<{ key: string; value: string }>
+): ArticleContent => ({
+    c: "definitionList",
+    items: items
+});
+
+export const twitterEmbedded = (code: string): ArticleContent => ({
+    c: "twitterEmbedded",
+    code: code
 });
 
 /**
@@ -201,6 +215,34 @@ const articleContentToElementsLoop = (
                     )
                 }
             ];
+        case "definitionList":
+            return [
+                {
+                    name: "dl",
+                    attributes: [],
+                    children: content.items
+                        .map(item => [
+                            {
+                                name: "dt",
+                                attributes: [],
+                                children: item.key
+                            },
+                            {
+                                name: "dd",
+                                attributes: [],
+                                children: item.value
+                            }
+                        ])
+                        .flat()
+                }
+            ];
+        case "twitterEmbedded":
+            return [
+                {
+                    raw: true,
+                    htmlCode: content.code
+                }
+            ];
     }
 };
 
@@ -236,14 +278,17 @@ const inlineContentToElement = (inlineContent: InlineContent): Element => {
 /**
  * HTMLの各要素
  */
-export type Element = {
-    name: string;
-    attributes: Array<Attribute>;
-    /**
-     * nullは<hr>のように閉じカッコなしにする
-     */
-    children: Array<Element> | null | string;
-};
+export type Element =
+    | {
+          name: string;
+          attributes: Array<Attribute>;
+          /**
+           * nullは<hr>のように閉じカッコなしにする
+           */
+          children: Array<Element> | null | string;
+          raw?: null;
+      }
+    | { raw: true; htmlCode: string };
 
 /**
  *  HTML
@@ -283,6 +328,9 @@ export const htmlToString = (html: Html): string =>
     "<!doctype html>" + elementToString(html);
 
 const elementToString = (element: Element): string => {
+    if (element.raw) {
+        return element.htmlCode;
+    }
     if (element.children === null) {
         return (
             "<" + element.name + attributesToString(element.attributes) + ">"
