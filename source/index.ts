@@ -324,7 +324,12 @@ outputHtml(
     })
 );
 
+const pathList: Array<string> = [];
 for (const page of desiredRoute.pages) {
+    if (pathList.includes(page.path)) {
+        throw new Error("パスがかぶっている! path=" + page.path);
+    }
+    pathList.push(page.path);
     outputHtml(page.path, page.title, pageToHtml(page));
 }
 
