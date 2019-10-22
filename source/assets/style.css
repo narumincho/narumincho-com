@@ -164,24 +164,34 @@ header {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
     overflow: hidden;
     text-decoration: none;
+    height: 150px;
+}
+
+.articleItem:focus {
+    border: solid #f68406 8px;
 }
 
 .articleItem:hover {
-    background-color: #f68406;
-    color: #17073c;
     animation: zoom 0.3s;
 }
 
-.articleItem:active {
-    background-color: #f8ab53;
-    color: #17073c;
+.articleItem:hover > .articleItem-img {
+    transform: scale(1.1);
+}
+
+.articleItem:focus > .articleItem-img {
+    transform: scale(1.1);
+}
+
+.articleItem:active > .articleItem-img {
+    transform: scale(1.2);
 }
 
 .articleItem-img {
     width: 100%;
+    height: 100%;
     object-fit: cover;
     display: block;
-    height: 150px;
     grid-column: 1 / 2;
     grid-row: 1 / 2;
 }
@@ -195,6 +205,7 @@ header {
     background-color: rgba(0, 0, 0, 0.6);
     color: #ddd;
     align-self: flex-end;
+    z-index: 1;
 }
 
 .screenshot {
