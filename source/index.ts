@@ -73,6 +73,27 @@ const twitterCardMeta = (data: {
   ];
 };
 
+const javaScriptCodeFromTypeScriptFileName = (fileName: string): string => {
+  const compileOptionResult = ts.convertCompilerOptionsFromJson(
+    {},
+    ".",
+    "source/script/tsconfig.json"
+  );
+  console.log("compileOptionResult", compileOptionResult);
+  const result = ts.transpileModule(
+    fse.readFileSync("source/script/" + fileName).toString(),
+    {
+      compilerOptions: compileOptionResult.options
+    }
+  );
+  console.log(result.diagnostics);
+  return result.outputText;
+};
+const copyright: type.Element = type.div(
+  [type.class_("copyright")],
+  "© 2019 narumincho"
+);
+
 const headElementChildren = (data: {
   title: string | null;
   description: string;
@@ -147,26 +168,57 @@ const headElementChildren = (data: {
       ] as Array<type.Element>))
 ];
 
-const javaScriptCodeFromTypeScriptFileName = (fileName: string): string => {
-  const compileOptionResult = ts.convertCompilerOptionsFromJson(
-    {},
-    ".",
-    "source/script/tsconfig.json"
+const dateToString = (date: Date): string => {
+  if (Number.isNaN(date.getTime())) {
+    return "?";
+  }
+  return (
+    date.getUTCFullYear().toString() +
+    "/" +
+    (date.getUTCMonth() + 1).toString() +
+    "/" +
+    date.getUTCDate().toString()
   );
-  console.log("compileOptionResult", compileOptionResult);
-  const result = ts.transpileModule(
-    fse.readFileSync("source/script/" + fileName).toString(),
-    {
-      compilerOptions: compileOptionResult.options
-    }
-  );
-  console.log(result.diagnostics);
-  return result.outputText;
 };
-const copyright: type.Element = type.div(
-  [type.class_("copyright")],
-  "© 2019 narumincho"
-);
+
+const date = (updateAt: Date, createdAt: Date): type.Element => ({
+  name: "div",
+  attributes: [],
+  children: [
+    {
+      name: "div",
+      attributes: [type.class_("time")],
+      children: [
+        {
+          name: "div",
+          attributes: [],
+          children: "更新日時"
+        },
+        {
+          name: "time",
+          attributes: [],
+          children: dateToString(updateAt)
+        }
+      ]
+    },
+    {
+      name: "div",
+      attributes: [type.class_("time")],
+      children: [
+        {
+          name: "div",
+          attributes: [],
+          children: "作成日"
+        },
+        {
+          name: "time",
+          attributes: [],
+          children: dateToString(createdAt)
+        }
+      ]
+    }
+  ]
+});
 
 const pageToHtml = (page: {
   path: string | null;
@@ -238,58 +290,6 @@ const pageToHtml = (page: {
     },
     copyright
   ]);
-
-const dateToString = (date: Date) => {
-  if (Number.isNaN(date.getTime())) {
-    return "?";
-  }
-  return (
-    date.getUTCFullYear() +
-    "/" +
-    (date.getUTCMonth() + 1) +
-    "/" +
-    date.getUTCDate()
-  );
-};
-
-const date = (updateAt: Date, createdAt: Date): type.Element => ({
-  name: "div",
-  attributes: [],
-  children: [
-    {
-      name: "div",
-      attributes: [type.class_("time")],
-      children: [
-        {
-          name: "div",
-          attributes: [],
-          children: "更新日時"
-        },
-        {
-          name: "time",
-          attributes: [],
-          children: dateToString(updateAt)
-        }
-      ]
-    },
-    {
-      name: "div",
-      attributes: [type.class_("time")],
-      children: [
-        {
-          name: "div",
-          attributes: [],
-          children: "作成日"
-        },
-        {
-          name: "time",
-          attributes: [],
-          children: dateToString(createdAt)
-        }
-      ]
-    }
-  ]
-});
 
 const outputHtml = (path: string, title: string, html: type.Html): void => {
   fse
