@@ -10,7 +10,7 @@ const siteName = "ナルミンチョの創作記録";
 const domain = "https://narumincho.com";
 
 /** 出力先のフォルダの指定 最後に/が付いていないので注意 */
-const distributionFolder = "../distribution";
+const distributionFolder = "./distribution";
 
 const twitterCardMeta = (data: {
   title: string | null;
@@ -151,11 +151,11 @@ const javaScriptCodeFromTypeScriptFileName = (fileName: string): string => {
   const compileOptionResult = ts.convertCompilerOptionsFromJson(
     {},
     ".",
-    "script/tsconfig.json"
+    "source/script/tsconfig.json"
   );
   console.log("compileOptionResult", compileOptionResult);
   const result = ts.transpileModule(
-    fse.readFileSync("script/" + fileName).toString(),
+    fse.readFileSync("source/script/" + fileName).toString(),
     {
       compilerOptions: compileOptionResult.options
     }
@@ -345,6 +345,6 @@ for (const page of petitcom.pages) {
   outputHtml(page.path, page.title, pageToHtml(page));
 }
 
-fse.copy("assets", distributionFolder + "/assets").then(() => {
+fse.copy("source/assets", distributionFolder + "/assets").then(() => {
   console.log("アセットファイルのコピーに成功!");
 });
