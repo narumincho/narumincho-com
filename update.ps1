@@ -1,4 +1,4 @@
-npx.ps1 tsc
+npx.ps1 tsc --project ./source/tsconfig.json
 
 node.exe ./jsOutDir/index.js
 
