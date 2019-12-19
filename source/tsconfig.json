@@ -9,5 +9,5 @@
     "newLine": "LF",
     "outDir": "../jsOutDir"
   },
-  "files": ["./index.ts"]
+  "include": ["page/**.ts", "index.ts", "type.ts"]
 }
