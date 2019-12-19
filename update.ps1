@@ -1,11 +1,7 @@
-Set-Location .\source
+npx.ps1 tsc
 
-tsc.cmd
+node.exe ./jsOutDir/index.js
 
-node.exe jsOutDir/index.js
-
-Remove-Item jsOutDir -Recurse
-
-# cleancss style.css -o hosting_root/style.css -d
+Remove-Item ./jsOutDir -Recurse
 
 # firebase deploy --project narumincho-homepage
