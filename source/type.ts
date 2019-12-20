@@ -29,7 +29,8 @@ export type ArticleContent =
   | { c: "code"; code: string }
   | { c: "imageList"; images: Array<{ title: string; fileName: string }> }
   | { c: "definitionList"; items: Array<{ key: string; value: string }> }
-  | { c: "twitterEmbedded"; code: string };
+  | { c: "embedded"; code: string }
+  | { c: "youTubeEmbedded"; id: string };
 
 export const p = (contents: Array<InlineContent> | string): ArticleContent => ({
   c: "p",
@@ -93,9 +94,15 @@ export const definitionList = (
   items: items
 });
 
-export const twitterEmbedded = (code: string): ArticleContent => ({
-  c: "twitterEmbedded",
+export const embedded = (code: string): ArticleContent => ({
+  c: "embedded",
   code: code
+});
+
+/** YouTubeの動画を埋め込む */
+export const youTubeEmbedded = (id: string): ArticleContent => ({
+  c: "youTubeEmbedded",
+  id: id
 });
 
 /**
@@ -423,13 +430,31 @@ const articleContentToElementsLoop = (
             .flat()
         }
       ];
-    case "twitterEmbedded":
+    case "embedded":
       return [
         {
           raw: true,
           htmlCode: content.code
         }
       ];
+    case "youTubeEmbedded": {
+      const randomId = Math.floor(Math.random() * 1000000).toString();
+      return [
+        {
+          raw: true,
+          htmlCode: `<iframe id="${randomId}" style="width:100%" src="https://www.youtube.com/embed/${content.id}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe><script>{
+            const iFrame = document.getElementById("${randomId}");
+
+            const resize = () => {
+              console.log(iFrame.clientWidth);
+              iFrame.style.height = (iFrame.clientWidth / 16) * 9 + "px";
+              requestAnimationFrame(resize)
+            };
+            
+            resize();}</script>`
+        }
+      ];
+    }
   }
 };
 

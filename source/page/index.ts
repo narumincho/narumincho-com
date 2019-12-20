@@ -125,6 +125,12 @@ const articleGroupList = type.div(
           url: "/definy/spec",
           imageUrl: "/assets/definy-spec.svg",
           imageAlt: "Definy言語仕様のイメージ画像"
+        },
+        {
+          title: "アドベントカレンダー 20歳の-遺書- ナルミンチョ版",
+          url: "/will",
+          imageUrl: "/assets/definy20190212.jpg",
+          imageAlt: "Definy2019-02-12のスクリーンショット"
         }
       ]
     }),
