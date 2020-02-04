@@ -8,7 +8,7 @@ import * as ts from "typescript";
 
 const siteName = "ナルミンチョの創作記録";
 
-const domain = "https://narumincho.com";
+const origin = "https://narumincho.com";
 
 /** 出力先のフォルダの指定 最後に/が付いていないので注意 */
 const distributionFolder = "./distribution";
@@ -35,7 +35,7 @@ const twitterCardMeta = (data: {
       name: "meta",
       attributes: [
         ["property", "og:url"],
-        ["content", domain + data.path]
+        ["content", origin + data.path]
       ],
       children: null
     },
@@ -67,7 +67,7 @@ const twitterCardMeta = (data: {
       name: "meta",
       attributes: [
         ["property", "og:image"],
-        ["content", domain + data.imageUrl]
+        ["content", origin + data.imageUrl]
       ],
       children: null
     }
