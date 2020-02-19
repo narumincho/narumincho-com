@@ -2,13 +2,13 @@ import * as type from "../type";
 
 export const pages: Array<type.Article> = [
   {
-    path: "about-desired-route",
+    path: ["about-desired-route"],
     title: "DESIRED Routeについて",
     createdAt: new Date("2019-10-04T22:42:00"),
     updateAt: new Date("2019-10-04T22:42:00"),
     description: "DESIRED Routeについて話します",
-    imageUrl: "/assets/desiredroute-title.jpg",
-    extendScriptPath: null,
+    imageAssetsFileName: "desiredroute-title.jpg",
+    extendScriptFileName: null,
     contents: [
       type.p([
         type.span(null, "DESIRED Routeは"),
@@ -34,13 +34,13 @@ export const pages: Array<type.Article> = [
     ]
   },
   {
-    path: "message-window",
+    path: ["message-window"],
     createdAt: new Date("2015-09-20T00:00:00"),
     updateAt: new Date("2019-10-04T22:14:00"),
     title: "メッセージウィンドウの話",
     description: "メッセージウィンドウについて話します",
-    imageUrl: "/assets/window.jpg",
-    extendScriptPath: null,
+    imageAssetsFileName: "window.jpg",
+    extendScriptFileName: null,
     contents: [
       type.section("メッセージウィンドウとは", [
         type.p(
@@ -154,13 +154,13 @@ export const pages: Array<type.Article> = [
     ]
   },
   {
-    path: "desired-route-font",
+    path: ["desired-route-font"],
     title: "DESIRED RouteとNPIMEのフォントの描画処理",
     description: "DESIRED RouteとNPIMEのフォントの描画処理について話します",
     createdAt: new Date("2015-09-22"),
     updateAt: new Date("2019-10-08"),
-    imageUrl: "/assets/font.jpg",
-    extendScriptPath: null,
+    imageAssetsFileName: "font.jpg",
+    extendScriptFileName: null,
     contents: [
       type.section("漢字表示処理を自作する理由", [
         type.p(
@@ -221,13 +221,13 @@ export const pages: Array<type.Article> = [
     ]
   },
   {
-    path: "list-select-behavior",
+    path: ["list-select-behavior"],
     title: "リストUIのボタン操作の挙動",
     description: "リストUIのボタン操作の挙動について話します",
     createdAt: new Date("2015-10-18"),
     updateAt: new Date("2019-10-09"),
-    imageUrl: "/assets/list-ui.jpg",
-    extendScriptPath: null,
+    imageAssetsFileName: "list-ui.jpg",
+    extendScriptFileName: null,
     contents: [
       type.section("挙動を考えた理由", [
         type.p(
@@ -298,13 +298,13 @@ export const pages: Array<type.Article> = [
     ]
   },
   {
-    path: "ui-color",
+    path: ["ui-color"],
     title: "UIの配色",
     description: "",
     createdAt: new Date("2015-11-02"),
     updateAt: new Date("2019-10-09"),
-    imageUrl: "/assets/color.png",
-    extendScriptPath: null,
+    imageAssetsFileName: "color.png",
+    extendScriptFileName: null,
     contents: [
       type.section("配色ミス", [
         type.p(
@@ -379,13 +379,13 @@ export const pages: Array<type.Article> = [
     ]
   },
   {
-    path: "desired-route-encounter",
+    path: ["desired-route-encounter"],
     title: "モンスターとのエンカウントについて",
     description: "モンスターとのエンカウントについて",
     createdAt: new Date("2015-11-08"),
     updateAt: new Date("2019-10-09"),
-    imageUrl: "/assets/battle.jpg",
-    extendScriptPath: null,
+    imageAssetsFileName: "battle.jpg",
+    extendScriptFileName: null,
     contents: [
       type.section("エンカウントとは", [
         type.p(
@@ -437,13 +437,13 @@ export const pages: Array<type.Article> = [
     ]
   },
   {
-    path: "star",
+    path: ["star"],
     title: "星の図形について",
     description: "星の図形について",
     createdAt: new Date("2016-01-01"),
     updateAt: new Date("2019-10-10"),
-    imageUrl: "/assets/star.jpg",
-    extendScriptPath: "star.ts",
+    imageAssetsFileName: "star.jpg",
+    extendScriptFileName: "star.ts",
     contents: [
       type.divForScript("star"),
       type.p(
@@ -494,14 +494,14 @@ export const pages: Array<type.Article> = [
     ]
   },
   {
-    path: "desired-route-monster",
+    path: ["desired-route-monster"],
     title: "DESIRED Routeに登場する予定だった敵モンスター",
     description:
       "DESIRED Routeに登場する予定だった敵モンスターについて話します",
     createdAt: new Date(""),
     updateAt: new Date("2019-10-13"),
-    extendScriptPath: null,
-    imageUrl: "/assets/kamausagi.png",
+    extendScriptFileName: null,
+    imageAssetsFileName: "kamausagi.png",
     contents: [
       type.imageList([
         {
@@ -644,13 +644,13 @@ export const pages: Array<type.Article> = [
     ]
   },
   {
-    path: "n-petitcom-ime",
+    path: ["n-petitcom-ime"],
     title: "Nプチコン漢字入力(N Petitcom IME)",
     description: "Nプチコン漢字入力(N Petitcom IME)について話します",
     createdAt: new Date(""),
     updateAt: new Date("2019-10-15"),
-    extendScriptPath: null,
-    imageUrl: "/assets/henkan.jpg",
+    extendScriptFileName: null,
+    imageAssetsFileName: "henkan.jpg",
     contents: [
       type.p(
         "Nプチコン漢字入力(N Petitcom IME)はプチコン3で日本語の文章を簡単に編集できるようになるアプリです。公開キー🔑 BEREV2HV"

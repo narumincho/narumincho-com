@@ -7,13 +7,13 @@ export const origin = "https://narumincho.com";
  * 記事
  */
 export type Article = {
-  path: string;
+  path: ReadonlyArray<string>;
   title: string;
   createdAt: Date;
   updateAt: Date;
-  imageUrl: string;
+  imageAssetsFileName: string;
   description: string;
-  extendScriptPath: null | string;
+  extendScriptFileName: null | string;
   contents: Array<ArticleContent>;
 };
 

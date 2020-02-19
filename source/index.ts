@@ -35,86 +35,6 @@ const copyright: html.Element = html.div(
   "© 2020 narumincho"
 );
 
-/**
- * TODO @narumincho/htmlの機能を使えばいい
- * @param data
- */
-const headElementChildren = (data: {
-  title: string | null;
-  description: string;
-  imageUrl: string | null;
-  extendScriptPath: string | null;
-  path: string | null;
-}): ReadonlyArray<html.Element> => [
-  {
-    name: "meta",
-    attributes: [["charset", "utf-8"]],
-    children: null
-  },
-  {
-    name: "meta",
-    attributes: [
-      ["name", "viewport"],
-      ["content", "width=device-width,initial-scale=1"]
-    ],
-    children: null
-  },
-  {
-    name: "title",
-    attributes: [],
-    children: (data.title === null ? "" : data.title + " | ") + siteName
-  },
-  {
-    name: "meta",
-    attributes: [
-      ["name", "description"],
-      ["content", data.description]
-    ],
-    children: null
-  },
-  {
-    name: "link",
-    attributes: [
-      ["rel", "icon"],
-      ["href", "/assets/icon.png"]
-    ],
-    children: null
-  },
-  {
-    name: "link",
-    attributes: [
-      ["rel", "stylesheet"],
-      ["href", "/assets/style.css"]
-    ],
-    children: null
-  },
-  {
-    name: "script",
-    attributes: [
-      "async",
-      ["src", "https://www.googletagmanager.com/gtag/js?id=UA-104964219-1"]
-    ],
-    children: []
-  },
-  {
-    name: "script",
-    attributes: [],
-    children: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","UA-104964219-1");`
-  },
-  ...(data.extendScriptPath === null
-    ? []
-    : ([
-        {
-          name: "script",
-          attributes: new Map([["type", "module"]]),
-          children: {
-            _: html.HtmlElementChildren_.RawText,
-            text: javaScriptCodeFromTypeScriptFileName(data.extendScriptPath)
-          }
-        }
-      ] as Array<html.Element>))
-];
-
 const dateToString = (date: Date): string => {
   if (Number.isNaN(date.getTime())) {
     return "?";
@@ -154,26 +74,21 @@ const date = (updateAt: Date, createdAt: Date): html.Element =>
     ])
   ]);
 
-const pageToHtml = (page: {
-  path: string | null;
-  title: string;
-  createdAt: Date | null;
-  updateAt: Date | null;
-  imageUrl: string | null;
-  description: string;
-  extendScriptPath: string | null;
-  contents: Array<type.ArticleContent>;
-}): string =>
+const articleToHtml = (article: type.Article): string =>
   html.toString({
     appName: "ナルミンチョの創作記録",
     coverImageUrl: new URL(type.origin + "/assets/icon.png"),
-    description: page.description,
-    pageName: page.title + " | ナルミンチョの創作記録",
+    description: article.description,
+    pageName: article.title + " | ナルミンチョの創作記録",
     iconPath: ["assets", "icon.png"],
     javaScriptMustBeAvailable: false,
     origin: type.origin,
-    path: page.path,
-    scriptUrlList: [],
+    path: article.path,
+    scriptUrlList:
+      article.extendScriptFileName === null
+        ? []
+        : [new URL(type.origin + "/assets/" + article.extendScriptFileName)],
+    styleUrlList: [new URL(type.origin + "/assets/style.css")],
     twitterCard: html.TwitterCard.SummaryCard,
     language: html.Language.Japanese,
     body: [
@@ -198,43 +113,39 @@ const pageToHtml = (page: {
       },
       {
         name: "main",
-        attributes: [],
-        children: [
-          {
-            name: "h1",
-            attributes: [],
-            children: page.title
-          } as type.Element
-        ]
-          .concat(
-            page.updateAt !== null && page.createdAt !== null
-              ? date(page.updateAt, page.createdAt)
-              : []
-          )
-          .concat(
-            page.imageUrl !== null
-              ? type.image(
-                  [type.class_("normal-image")],
-                  page.imageUrl,
-                  page.title + "のイメージ画像"
-                )
-              : []
-          )
-          .concat(type.articleContentsToElements(page.contents))
-          .concat([
-            type.a(
-              "/",
-              [type.class_("return-to-home")],
-              [
-                type.image(
-                  [type.class_("home-icon")],
-                  "/assets/home.svg",
-                  "home"
-                ),
-                type.div([], "ホームに戻る")
-              ]
+        attributes: new Map(),
+        children: {
+          _: html.HtmlElementChildren_.HtmlElementList,
+          value: [html.h1({}, article.title)]
+            .concat(
+              article.updateAt !== null && article.createdAt !== null
+                ? date(article.updateAt, article.createdAt)
+                : []
             )
-          ])
+            .concat(
+              html.image({
+                class: "normal-image",
+                url: new URL(
+                  type.origin + "/assets/" + article.imageAssetsFileName
+                ),
+                alternativeText: article.title + "のイメージ画像"
+              })
+            )
+            .concat(type.articleContentsToElements(article.contents))
+            .concat([
+              html.anchorLink(
+                { class: "return-to-home", url: new URL(type.origin) },
+                [
+                  (html.image({
+                    class: "home-icon",
+                    url: new URL(type.origin + "/assets/home.svg"),
+                    alternativeText: "home"
+                  }),
+                  html.div({}, "ホームに戻る"))
+                ]
+              )
+            ])
+        }
       },
       copyright
     ]
@@ -253,40 +164,46 @@ console.log("出力先のフォルダを削除完了");
 outputHtml(
   "index",
   "indexHtml",
-  type.htmlElement(
-    headElementChildren({
-      title: null,
-      description: index.page.description,
-      imageUrl: "/assets/icon.png",
-      extendScriptPath: null,
-      path: "/"
-    }),
-    index.page.bodyElements.concat(copyright)
-  )
+  html.toString({
+    appName: "ナルミンチョの創作記録",
+    iconPath: ["assets", "icon.png"],
+    description: index.page.description,
+    coverImageUrl: new URL(type.origin + "/assets/icon.png"),
+    javaScriptMustBeAvailable: false,
+    origin: type.origin,
+    pageName: "ナルミンチョの創作記録",
+    path: [],
+    scriptUrlList: [],
+    styleUrlList: [new URL(type.origin + "/assets/style.css")],
+    twitterCard: html.TwitterCard.SummaryCard,
+    language: html.Language.Japanese,
+    body: index.page.bodyElements.concat(copyright)
+  })
 );
 
 outputHtml(
   "404",
   "404",
-  pageToHtml({
+  articleToHtml({
     title: notFound404.page.title,
-    imageUrl: null,
+    imageAssetsFileName: "kamausagi.png",
     description: notFound404.page.description,
-    createdAt: null,
-    updateAt: null,
-    path: null,
-    extendScriptPath: null,
+    createdAt: new Date(),
+    updateAt: new Date(),
+    path: [],
+    extendScriptFileName: null,
     contents: notFound404.page.contents
   })
 );
 
 const pathSet: Set<string> = new Set();
 for (const page of petitcom.pages.concat(will.pages)) {
-  if (pathSet.has(page.path)) {
-    throw new Error("パスがかぶっている! path=" + page.path);
+  const path = page.path.join("/");
+  if (pathSet.has(path)) {
+    throw new Error("パスがかぶっている! path=" + path);
   }
-  pathSet.add(page.path);
-  outputHtml(page.path, page.title, pageToHtml(page));
+  pathSet.add(path);
+  outputHtml(path, page.title, articleToHtml(page));
 }
 
 fse.copy("source/assets", distributionFolder + "/assets").then(() => {
