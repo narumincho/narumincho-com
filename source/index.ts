@@ -52,101 +52,81 @@ const date = (updateAt: Date, createdAt: Date): html.Element =>
   html.div({}, [
     html.div({ class: "time" }, [
       html.div({}, "更新日時"),
-      {
-        name: "time",
-        attributes: new Map(),
-        children: {
-          _: html.HtmlElementChildren_.Text,
-          text: dateToString(updateAt)
-        }
-      }
+      html.element("time", new Map(), dateToString(updateAt))
     ]),
     html.div({ class: "time" }, [
       html.div({}, "作成日"),
-      {
-        name: "time",
-        attributes: new Map(),
-        children: {
-          _: html.HtmlElementChildren_.Text,
-          text: dateToString(createdAt)
-        }
-      }
+      html.element("time", new Map(), dateToString(createdAt))
     ])
   ]);
 
 const articleToHtml = (article: type.Article): string =>
   html.toString({
-    appName: "ナルミンチョの創作記録",
+    appName: siteName,
     coverImageUrl: new URL(type.origin + "/assets/icon.png"),
     description: article.description,
-    pageName: article.title + " | ナルミンチョの創作記録",
+    pageName: article.title + " | " + siteName,
     iconPath: ["assets", "icon.png"],
     javaScriptMustBeAvailable: false,
     origin: type.origin,
     path: article.path,
-    scriptUrlList:
-      article.extendScriptFileName === null
-        ? []
-        : [new URL(type.origin + "/assets/" + article.extendScriptFileName)],
+    scriptUrlList: [],
     styleUrlList: [new URL(type.origin + "/assets/style.css")],
     twitterCard: html.TwitterCard.SummaryCard,
     language: html.Language.Japanese,
+    ...(article.extendScriptFileName === null
+      ? {}
+      : {
+          script: javaScriptCodeFromTypeScriptFileName(
+            article.extendScriptFileName
+          )
+        }),
     body: [
-      {
-        name: "header",
-        attributes: new Map(),
-        children: {
-          _: html.HtmlElementChildren_.HtmlElementList,
-          value: [
+      html.element("header", new Map(), [
+        html.anchorLink(
+          { class: "title-logo", url: new URL(type.origin + "/") },
+          [
+            html.image({
+              class: "logo",
+              url: new URL(type.origin + "/assets/logo.svg"),
+              alternativeText: "ナルミンチョの創作記録のロゴ"
+            })
+          ]
+        )
+      ]),
+      html.element(
+        "main",
+        new Map(),
+        [html.h1({}, article.title)]
+          .concat(
+            article.updateAt !== null && article.createdAt !== null
+              ? date(article.updateAt, article.createdAt)
+              : []
+          )
+          .concat(
+            html.image({
+              class: "normal-image",
+              url: new URL(
+                type.origin + "/assets/" + article.imageAssetsFileName
+              ),
+              alternativeText: article.title + "のイメージ画像"
+            })
+          )
+          .concat(type.articleContentsToElements(article.contents))
+          .concat([
             html.anchorLink(
-              { class: "title-logo", url: new URL(type.origin + "/") },
+              { class: "return-to-home", url: new URL(type.origin) },
               [
-                html.image({
-                  class: "logo",
-                  url: new URL(type.origin + "/assets/logo.svg"),
-                  alternativeText: "ナルミンチョの創作記録のロゴ"
-                })
+                (html.image({
+                  class: "home-icon",
+                  url: new URL(type.origin + "/assets/home.svg"),
+                  alternativeText: "home"
+                }),
+                html.div({}, "ホームに戻る"))
               ]
             )
-          ]
-        }
-      },
-      {
-        name: "main",
-        attributes: new Map(),
-        children: {
-          _: html.HtmlElementChildren_.HtmlElementList,
-          value: [html.h1({}, article.title)]
-            .concat(
-              article.updateAt !== null && article.createdAt !== null
-                ? date(article.updateAt, article.createdAt)
-                : []
-            )
-            .concat(
-              html.image({
-                class: "normal-image",
-                url: new URL(
-                  type.origin + "/assets/" + article.imageAssetsFileName
-                ),
-                alternativeText: article.title + "のイメージ画像"
-              })
-            )
-            .concat(type.articleContentsToElements(article.contents))
-            .concat([
-              html.anchorLink(
-                { class: "return-to-home", url: new URL(type.origin) },
-                [
-                  (html.image({
-                    class: "home-icon",
-                    url: new URL(type.origin + "/assets/home.svg"),
-                    alternativeText: "home"
-                  }),
-                  html.div({}, "ホームに戻る"))
-                ]
-              )
-            ])
-        }
-      },
+          ])
+      ),
       copyright
     ]
   });
@@ -165,13 +145,13 @@ outputHtml(
   "index",
   "indexHtml",
   html.toString({
-    appName: "ナルミンチョの創作記録",
+    appName: siteName,
     iconPath: ["assets", "icon.png"],
     description: index.page.description,
     coverImageUrl: new URL(type.origin + "/assets/icon.png"),
     javaScriptMustBeAvailable: false,
     origin: type.origin,
-    pageName: "ナルミンチョの創作記録",
+    pageName: siteName,
     path: [],
     scriptUrlList: [],
     styleUrlList: [new URL(type.origin + "/assets/style.css")],

@@ -182,22 +182,8 @@ const articleContentToElementsLoop = (
 ): Array<html.Element> => {
   switch (content.c) {
     case "p": {
-      const inlineContents = inlineContentsToElement(content.contents);
       return [
-        {
-          name: "p",
-          attributes: new Map(),
-          children:
-            typeof inlineContents === "string"
-              ? {
-                  _: html.HtmlElementChildren_.Text,
-                  text: inlineContents
-                }
-              : {
-                  _: html.HtmlElementChildren_.HtmlElementList,
-                  value: inlineContents
-                }
-        }
+        html.element("p", new Map(), inlineContentsToElement(content.contents))
       ];
     }
     case "img":
@@ -217,11 +203,7 @@ const articleContentToElementsLoop = (
         );
       }
       return [
-        {
-          name: "h" + hLevel.toString(),
-          attributes: new Map(),
-          children: { _: html.HtmlElementChildren_.Text, text: content.title }
-        } as html.Element
+        html.element("h" + hLevel.toString(), new Map(), content.title)
       ].concat(
         content.contents
           .map(c => articleContentToElementsLoop(c, hLevel + 1))
@@ -237,6 +219,7 @@ const articleContentToElementsLoop = (
       ];
     case "divForScript":
       return [html.div({ id: content.id }, [])];
+
     case "quote":
       return [
         html.quote(
@@ -248,94 +231,62 @@ const articleContentToElementsLoop = (
       ];
     case "code":
       return [html.code({ class: "blockCode" }, content.code)];
+
     case "imageList":
       return [
         html.div(
           { class: "imageList" },
-          content.images.map(
-            (i): html.Element => ({
-              name: "figure",
-              attributes: new Map([["class", "imageList-item"]]),
-              children: {
-                _: html.HtmlElementChildren_.HtmlElementList,
-                value: [
-                  {
-                    name: "figcaption",
-                    attributes: new Map([["class", "imageList-title"]]),
-                    children: {
-                      _: html.HtmlElementChildren_.Text,
-                      text: i.title
-                    }
-                  },
-                  html.image({
-                    class: "imageList-image",
-                    url: new URL(origin + "/assets/" + i.fileName),
-                    alternativeText: i.title
-                  })
-                ]
-              }
-            })
+          content.images.map<html.Element>(i =>
+            html.element("figure", new Map([["class", "imageList-item"]]), [
+              html.element(
+                "figcaption",
+                new Map([["class", "imageList-title"]]),
+                i.title
+              ),
+              html.image({
+                class: "imageList-image",
+                url: new URL(origin + "/assets/" + i.fileName),
+                alternativeText: i.title
+              })
+            ])
           )
         )
       ];
     case "definitionList":
       return [
-        {
-          name: "dl",
-          attributes: new Map(),
-          children: {
-            _: html.HtmlElementChildren_.HtmlElementList,
-            value: content.items
-              .map<ReadonlyArray<html.Element>>(item => [
-                {
-                  name: "dt",
-                  attributes: new Map(),
-                  children: {
-                    _: html.HtmlElementChildren_.Text,
-                    text: item.key
-                  }
-                },
-                {
-                  name: "dd",
-                  attributes: new Map(),
-                  children: {
-                    _: html.HtmlElementChildren_.Text,
-                    text: item.value
-                  }
-                }
-              ])
-              .flat()
-          }
-        }
+        html.element(
+          "dl",
+          new Map(),
+          content.items
+            .map<ReadonlyArray<html.Element>>(item => [
+              html.element("dt", new Map(), item.key),
+              html.element("dd", new Map(), item.value)
+            ])
+            .flat()
+        )
       ];
     case "twitterEmbedded":
       return [
-        {
-          name: "blockquote",
-          attributes: new Map([["class", "twitter-tweet"]]),
-          children: {
-            _: html.HtmlElementChildren_.RawText,
-            text: content.code
-          }
-        },
-        {
-          name: "script",
-          attributes: new Map([
+        html.elementRawText(
+          "blockquote",
+          new Map([["class", "twitter-tweet"]]),
+          content.code
+        ),
+        html.element(
+          "script",
+          new Map([
             ["async", null],
             ["src", "https://platform.twitter.com/widgets.js"]
           ]),
-          children: {
-            _: html.HtmlElementChildren_.HtmlElementList,
-            value: []
-          }
-        }
+          []
+        )
       ];
     case "youTubeEmbedded": {
       const randomId = Math.floor(Math.random() * 1000000).toString();
       return [
-        {
-          name: "iframe",
-          attributes: new Map([
+        html.element(
+          "iframe",
+          new Map([
             ["id", randomId],
             ["style", "width:100%"],
             ["src", `https://www.youtube.com/embed/${content.id}`],
@@ -346,28 +297,23 @@ const articleContentToElementsLoop = (
             ],
             ["allowfullscreen", null]
           ]),
-          children: {
-            _: html.HtmlElementChildren_.HtmlElementList,
-            value: []
-          }
-        },
-        {
-          name: "script",
-          attributes: new Map(),
-          children: {
-            _: html.HtmlElementChildren_.RawText,
-            text: `{
-                const iFrame = document.getElementById("${randomId}");
-    
-                const resize = () => {
-                  console.log(iFrame.clientWidth);
-                  iFrame.style.height = (iFrame.clientWidth / 16) * 9 + "px";
-                  requestAnimationFrame(resize)
-                };
-                
-                resize();}`
-          }
-        }
+          []
+        ),
+        html.elementRawText(
+          "script",
+          new Map(),
+          `{
+const iFrame = document.getElementById("${randomId}");
+
+const resize = () => {
+  console.log(iFrame.clientWidth);
+  iFrame.style.height = (iFrame.clientWidth / 16) * 9 + "px";
+  requestAnimationFrame(resize)
+};
+
+resize();
+}`
+        )
       ];
     }
   }
