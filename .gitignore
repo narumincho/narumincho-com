@@ -1,5 +1,4 @@
 hosting_root
 node_modules
 .vscode
-distribution
 .firebase

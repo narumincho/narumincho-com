@@ -1,0 +1,755 @@
+<!doctype html>
+<html lang="ja">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Definy0 言語仕様</title>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="icon" href="/image/icon.png">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-104964219-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag("js", new Date());
+    gtag("config", "UA-104964219-1");
+  </script>
+</head>
+
+<body>
+  <header>
+    <a class=title-logo href="/"><img class=logo alt="ナルミンチョの創作記録のロゴ" src="/image/logo.svg"></a>
+  </header>
+  <main>
+    <h1>Definy0 言語仕様</h1>
+    <p>
+      Definy0はまだ開発版。仕様は大きく変わることがあります
+    </p>
+    <h2>式 Expr</h2>
+    <table>
+      <tr>
+        <th>名前(英語)</th>
+        <th>名前(日本語)</th>
+        <th>例</th>
+        <th>説明</th>
+      </tr>
+      <tr>
+        <td>TermOp</td>
+        <td>項と、演算子と項の連続</td>
+        <td>(1+3)*2</td>
+        <td>項を演算子でつないだ構造。一番使う</td>
+      </tr>
+      <tr>
+        <td>LocalDefAndTermOp</td>
+        <td>局所定義と項と演算子の連続</td>
+        <td>% a = 4, b = 6 % a + b + 4</td>
+        <td>限られた範囲の中でしか使えない定義を作る</td>
+      </tr>
+      <tr>
+        <td>Extension</td>
+        <td>拡張式</td>
+        <td>$image(画像)</td>
+        <td>ユーザーが作ったエディタをPartエディタの中で動かすことができる</td>
+      </tr>
+    </table>
+    <h2>項 Term</h2>
+    <table>
+      <tr>
+        <th>名前(英語)</th>
+        <th>名前(日本語)</th>
+        <th>例</th>
+        <th>型</th>
+        <th>説明</th>
+      </tr>
+      <tr>
+        <td>Numeric Literal</td>
+        <td>数値リテラル</td>
+        <td>123</td>
+        <td>[n=Num] n</td>
+        <td>整数と浮動小数点数などは同じリテラル
+          0b 始まりで2進数
+          0x 始まりで16進数
+        </td>
+      </tr>
+      <tr>
+        <td>Char Literal</td>
+        <td>文字リテラル</td>
+        <td>'あ'</td>
+        <td>Char</td>
+        <td>Unicodeの書記素クラスタ単位</td>
+      </tr>
+      <tr>
+        <td>String Literal</td>
+        <td>文字列リテラル</td>
+        <td>"あいうえお"</td>
+        <td>String</td>
+        <td>\でエスケープ
+          \(a)で変数展開
+        </td>
+      </tr>
+      <tr>
+        <td>List Literal</td>
+        <td>リストリテラル</td>
+        <td>[1,2,3]</td>
+        <td>List a</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Parentheses</td>
+        <td>カッコ</td>
+        <td>(1+1)*3</td>
+        <td>a</td>
+        <td>カッコの中身を優先して計算する</td>
+      </tr>
+      <tr>
+        <td>Tuple</td>
+        <td>タプル</td>
+        <td>(1,”あ”,[2,4])</td>
+        <td>(a,b,c)</td>
+        <td>要素数は2～8個</td>
+      </tr>
+      <tr>
+        <td>Record</td>
+        <td>レコード</td>
+        <td>{key0: value, key1: value}</td>
+        <td>{key0:a, key1:b}</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Record Getter</td>
+        <td>レコードgetter</td>
+        <td>#getKey</td>
+        <td>[a={key:b}] a → b</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Record Setter</td>
+        <td>レコードsetter</td>
+        <td>#setKey</td>
+        <td>[a={key:b}] b → a → a</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Record Mapper</td>
+        <td>レコードmapper</td>
+        <td>#mapKey</td>
+        <td>[a={key:b}] (b → b) → a → a</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Function Literal</td>
+        <td>関数リテラル</td>
+        <td>\(0: 1, 1: 2, x:x)</td>
+        <td>a→b</td>
+        <td>上から判断していく</td>
+      </tr>
+      <tr>
+        <td>Tag</td>
+        <td>タグ</td>
+        <td>True</td>
+        <td>a</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Part</td>
+        <td>パーツ</td>
+        <td>abc Core.add</td>
+        <td>a</td>
+        <td>その名前で定義したパーツがまるでそこに式を書いてあるように動く</td>
+      </tr>
+    </table>
+    <p>
+      困ったときにはなにもない項Noneをつくることができる。必要な場合はエラーが表示される。
+      None App None という項と演算子の連続をつくってはいけない。自動的にNoneに変更する。
+      1+2+3+4+..
+      連続しておける、項は256個まで演算子は255個まで。
+      {head:Term,others:List (Term,Op)←の長さが255まで}
+    </p>
+    <h2>演算子 Operator</h2>
+    <table>
+      <tr>
+        <th>名前</th>
+        <th>記号</th>
+        <th>入力の型</th>
+        <th>出力の型</th>
+        <th>結合則</th>
+        <th>優先順位</th>
+      </tr>
+      <tr>
+        <td>Pipe</td>
+        <td>&gt;</td>
+        <td>a > (a→b)</td>
+        <td>b</td>
+        <td>左結合</td>
+        <td>0 最弱</td>
+      </tr>
+      <tr>
+        <td>Or</td>
+        <td>|</td>
+        <td>Bool | Bool</td>
+        <td>Bool</td>
+        <td>左結合</td>
+        <td>1 かなり弱い</td>
+      </tr>
+      <tr>
+        <td>And</td>
+        <td>&</td>
+        <td>Bool & Bool</td>
+        <td>Bool</td>
+        <td>左結合</td>
+        <td>2 弱い</td>
+      </tr>
+      <tr>
+        <td>Equal</td>
+        <td>=</td>
+        <td>[e=Eq] e = e</td>
+        <td>Bool</td>
+        <td>Chain</td>
+        <td>3 すこし弱い</td>
+      </tr>
+      <tr>
+        <td>NotEqual</td>
+        <td>/=</td>
+        <td>[e=Eq] e /= e</td>
+        <td>Bool</td>
+        <td>Chain</td>
+        <td>3 すこし弱い</td>
+      </tr>
+      <tr>
+        <td>LessThan</td>
+        <td>&lt;</td>
+        <td>[o=Ord] o &lt o</td>
+        <td>Bool</td>
+        <td>Chain</td>
+        <td>3 すこし弱い</td>
+      </tr>
+      <tr>
+        <td>LessThan Or Equal</td>
+        <td>&lt;=</td>
+        <td>[o=Ord] o &lt;= </td>
+        <td>Bool</td>
+        <td>Chain</td>
+        <td>3 すこし弱い</td>
+      </tr>
+      <tr>
+        <td>Concat</td>
+        <td>++</td>
+        <td>List a ++ List a</td>
+        <td>List a</td>
+        <td>左結合</td>
+        <td>4 普通</td>
+      </tr>
+      <tr>
+        <td>Add</td>
+        <td>+</td>
+        <td>[n=Num] n + n</td>
+        <td>n</td>
+        <td>左結合</td>
+        <td>4 普通</td>
+      </tr>
+      <tr>
+        <td>Sub</td>
+        <td>-</td>
+        <td>[n=Num] n - n</td>
+        <td>n</td>
+        <td>左結合</td>
+        <td>4 普通</td>
+      </tr>
+      <tr>
+        <td>Mul</td>
+        <td>*</td>
+        <td>[n=Num] n * n</td>
+        <td>n</td>
+        <td>左結合</td>
+        <td>5 強い</td>
+      </tr>
+      <tr>
+        <td>Div</td>
+        <td>/</td>
+        <td>[n=Num] n / n</td>
+        <td>n</td>
+        <td>左結合</td>
+        <td>5 強い</td>
+      </tr>
+      <tr>
+        <td>Factorial</td>
+        <td>^</td>
+        <td>[n=Num] n ^ n</td>
+        <td>n</td>
+        <td>左結合</td>
+        <td>6 かなり強い</td>
+      </tr>
+      <tr>
+        <td>Compose</td>
+        <td>&gt;&gt;</td>
+        <td>(a→b) &gt;&gt; (b→c)</td>
+        <td>a→c</td>
+        <td>左結合</td>
+        <td>6 かなり強い</td>
+      </tr>
+      <tr>
+        <td>App</td>
+        <td>空白</td>
+        <td>(a→b) a</td>
+        <td>b</td>
+        <td>左結合</td>
+        <td>7 最強</td>
+      </tr>
+    </table>
+    <p>
+      結合則がChainなら連続してすべて成り立つなら全体でTrueを返す。3 &lt; x &lt;
+      8とかできる。行列やベクトルの演算子は3Dを扱うライブラリとゲームを作ってみないと本当に必要かわからないなあ。ユーザーが好きに定義できる演算子はDefiny0とDefiny1ではないことにする。決めていない演算子はnoneという名前。これを含めて16パターン4bitで演算子を表現可能。
+      ベクトルの*演算子は複素数としてかけるような感じでいくか
+    </p>
+    <code>
+        (1,2)*(3,4)<br>
+        (1+2i)*(3+4i)<br>
+        3+4i+6i-8<br>
+        -5+10i<br>
+        (-5,10)<br>
+    </code>
+    <p>
+      ってことかな。dotやcrossは別の関数で
+    </p>
+    <h2>パターン Pattern</h2>
+    <table>
+      <tr>
+        <th>名前</th>
+        <th>見た目</th>
+      </tr>
+      <tr>
+        <td>整数リテラル</td>
+        <td>123</td>
+      </tr>
+      <tr>
+        <td>文字リテラル</td>
+        <td>'あ'</td>
+      </tr>
+      <tr>
+        <td>文字リテラル</td>
+        <td>"あいうえお"</td>
+      </tr>
+      <tr>
+        <td>コンストラクタ</td>
+        <td>Just</td>
+      </tr>
+      <tr>
+        <td>または</td>
+        <td>A | B</td>
+      </tr>
+      <tr>
+        <td>かつ</td>
+        <td>Just x & y</td>
+      </tr>
+      <tr>
+        <td>リスト</td>
+        <td>[x,y,z]</td>
+      </tr>
+      <tr>
+        <td>リストとあまり</td>
+        <td>[x,y,...rest]</td>
+      </tr>
+      <tr>
+        <td>タプル</td>
+        <td>(x,y,z)</td>
+      </tr>
+      <tr>
+        <td>レコード</td>
+        <td>{name: name, age: age}</td>
+      </tr>
+      <tr>
+        <td>次の引数は</td>
+        <td>a,b,c</td>
+      </tr>
+      <tr>
+        <td>キャプチャ</td>
+        <td>x</td>
+      </tr>
+      <tr>
+        <td>無視</td>
+        <td>_</td>
+      </tr>
+      <tr>
+        <td>ガード</td>
+        <td>Just x ? 0 &lt; x</td>
+      </tr>
+    </table>
+    <h2>型 Type</h2>
+    <h3>数を表す型</h3>
+    <h4>Int (= SBit32)</h4>
+    <p>
+      整数。数であることを保証する。
+      Definy0では-2,147,483,648～2147483647の範囲を表現できる
+      今後のバージョンで範囲を広げるかもしれない
+    </p>
+    <h4>Float</h4>
+    <p>
+      浮動小数点数
+      IEEE754で規定されている倍精度型double
+      -1.7976931348623157e+308～1.7976931348623157e+308の範囲を表現できる
+      整数として正確に表現できる範囲は-9007199254740991～9007199254740991
+      もっとも0に近い数は5e-324
+      -0、NaN、Inf(∞)などの特殊な値を持つ
+    </p>
+    <h4>Rational</h4>
+    <p>
+      有理数
+      表せる桁数に制限なし
+    </p>
+    <h3>ベクトル</h3>
+    <h4>Vec2,Vec3,Vec4</h4>
+    <p>
+      Vec2 = (Float,Float)<br>
+      Vec3 = (Float,Float,Float)<br>
+      Vec4 = (Float,Float,Float)<br>
+    </p>
+    <h3>行列</h3>
+    <h4>Mat2,Mat3,Mat4</h4>
+    <p>
+      Mat2 = (Vec2,Vec2)<br>
+      Mat3 = (Vec3,Vec3,Vec3)<br>
+      Mat4 = (Vec4,Vec4,Vec4,Vec4)<br>
+    </p>
+    <h3>シンプルな型</h3>
+    <h4>Never</h4>
+    <p>
+      0つの値を取る。つまり、この型になる値はない。
+      Result Never Intという型なら取りうる値はError NeverとOk IntになるがError Neverの方は0個の組み合わせなので必ずOk Intの方になる。
+    </p>
+    <h4>Unit</h4>
+    <p>
+      1つの値をとる。Unitという値のみ。つまり、実質意味のない値。voidのようなもの
+      Io Unitという型のコマンドはUnitを返すが常にUnit1択なので値を返さないも同然
+    </p>
+    <h4>Bool</h4>
+    <p>
+      2つの値をとる。TrueとFalse。真と偽
+      成功と失敗、正当と不正、達成と未達成。その値が何を示すかは文脈しだい
+    </p>
+    <h3>文字を表現する型</h3>
+    <h4>Char</h4>
+    <p>
+      1つの文字
+      バイト長で管理しているわけではない。
+      Unicodeの書記素クラスタ単位。
+      'あ'
+      不正な文字や過去の互換性のためだけにある文字は含まれない
+      改行は改行という1つの文字にまとめられる
+      空白も同様
+      生の文字を扱いたければバイナリ型を利用する
+    </p>
+    <h4>String (= List Char)</h4>
+    <p>
+      文字列
+    </p>
+    <h3>色と画像を表現する型</h3>
+    <h4>Color</h4>
+    <p>
+      赤256段階
+      緑256段階
+      青256段階
+      透明度256段階
+      で色を表す
+    </p>
+    <h4>Image (= Table Color)</h4>
+    <p>
+      ラスタ画像。圧縮されているとかビットマップ形式だとか考える必要はない
+    </p>
+    <h4>VImage</h4>
+    <p>
+      ベクタ画像
+    </p>
+    <h3>バイナリを表現する型</h3>
+    <h4>UBit8</h4>
+    <p>
+      符号なし8bit整数
+      0～255
+    </p>
+    <h4>SBit8</h4>
+    <p>
+      符号つき8bit整数
+      -128～127
+    </p>
+    <h4>UBit16</h4>
+    <p>
+      符号なし16bit整数
+      0～65,535
+    </p>
+    <h4>SBit16</h4>
+    <p>
+      符号つき16bit整数
+      -32,768～32,767
+    </p>
+    <h4>UBit32</h4>
+    <p>
+      符号なし32bit整数
+      0～4,294,967,295
+    </p>
+    <h4>SBit32</h4>
+    <p>
+      符号つき32bit整数
+      -2,147,483,648～2,147,483,647
+    </p>
+    <h4>UBit64</h4>
+    <p>
+      符号なし64bit整数
+      0～18,446,744,073,709,551,615
+    </p>
+    <h4>SBit64</h4>
+    <p>
+      符号つき64bit整数
+      -9,223,372,036,854,775,808～9,223,372,036,854,775,807
+    </p>
+    <h3>時間を表現する型</h3>
+    <h4>Time</h4>
+    <p>
+      時、分、秒、フレームかミリ秒?(未定)を表現する
+    </p>
+    <h4>Date</h4>
+    <p>
+      年、月、日を表現する
+    </p>
+    <h4>DateTime</h4>
+    <p>
+      日にちと時間を表現する
+    </p>
+    <h4>Week</h4>
+    <p>
+      1週間の曜日(月曜日始まり)
+    </p>
+    <h4>Month</h4>
+    <p>
+      月
+    </p>
+    <h3>3Dを表現する型</h3>
+    <h4>Material</h4>
+    <p>
+      マテリアル(テクスチャ?)3Dモデル表面に質感を与えるためのもの?
+    </p>
+    <h4>Geometry</h4>
+    <p>
+      ジオメトリ(3Dオブジェクトにマテリアルを設定していないもの?)
+    </p>
+    <h4>Light</h4>
+    <p>
+      光源。位置と種類と色を保持
+    </p>
+    <h4>Camera</h4>
+    <p>カメラ。位置などを保持</p>
+    <h4>Scene</h4>
+    <p>3D空間</p>
+    <h3>解析をする機能を表現する型</h3>
+    <h4>StringParser</h4>
+    <p>
+      文字列を解析するときに使う
+    </p>
+    <h4>BinaryParser</h4>
+    <p>
+      バイナリファイルを解析するときに使う
+    </p>
+    <h3>他の値と組み合わせて表現する型</h3>
+    <h4>Maybe a</h4>
+    <p>
+      あるかもないかもしれないを表現する型。null許容型ともいう。取りうる値はJust aとNothing
+    </p>
+    <h4>Result error ok</h4>
+    <p>失敗する可能性のある処理の結果を表現する型。取りうる値はOk okとError error</p>
+    <h4>List a</h4>
+    <p>0個以上の複数のものを表現する型</p>
+    <h4>Table a</h4>
+    <p>2次元のテーブルに置いたようなデータ構造を表現する型</p>
+    <h4>Dict [key=Eq] key value</h4>
+    <p>辞書。重複のないキーと値が組み合わさった型</p>
+    <h4>Set [e=Eq] e</h4>
+    <p>同じ値が入らない、集合</p>
+    <h4>(a,b) (a,b,c) (a,b,c,d) タプル</h4>
+    <p>2つ～4つまでの型の組。とりあえず合わせるときはこれが便利</p>
+    <h4>{rec|key0:a,key1:b} レコード</h4>
+    <p>キーと値がセットになって構造化に不可欠な型</p>
+    <h2>型クラス Type Class</h2>
+    <table>
+      <tr>
+        <th>名前</th>
+        <th>説明</th>
+        <th>インスタンス</th>
+        <th>使える演算子、関数</th>
+        <th>ユーザー定義可能か</th>
+      </tr>
+      <tr>
+        <td>Eq</td>
+        <td>等価比較可能な型のあつまり</td>
+        <td>
+          <ul>
+            <li>Bool</li>
+            <li>Int</li>
+            <li>Rational</li>
+            <li>[b=Binary] b</li>
+          </ul>
+        </td>
+        <td>
+          <ul>
+            <li>=</li>
+            <li>/=</li>
+          </ul>
+        </td>
+        <td>可能</td>
+      </tr>
+      <tr>
+        <td>Compare</td>
+        <td>比較可能な型のあつまり</td>
+        <td>
+          <ul>
+            <li>[n=Number] n</li>
+          </ul>
+        </td>
+        <td>
+          <ul>
+            <li>&lt;</li>
+            <li>&lt;=</li>
+          </ul>
+        </td>
+        <td>可能</td>
+      </tr>
+      <tr>
+        <td>Enum</td>
+        <td>値をすべて順番ありで列挙可能な型のあつまり</td>
+        <td>
+          <ul>
+            <li>Int</li>
+            <li>Char</li>
+            <li>Month</li>
+            <li>Week</li>
+            <li>[b=Binary] b</li>
+          </ul>
+        </td>
+        <td>
+          <ul>
+            <li>List.range</li>
+            <li>List.cycleRange</li>
+            <li>clamp</li>
+          </ul>
+        </td>
+        <td>可能</td>
+      </tr>
+      <tr>
+        <td>Additive Group</td>
+        <td>足したり引いたりできる型のあつまり</td>
+        <td>
+          <ul>
+            <li>[n=Number] n</li>
+            <li>[v=Vector] v</li>
+            <li>[m=Matrix] m</li>
+          </ul>
+        </td>
+        <td>
+          <ul>
+            <li>+</li>
+            <li>-</li>
+            <li>0</li>
+            <li>List.sum</li>
+            <li>negate</li>
+          </ul>
+        </td>
+        <td>可能</td>
+      </tr>
+      <tr>
+        <td>Number</td>
+        <td>数値か</td>
+        <td>
+          <ul>
+            <li>Int</li>
+            <li>Float</li>
+            <li>Rational</li>
+            <li>[b=Binary] b</li>
+          </ul>
+        </td>
+        <td>
+          <ul>
+            <li>数値リテラル</li>
+            <li>*</li>
+            <li>/</li>
+            <li>List.average</li>
+            <li>Number.abs</li>
+          </ul>
+        </td>
+        <td>
+          fromDigitsとmulをdivを定義すれば可能?(AdditiveGroupである必要あり)
+        </td>
+      </tr>
+      <tr>
+        <td>Vector</td>
+        <td>ベクトルか</td>
+        <td>
+          <ul>
+            <li>Vec2</li>
+            <li>Vec3</li>
+            <li>Vec4</li>
+          </ul>
+        </td>
+        <td>
+          <ul>
+            <li>dot</li>
+            <li>cross</li>
+          </ul>
+        </td>
+        <td>不可</td>
+      </tr>
+      <tr>
+        <td>Matrix</td>
+        <td>行列か</td>
+        <td>
+          <ul>
+            <li>Mat2</li>
+            <li>Mat3</li>
+            <li>Mat4</li>
+          </ul>
+        </td>
+        <td>
+          <ul>
+            <li>det</li>
+            <li>transpose</li>
+          </ul>
+        </td>
+        <td>不可</td>
+      </tr>
+      <tr>
+        <td>Binary</td>
+        <td>バイナリか</td>
+        <td>
+          <ul>
+            <li>UBit8</li>
+            <li>SBit8</li>
+            <li>UBit16</li>
+            <li>SBit16</li>
+            <li>UBit32</li>
+            <li>SBit32</li>
+            <li>UBit64</li>
+            <li>SBit64</li>
+          </ul>
+        </td>
+        <td>
+          <ul>
+            <li>and</li>
+            <li>or</li>
+            <li>xor</li>
+          </ul>
+        </td>
+        <td>不可</td>
+      </tr>
+    </table>
+    <p>
+      型クラスのインポートは不要。最初からどのモジュールで使える。新たな型クラスを定義することは不可<br>
+      plusOne : [n=Number] n → n<br>
+      =\ x -> x + 1;<br>
+      FloatはEqのインスタンスではない。0.4 = 0.4 はエラー
+    </p>
+    <a class="return-to-home" href="/">
+      <img class="home-icon" src="/image/home.svg" alt="home">
+      ホームに戻る
+    </a>
+  </main>
+  <div class="copyright">© 2019 narumincho</div>
+</body>
+
+</html>
