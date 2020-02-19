@@ -137,10 +137,6 @@ const outputHtml = (path: string, title: string, html: string): void => {
   });
 };
 
-console.log("出力先のフォルダを削除中…");
-fse.removeSync(distributionFolder);
-console.log("出力先のフォルダを削除完了");
-
 outputHtml(
   "index",
   "indexHtml",
