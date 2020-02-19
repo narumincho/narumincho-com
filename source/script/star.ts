@@ -13,7 +13,7 @@ svg.viewBox.baseVal.y = 0;
 svg.viewBox.baseVal.width = 1000;
 svg.viewBox.baseVal.height = 800;
 
-const drawStar = () => {
+const drawStar = (): void => {
   const sPos = (pos * layer) % vertex;
   const ePos = ((pos + 1) * layer) % vertex;
 
@@ -34,7 +34,7 @@ const drawStar = () => {
   svg.appendChild(lineElement);
 };
 
-const main = () => {
+const main = (): void => {
   requestAnimationFrame(main);
   if (39 <= vertex) {
     vertex = 5;
