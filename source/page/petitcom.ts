@@ -698,11 +698,11 @@ export const pages: Array<type.Article> = [
         ])
       ]),
       type.section("使用者の声", [
-        type.embedded(
-          `<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">ナルミンチョさんの、Nプチコン漢字入力 ヤバすぎ。スマイルツールに標準搭載されるべき。<br>スマイルツールから起動すれば、フリック入力や漢字変換でソースコード編集しまくり。<br>捗るってレベルじゃないよコレ</p>&mdash; ぷちぷち (@puchipuchi3g) <a href="https://twitter.com/puchipuchi3g/status/981534159687438336?ref_src=twsrc%5Etfw">April 4, 2018</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>`
+        type.twitterEmbedded(
+          `<p lang="ja" dir="ltr">ナルミンチョさんの、Nプチコン漢字入力 ヤバすぎ。スマイルツールに標準搭載されるべき。<br>スマイルツールから起動すれば、フリック入力や漢字変換でソースコード編集しまくり。<br>捗るってレベルじゃないよコレ</p>&mdash; ぷちぷち (@puchipuchi3g) <a href="https://twitter.com/puchipuchi3g/status/981534159687438336?ref_src=twsrc%5Etfw">April 4, 2018</a>`
         ),
-        type.embedded(
-          `<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">INKEY$の仕様上操作に制約あるけど、やりたいことできてきた！ <a href="https://twitter.com/hashtag/petitcom?src=hash&amp;ref_src=twsrc%5Etfw">#petitcom</a> <a href="https://t.co/H1Sp81BGDk">pic.twitter.com/H1Sp81BGDk</a></p>&mdash; sou51@セガサミーフェニックスオフィシャルサポーター (@_sou51_) <a href="https://twitter.com/_sou51_/status/974946826351607808?ref_src=twsrc%5Etfw">March 17, 2018</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>`
+        type.twitterEmbedded(
+          `<p lang="ja" dir="ltr">INKEY$の仕様上操作に制約あるけど、やりたいことできてきた！ <a href="https://twitter.com/hashtag/petitcom?src=hash&amp;ref_src=twsrc%5Etfw">#petitcom</a> <a href="https://t.co/H1Sp81BGDk">pic.twitter.com/H1Sp81BGDk</a></p>&mdash; sou51@セガサミーフェニックスオフィシャルサポーター (@_sou51_) <a href="https://twitter.com/_sou51_/status/974946826351607808?ref_src=twsrc%5Etfw">March 17, 2018</a>`
         )
       ]),
       type.section("対応文字", [

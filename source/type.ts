@@ -1,3 +1,8 @@
+import * as html from "@narumincho/html";
+import { URL } from "url";
+
+export const origin = "https://narumincho.com";
+
 /**
  * 記事
  */
@@ -29,7 +34,7 @@ export type ArticleContent =
   | { c: "code"; code: string }
   | { c: "imageList"; images: Array<{ title: string; fileName: string }> }
   | { c: "definitionList"; items: Array<{ key: string; value: string }> }
-  | { c: "embedded"; code: string }
+  | { c: "twitterEmbedded"; code: string }
   | { c: "youTubeEmbedded"; id: string };
 
 export const p = (contents: Array<InlineContent> | string): ArticleContent => ({
@@ -94,8 +99,8 @@ export const definitionList = (
   items: items
 });
 
-export const embedded = (code: string): ArticleContent => ({
-  c: "embedded",
+export const twitterEmbedded = (code: string): ArticleContent => ({
+  c: "twitterEmbedded",
   code: code
 });
 
@@ -124,224 +129,87 @@ export const link = (url: string, text: string): InlineContent => ({
   text: text
 });
 
-export const class_ = (className: string): Attribute => ["class", className];
-
-const inlineContentToElement = (inlineContent: InlineContent): Element => {
+const inlineContentToElement = (inlineContent: InlineContent): html.Element => {
   switch (inlineContent.c) {
     case "span":
       return {
         name: "span",
-        attributes:
-          inlineContent.class === null ? [] : [class_(inlineContent.class)],
-        children: inlineContent.text
+        attributes: new Map(
+          inlineContent.class === null ? [] : [["class", inlineContent.class]]
+        ),
+        children: {
+          _: html.HtmlElementChildren_.Text,
+          text: inlineContent.text
+        }
       };
     case "link":
       return {
         name: "a",
-        attributes: [["href", inlineContent.url]],
-        children: inlineContent.text
+        attributes: new Map([["href", inlineContent.url]]),
+        children: {
+          _: html.HtmlElementChildren_.Text,
+          text: inlineContent.text
+        }
       };
   }
 };
 
 const inlineContentsToElement = (
   inlineContents: string | ReadonlyArray<InlineContent>
-): string | Array<Element> => {
+): string | Array<html.Element> => {
   if (typeof inlineContents === "string") {
     return inlineContents;
   }
   return inlineContents.map(inlineContentToElement);
 };
 
-/**
- * HTMLの各要素
- */
-export type Element =
-  | {
-      name: string;
-      attributes: Array<Attribute>;
-      /**
-       * nullは<hr>のように閉じカッコなしにする
-       */
-      children: Array<Element> | null | string;
-      raw?: null;
-    }
-  | { raw: true; htmlCode: string };
-
-/**
- *  HTML
- */
-export type Html = {
-  name: "html";
-  attributes: Array<Attribute>;
-  children: Array<Element>;
-};
-
-export const html = (
-  headChildren: Array<Element>,
-  bodyChildren: Array<Element>
-): Html => ({
-  name: "html",
-  attributes: [["lang", "ja"]],
-  children: [
-    {
-      name: "head",
-      attributes: [],
-      children: headChildren
-    },
-    {
-      name: "body",
-      attributes: [],
-      children: bodyChildren
-    }
-  ]
-});
-
-/**
- * 属性
- */
-export type Attribute = string | [string, string];
-
-const attributesToString = (attributes: Array<Attribute>): string => {
-  if (attributes.length === 0) {
-    return "";
-  }
-  return (
-    " " +
-    attributes
-      .map(e => {
-        if (typeof e === "string") {
-          return e;
-        }
-        return e[0] + '="' + e[1].replace(/"/g, '\\"') + '"';
-      })
-      .join(" ")
-  );
-};
-
-const escapeHtml = (text: string): string =>
-  text.replace(/[&'`"<>]/g, (s: string): string =>
-    s === "&"
-      ? "&amp;"
-      : s === "'"
-      ? "&#x27;"
-      : s === "`"
-      ? "&#x60;"
-      : s === '"'
-      ? "&quot;"
-      : s === "<"
-      ? "&lt;"
-      : s === ">"
-      ? "&gt;"
-      : ""
-  );
-
-const elementToString = (element: Element): string => {
-  if (element.raw) {
-    return element.htmlCode;
-  }
-  if (element.children === null) {
-    return "<" + element.name + attributesToString(element.attributes) + ">";
-  }
-  if (typeof element.children === "string") {
-    return (
-      "<" +
-      element.name +
-      attributesToString(element.attributes) +
-      ">" +
-      (element.name === "script"
-        ? element.children
-        : escapeHtml(element.children)) +
-      "</" +
-      element.name +
-      ">"
-    );
-  }
-
-  return (
-    "<" +
-    element.name +
-    attributesToString(element.attributes) +
-    ">" +
-    element.children.map(elementToString).join("") +
-    "</" +
-    element.name +
-    ">"
-  );
-};
-
-export const div = (
-  attributes: Array<Attribute>,
-  children: Array<Element> | string
-): Element => ({
-  name: "div",
-  attributes: attributes,
-  children: children
-});
-
-export const a = (
-  url: string,
-  attributes: Array<Attribute>,
-  children: Array<Element>
-): Element => ({
-  name: "a",
-  attributes: attributes.concat([["href", url]]),
-  children: children
-});
-
-export const image = (
-  attributes: Array<Attribute>,
-  url: string,
-  alternativeText: string
-): Element => ({
-  name: "img",
-  attributes: attributes.concat([
-    ["src", url],
-    ["alt", alternativeText]
-  ]),
-  children: null
-});
-
-const ul = (
-  ulAttributes: Array<Attribute>,
-  liAttributes: Array<Attribute>,
-  children: Array<Array<Element> | string>
-): Element => ({
+const ul = (children: ReadonlyArray<string>): html.Element => ({
   name: "ul",
-  attributes: ulAttributes,
-  children: children.map<Element>(c => ({
-    name: "li",
-    attributes: liAttributes,
-    children: c
-  }))
+  attributes: new Map(),
+  children: {
+    _: html.HtmlElementChildren_.HtmlElementList,
+    value: children.map<html.Element>(text => ({
+      name: "li",
+      attributes: new Map(),
+      children: { _: html.HtmlElementChildren_.Text, text: text }
+    }))
+  }
 });
-
-export const htmlToString = (html: Html): string =>
-  "<!doctype html>" + elementToString(html);
 
 const articleContentToElementsLoop = (
   content: ArticleContent,
   hLevel: number
-): Array<Element> => {
+): Array<html.Element> => {
   switch (content.c) {
-    case "p":
+    case "p": {
+      const inlineContents = inlineContentsToElement(content.contents);
       return [
         {
           name: "p",
-          attributes: [],
-          children: inlineContentsToElement(content.contents)
+          attributes: new Map(),
+          children:
+            typeof inlineContents === "string"
+              ? {
+                  _: html.HtmlElementChildren_.Text,
+                  text: inlineContents
+                }
+              : {
+                  _: html.HtmlElementChildren_.HtmlElementList,
+                  value: inlineContents
+                }
         }
       ];
+    }
     case "img":
       return [
-        image(
-          [class_("normal-image")],
-          "/assets/" + content.fileName,
-          content.alternativeText
-        )
+        html.image({
+          class: "normal-image",
+          url: new URL(origin + "/assets/" + content.fileName),
+          alternativeText: content.alternativeText
+        })
       ];
     case "list":
-      return [ul([], [], content.items)];
+      return [ul(content.items)];
     case "section":
       if (6 < hLevel) {
         throw new Error(
@@ -351,9 +219,9 @@ const articleContentToElementsLoop = (
       return [
         {
           name: "h" + hLevel.toString(),
-          attributes: [],
-          children: content.title
-        } as Element
+          attributes: new Map(),
+          children: { _: html.HtmlElementChildren_.Text, text: content.title }
+        } as html.Element
       ].concat(
         content.contents
           .map(c => articleContentToElementsLoop(c, hLevel + 1))
@@ -362,96 +230,143 @@ const articleContentToElementsLoop = (
 
     case "window":
       return [
-        div([class_("window")], content.contents.map(inlineContentToElement))
+        html.div(
+          { class: "window" },
+          content.contents.map(inlineContentToElement)
+        )
       ];
     case "divForScript":
-      return [div([["id", content.id]], [])];
+      return [html.div({ id: content.id }, [])];
     case "quote":
       return [
-        {
-          name: "blockquote",
-          attributes: [],
-          children: content.contents
+        html.quote(
+          {},
+          content.contents
             .map(c => articleContentToElementsLoop(c, hLevel))
             .flat()
-        }
+        )
       ];
     case "code":
-      return [
-        {
-          name: "code",
-          attributes: [class_("blockCode")],
-          children: content.code
-        }
-      ];
+      return [html.code({ class: "blockCode" }, content.code)];
     case "imageList":
       return [
-        {
-          name: "div",
-          attributes: [class_("imageList")],
-          children: content.images.map(
-            (i): Element => ({
+        html.div(
+          { class: "imageList" },
+          content.images.map(
+            (i): html.Element => ({
               name: "figure",
-              attributes: [class_("imageList-item")],
-              children: [
-                {
-                  name: "figcaption",
-                  attributes: [class_("imageList-title")],
-                  children: i.title
-                },
-                image(
-                  [class_("imageList-image")],
-                  "/assets/" + i.fileName,
-                  i.title
-                )
-              ]
+              attributes: new Map([["class", "imageList-item"]]),
+              children: {
+                _: html.HtmlElementChildren_.HtmlElementList,
+                value: [
+                  {
+                    name: "figcaption",
+                    attributes: new Map([["class", "imageList-title"]]),
+                    children: {
+                      _: html.HtmlElementChildren_.Text,
+                      text: i.title
+                    }
+                  },
+                  html.image({
+                    class: "imageList-image",
+                    url: new URL(origin + "/assets/" + i.fileName),
+                    alternativeText: i.title
+                  })
+                ]
+              }
             })
           )
-        }
+        )
       ];
     case "definitionList":
       return [
         {
           name: "dl",
-          attributes: [],
-          children: content.items
-            .map(item => [
-              {
-                name: "dt",
-                attributes: [],
-                children: item.key
-              },
-              {
-                name: "dd",
-                attributes: [],
-                children: item.value
-              }
-            ])
-            .flat()
+          attributes: new Map(),
+          children: {
+            _: html.HtmlElementChildren_.HtmlElementList,
+            value: content.items
+              .map<ReadonlyArray<html.Element>>(item => [
+                {
+                  name: "dt",
+                  attributes: new Map(),
+                  children: {
+                    _: html.HtmlElementChildren_.Text,
+                    text: item.key
+                  }
+                },
+                {
+                  name: "dd",
+                  attributes: new Map(),
+                  children: {
+                    _: html.HtmlElementChildren_.Text,
+                    text: item.value
+                  }
+                }
+              ])
+              .flat()
+          }
         }
       ];
-    case "embedded":
+    case "twitterEmbedded":
       return [
         {
-          raw: true,
-          htmlCode: content.code
+          name: "blockquote",
+          attributes: new Map([["class", "twitter-tweet"]]),
+          children: {
+            _: html.HtmlElementChildren_.RawText,
+            text: content.code
+          }
+        },
+        {
+          name: "script",
+          attributes: new Map([
+            ["async", null],
+            ["src", "https://platform.twitter.com/widgets.js"]
+          ]),
+          children: {
+            _: html.HtmlElementChildren_.HtmlElementList,
+            value: []
+          }
         }
       ];
     case "youTubeEmbedded": {
       const randomId = Math.floor(Math.random() * 1000000).toString();
       return [
         {
-          raw: true,
-          htmlCode: `<iframe id="${randomId}" style="width:100%" src="https://www.youtube.com/embed/${content.id}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe><script>{
-            const iFrame = document.getElementById("${randomId}");
-
-            const resize = () => {
-              console.log(iFrame.clientWidth);
-              iFrame.style.height = (iFrame.clientWidth / 16) * 9 + "px";
-              requestAnimationFrame(resize)
-            };
-            
-            resize();}</script>`
+          name: "iframe",
+          attributes: new Map([
+            ["id", randomId],
+            ["style", "width:100%"],
+            ["src", `https://www.youtube.com/embed/${content.id}`],
+            ["frameborder", "0"],
+            [
+              "allow",
+              "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+            ],
+            ["allowfullscreen", null]
+          ]),
+          children: {
+            _: html.HtmlElementChildren_.HtmlElementList,
+            value: []
+          }
+        },
+        {
+          name: "script",
+          attributes: new Map(),
+          children: {
+            _: html.HtmlElementChildren_.RawText,
+            text: `{
+                const iFrame = document.getElementById("${randomId}");
+    
+                const resize = () => {
+                  console.log(iFrame.clientWidth);
+                  iFrame.style.height = (iFrame.clientWidth / 16) * 9 + "px";
+                  requestAnimationFrame(resize)
+                };
+                
+                resize();}`
+          }
         }
       ];
     }
@@ -460,5 +375,5 @@ const articleContentToElementsLoop = (
 
 export const articleContentsToElements = (
   contents: Array<ArticleContent>
-): Array<Element> =>
+): Array<html.Element> =>
   contents.map(c => articleContentToElementsLoop(c, 2)).flat();
