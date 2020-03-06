@@ -68,7 +68,7 @@ const articleToHtml = (article: type.Article): string =>
     pageName: article.title + " | " + siteName,
     iconPath: ["assets", "icon.png"],
     javaScriptMustBeAvailable: false,
-    url: new URL(type.origin + article.path.join("/")),
+    url: new URL(type.origin + "/" + article.path.join("/")),
     scriptUrlList: [],
     styleUrlList: [new URL(type.origin + "/assets/style.css")],
     twitterCard: html.TwitterCard.SummaryCard,
