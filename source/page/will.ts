@@ -12,7 +12,7 @@ export const pages: Array<t.Article> = [
     contents: [
       t.p([
         t.link("https://note.com/kishworlds/n/n88908817f7c3", "元ネタ"),
-        t.span(null, " ナルミンチョが登場する")
+        t.span(null, " ナルミンチョが登場する"),
       ]),
       t.p([
         t.span(null, "この記事は"),
@@ -20,7 +20,7 @@ export const pages: Array<t.Article> = [
           "https://adventar.org/calendars/3974",
           "CPS Lab Advent Calendar 2019"
         ),
-        t.span(null, "22日目の記事でもある")
+        t.span(null, "22日目の記事でもある"),
       ]),
       t.p("こんにちは、ナルミンチョです"),
       t.p("子供の頃、サンタさんを信じていましたか?"),
@@ -43,26 +43,26 @@ export const pages: Array<t.Article> = [
       ),
       t.p("Definy"),
       t.p([
-        t.link("https://github.com/narumincho/Definy", "GitHubのリポジトリ")
+        t.link("https://github.com/narumincho/Definy", "GitHubのリポジトリ"),
       ]),
       t.p([
         t.link(
           "https://definy-lang.web.app",
           "Definy最新バージョン(ほとんど動かない)"
-        )
+        ),
       ]),
       t.p([
         t.link(
           "https://definy-old.web.app",
           "Definy古いバージョン(色々とおかしいが整数の足し引き掛け算ができる)"
-        )
+        ),
       ]),
       t.section("小中学生", [
         t.section("伝説のスタフィー  [ゲームを作りたいという動機の根源]", [
           t.p(
             "私は「伝説のスタフィー」が好きだ。初めてプレイしたのは伝説のスタフィーシリーズ5作の中で最後に発売されたニンテンドーDSの「伝説のスタフィー たいけつダイール海賊団」。とても可愛らしい世界観と独特な水中アクションに惹かれて、このゲームにハマった。将来は、ゲームを作ってみたいとも思った"
           ),
-          t.youTubeEmbedded("H_ZY8eSbSA4")
+          t.youTubeEmbedded("H_ZY8eSbSA4"),
         ]),
         t.section("プチコン [初のプログラミング]", [
           t.p(
@@ -75,16 +75,16 @@ export const pages: Array<t.Article> = [
               "http://smilebasic.com/about/",
               "http://smilebasic.com/about/"
             ),
-            t.span(null, " )")
-          ])
-        ])
+            t.span(null, " )"),
+          ]),
+        ]),
       ]),
       t.section("高校", [
         t.section("世界樹の迷宮 [RPGを作る理由]", [
           t.p(
             "その後「世界樹の迷宮」にハマり、RPGの面白さを感じることができた。今までプレイしたポケモンとかのRPGは難易度が簡単すぎてキャラクターを成長させる喜びを感じにくかったし、システムがあまりに複雑でそれを理解して工夫することにメリットが無かった。その点、世界樹の迷宮シリーズは、システムを理解して工夫することが必要な少し難しい難易度になっていて、とても楽しめた。下に進んでいくという目的が探究心をくすぐり、FOEという凶悪なモンスターがいることでフィールドでの移動もゲーム性があって面白かった。RPGはあまり面白くないと思っていたけど、世界樹の迷宮でRPGの面白さに気づいた。(小学生中学生の頃はまだRPGを楽しめるほど頭ができていなかったかもしれない)"
           ),
-          t.youTubeEmbedded("ejXqW-ctEQg")
+          t.youTubeEmbedded("ejXqW-ctEQg"),
         ]),
         t.section("DESIRED Route [初めての共同創作]", [
           t.p(
@@ -99,7 +99,7 @@ export const pages: Array<t.Article> = [
               "https://twitter.com/Alone_to_Alone",
               "キャラクターを描いてくれた人"
             ),
-            t.span(null, "は現在失踪中")
+            t.span(null, "は現在失踪中"),
           ]),
           t.normalImage(
             "hero.png",
@@ -114,17 +114,17 @@ export const pages: Array<t.Article> = [
             t.link(
               "https://www.itmedia.co.jp/pcuser/articles/1510/20/news137_3.html",
               "「BASIC」はおっさんだけのものじゃない!!　第1回「プチコン」ファンミーティングが熱かった"
-            )
+            ),
           ]),
           t.p([
             t.link(
               "http://penkogoma.blog6.fc2.com/?mode=m&no=223&photo=true",
               "プチコンファンミーティングin東京レポート、一般発表編その３（プチコン3号）"
-            )
+            ),
           ]),
           t.p(
             "ただ、計画性がなく、結果的には完成しなかった。下画面のメニューに凝りすぎたと反省したが、同時にゲームよりもツールのほうを作ることが得意なのではと感じた。諦めているわけではない。Definyができたらそこで作る。30歳までに。創作の気持ちを忘れないためにこのRPGの主人公パーティの画像を今でもプロフィール画像に使っている"
-          )
+          ),
         ]),
         t.section("プチコンの良さ [創作コミュニティ]", [
           t.p([
@@ -146,9 +146,9 @@ export const pages: Array<t.Article> = [
               "https://r-wings.wixsite.com/home/smilebasic-p3",
               "作ったゲーム"
             ),
-            t.span(null, "はとても作り込まれていて面白い")
-          ])
-        ])
+            t.span(null, "はとても作り込まれていて面白い"),
+          ]),
+        ]),
       ]),
       t.section("大学生", [
         t.section("Watch Dogs [先進的な技術への遭遇]", [
@@ -171,9 +171,9 @@ export const pages: Array<t.Article> = [
             t.span(
               null,
               "に載っている。チャレンジした人は7人しかいないが。エンポリオジョジョさんからWatchDogsのいろんなバグ技とスピードランのチャートを学んだ"
-            )
+            ),
           ]),
-          t.youTubeEmbedded("w7bMnrVGWPg")
+          t.youTubeEmbedded("w7bMnrVGWPg"),
         ]),
         t.section("Nプチコン漢字入力 [役に立ったものができたときの喜び]", [
           t.normalImage("henkan.jpg", "Nプチコン漢字入力のキーボード"),
@@ -186,14 +186,14 @@ export const pages: Array<t.Article> = [
               "http://wiki.hosiken.jp/petc3gou/?Toukou%2FNPetitcomIME",
               "「Nプチコン漢字入力」"
             ),
-            t.span(null, "を作った。")
+            t.span(null, "を作った。"),
           ]),
           t.p(
             "他に漢字入力アプリは、ないわけではないが、既存のものは文字が小さくて、キーボードのキーが小さく、動作が重く、とにかく使いにくかった。そこを改良できたのは良かったと思う"
           ),
           t.p(
             "使いやすいツールを作るのはとても楽しく、役に立っているととても感じられて、人生の生きがいを感じた"
-          )
+          ),
         ]),
         t.section("Definyの誕生", [
           t.section("便利にしたいもの [Definyを作る動機]", [
@@ -205,7 +205,7 @@ export const pages: Array<t.Article> = [
             ),
             t.p(
               "今になっては必要性を感じないイマイチな言語仕様だったが、当時はこれで便利になるんだろうと思ったんだろう。覚えていない"
-            )
+            ),
           ]),
           t.section("Kuin [別の言語を作る理由]", [
             t.p(
@@ -219,7 +219,7 @@ export const pages: Array<t.Article> = [
               t.span(
                 null,
                 "。最初は言語仕様にある程度納得し、開発に協力して作っていこうと考えたが、オブジェクト指向が気に入らなかったのでKuinを作ることはやめた"
-              )
+              ),
             ]),
             t.section("Elm [プログラミング言語のブレイクスルー]", [
               t.p([
@@ -227,11 +227,11 @@ export const pages: Array<t.Article> = [
                 t.span(
                   null,
                   "はWebブラウザで動くJavaScriptに変換するプログラミング言語。実は、高校生のときから知っていてリアクティブプログラミングでExcelの参照のように値が変われば、他の値が変わるみたいな仕様だった。大学生になってからは、The Elm Architectureが導入され、より分かりやすく、使いやすくなった。この言語のおかげで、代数的データ型、パターンマッチング、参照透過性、仮想DOMの利点を理解することができた"
-                )
+                ),
               ]),
               t.p(
                 "この言語の仕様の影響を受けてDefinyが大きく変わった。言語の名前もGladsheim 新世界樹の迷宮に登場するダンジョンの名前のグラズヘイムから、Def(定義)+iny(スタフィー(starfy)の語尾)に変わった。Gladsheim は他の部分の名前に使うかもしれないけど"
-              )
+              ),
             ]),
             t.section("仕様決定", [
               t.p(
@@ -251,7 +251,7 @@ export const pages: Array<t.Article> = [
                 "状態管理が楽",
                 "代数的データでありえない状態を防げる",
                 "実行時エラーがない",
-                "宣言的UI"
+                "宣言的UI",
               ]),
               t.p(
                 "を受け、コードを書き換えた瞬間、隣に表示されているのコルクボードに評価結果が反映される"
@@ -272,11 +272,11 @@ export const pages: Array<t.Article> = [
               t.p("いや、今日も作っている"),
               t.p(
                 "作っていくぞ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-              )
-            ])
-          ])
-        ])
-      ])
-    ]
-  }
+              ),
+            ]),
+          ]),
+        ]),
+      ]),
+    ],
+  },
 ];

@@ -23,7 +23,7 @@ const javaScriptCodeFromTypeScriptFileName = (fileName: string): string => {
   const result = ts.transpileModule(
     fse.readFileSync("source/script/" + fileName).toString(),
     {
-      compilerOptions: compileOptionResult.options
+      compilerOptions: compileOptionResult.options,
     }
   );
   console.log(result.diagnostics);
@@ -52,12 +52,12 @@ const date = (updateAt: Date, createdAt: Date): html.Element =>
   html.div({}, [
     html.div({ class: "time" }, [
       html.div({}, "更新日時"),
-      html.element("time", new Map(), dateToString(updateAt))
+      html.element("time", new Map(), dateToString(updateAt)),
     ]),
     html.div({ class: "time" }, [
       html.div({}, "作成日"),
-      html.element("time", new Map(), dateToString(createdAt))
-    ])
+      html.element("time", new Map(), dateToString(createdAt)),
+    ]),
   ]);
 
 const articleToHtml = (article: type.Article): string =>
@@ -78,7 +78,7 @@ const articleToHtml = (article: type.Article): string =>
       : {
           script: javaScriptCodeFromTypeScriptFileName(
             article.extendScriptFileName
-          )
+          ),
         }),
     body: [
       html.element("header", new Map(), [
@@ -88,10 +88,10 @@ const articleToHtml = (article: type.Article): string =>
             html.image({
               class: "logo",
               url: new URL(type.origin + "/assets/logo.svg"),
-              alternativeText: "ナルミンチョの創作記録のロゴ"
-            })
+              alternativeText: "ナルミンチョの創作記録のロゴ",
+            }),
           ]
-        )
+        ),
       ]),
       html.element(
         "main",
@@ -108,7 +108,7 @@ const articleToHtml = (article: type.Article): string =>
               url: new URL(
                 type.origin + "/assets/" + article.imageAssetsFileName
               ),
-              alternativeText: article.title + "のイメージ画像"
+              alternativeText: article.title + "のイメージ画像",
             })
           )
           .concat(type.articleContentsToElements(article.contents))
@@ -119,15 +119,15 @@ const articleToHtml = (article: type.Article): string =>
                 (html.image({
                   class: "home-icon",
                   url: new URL(type.origin + "/assets/home.svg"),
-                  alternativeText: "home"
+                  alternativeText: "home",
                 }),
-                html.div({}, "ホームに戻る"))
+                html.div({}, "ホームに戻る")),
               ]
-            )
+            ),
           ])
       ),
-      copyright
-    ]
+      copyright,
+    ],
   });
 
 const outputHtml = (path: string, title: string, html: string): void => {
@@ -151,7 +151,7 @@ outputHtml(
     styleUrlList: [new URL(type.origin + "/assets/style.css")],
     twitterCard: html.TwitterCard.SummaryCard,
     language: html.Language.Japanese,
-    body: index.page.bodyElements.concat(copyright)
+    body: index.page.bodyElements.concat(copyright),
   })
 );
 
@@ -166,7 +166,7 @@ outputHtml(
     updateAt: new Date(),
     path: [],
     extendScriptFileName: null,
-    contents: notFound404.page.contents
+    contents: notFound404.page.contents,
   })
 );
 

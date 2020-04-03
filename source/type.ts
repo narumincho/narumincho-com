@@ -39,7 +39,7 @@ export type ArticleContent =
 
 export const p = (contents: Array<InlineContent> | string): ArticleContent => ({
   c: "p",
-  contents: contents
+  contents: contents,
 });
 
 export const normalImage = (
@@ -48,12 +48,12 @@ export const normalImage = (
 ): ArticleContent => ({
   c: "img",
   fileName: fileName,
-  alternativeText: alternativeText
+  alternativeText: alternativeText,
 });
 
 export const list = (items: Array<string>): ArticleContent => ({
   c: "list",
-  items: items
+  items: items,
 });
 
 export const section = (
@@ -62,52 +62,52 @@ export const section = (
 ): ArticleContent => ({
   c: "section",
   title: title,
-  contents: contents
+  contents: contents,
 });
 
 export const window = (contents: Array<InlineContent>): ArticleContent => ({
   c: "window",
-  contents: contents
+  contents: contents,
 });
 
 export const divForScript = (id: string): ArticleContent => ({
   c: "divForScript",
-  id: id
+  id: id,
 });
 
 export const quote = (contents: Array<ArticleContent>): ArticleContent => ({
   c: "quote",
-  contents: contents
+  contents: contents,
 });
 
 export const blockCodeNoHightLight = (code: string): ArticleContent => ({
   c: "code",
-  code: code
+  code: code,
 });
 
 export const imageList = (
   images: Array<{ title: string; fileName: string }>
 ): ArticleContent => ({
   c: "imageList",
-  images: images
+  images: images,
 });
 
 export const definitionList = (
   items: Array<{ key: string; value: string }>
 ): ArticleContent => ({
   c: "definitionList",
-  items: items
+  items: items,
 });
 
 export const twitterEmbedded = (code: string): ArticleContent => ({
   c: "twitterEmbedded",
-  code: code
+  code: code,
 });
 
 /** YouTubeの動画を埋め込む */
 export const youTubeEmbedded = (id: string): ArticleContent => ({
   c: "youTubeEmbedded",
-  id: id
+  id: id,
 });
 
 /**
@@ -120,13 +120,13 @@ export type InlineContent =
 export const span = (class_: string | null, text: string): InlineContent => ({
   c: "span",
   class: class_,
-  text: text
+  text: text,
 });
 
 export const link = (url: string, text: string): InlineContent => ({
   c: "link",
   url: url,
-  text: text
+  text: text,
 });
 
 const inlineContentToElement = (inlineContent: InlineContent): html.Element => {
@@ -139,8 +139,8 @@ const inlineContentToElement = (inlineContent: InlineContent): html.Element => {
         ),
         children: {
           _: html.HtmlElementChildren_.Text,
-          text: inlineContent.text
-        }
+          text: inlineContent.text,
+        },
       };
     case "link":
       return {
@@ -148,8 +148,8 @@ const inlineContentToElement = (inlineContent: InlineContent): html.Element => {
         attributes: new Map([["href", inlineContent.url]]),
         children: {
           _: html.HtmlElementChildren_.Text,
-          text: inlineContent.text
-        }
+          text: inlineContent.text,
+        },
       };
   }
 };
@@ -168,12 +168,12 @@ const ul = (children: ReadonlyArray<string>): html.Element => ({
   attributes: new Map(),
   children: {
     _: html.HtmlElementChildren_.HtmlElementList,
-    value: children.map<html.Element>(text => ({
+    value: children.map<html.Element>((text) => ({
       name: "li",
       attributes: new Map(),
-      children: { _: html.HtmlElementChildren_.Text, text: text }
-    }))
-  }
+      children: { _: html.HtmlElementChildren_.Text, text: text },
+    })),
+  },
 });
 
 const articleContentToElementsLoop = (
@@ -183,7 +183,7 @@ const articleContentToElementsLoop = (
   switch (content.c) {
     case "p": {
       return [
-        html.element("p", new Map(), inlineContentsToElement(content.contents))
+        html.element("p", new Map(), inlineContentsToElement(content.contents)),
       ];
     }
     case "img":
@@ -191,8 +191,8 @@ const articleContentToElementsLoop = (
         html.image({
           class: "normal-image",
           url: new URL(origin + "/assets/" + content.fileName),
-          alternativeText: content.alternativeText
-        })
+          alternativeText: content.alternativeText,
+        }),
       ];
     case "list":
       return [ul(content.items)];
@@ -203,10 +203,10 @@ const articleContentToElementsLoop = (
         );
       }
       return [
-        html.element("h" + hLevel.toString(), new Map(), content.title)
+        html.element("h" + hLevel.toString(), new Map(), content.title),
       ].concat(
         content.contents
-          .map(c => articleContentToElementsLoop(c, hLevel + 1))
+          .map((c) => articleContentToElementsLoop(c, hLevel + 1))
           .flat()
       );
 
@@ -215,7 +215,7 @@ const articleContentToElementsLoop = (
         html.div(
           { class: "window" },
           content.contents.map(inlineContentToElement)
-        )
+        ),
       ];
     case "divForScript":
       return [html.div({ id: content.id }, [])];
@@ -225,9 +225,9 @@ const articleContentToElementsLoop = (
         html.quote(
           {},
           content.contents
-            .map(c => articleContentToElementsLoop(c, hLevel))
+            .map((c) => articleContentToElementsLoop(c, hLevel))
             .flat()
-        )
+        ),
       ];
     case "code":
       return [html.code({ class: "blockCode" }, content.code)];
@@ -236,7 +236,7 @@ const articleContentToElementsLoop = (
       return [
         html.div(
           { class: "imageList" },
-          content.images.map<html.Element>(i =>
+          content.images.map<html.Element>((i) =>
             html.element("figure", new Map([["class", "imageList-item"]]), [
               html.element(
                 "figcaption",
@@ -246,11 +246,11 @@ const articleContentToElementsLoop = (
               html.image({
                 class: "imageList-image",
                 url: new URL(origin + "/assets/" + i.fileName),
-                alternativeText: i.title
-              })
+                alternativeText: i.title,
+              }),
             ])
           )
-        )
+        ),
       ];
     case "definitionList":
       return [
@@ -258,12 +258,12 @@ const articleContentToElementsLoop = (
           "dl",
           new Map(),
           content.items
-            .map<ReadonlyArray<html.Element>>(item => [
+            .map<ReadonlyArray<html.Element>>((item) => [
               html.element("dt", new Map(), item.key),
-              html.element("dd", new Map(), item.value)
+              html.element("dd", new Map(), item.value),
             ])
             .flat()
-        )
+        ),
       ];
     case "twitterEmbedded":
       return [
@@ -276,10 +276,10 @@ const articleContentToElementsLoop = (
           "script",
           new Map([
             ["async", null],
-            ["src", "https://platform.twitter.com/widgets.js"]
+            ["src", "https://platform.twitter.com/widgets.js"],
           ]),
           []
-        )
+        ),
       ];
     case "youTubeEmbedded": {
       const randomId = Math.floor(Math.random() * 1000000).toString();
@@ -293,9 +293,9 @@ const articleContentToElementsLoop = (
             ["frameborder", "0"],
             [
               "allow",
-              "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+              "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture",
             ],
-            ["allowfullscreen", null]
+            ["allowfullscreen", null],
           ]),
           []
         ),
@@ -313,7 +313,7 @@ const resize = () => {
 
 resize();
 }`
-        )
+        ),
       ];
     }
   }
@@ -322,4 +322,4 @@ resize();
 export const articleContentsToElements = (
   contents: Array<ArticleContent>
 ): Array<html.Element> =>
-  contents.map(c => articleContentToElementsLoop(c, 2)).flat();
+  contents.map((c) => articleContentToElementsLoop(c, 2)).flat();
