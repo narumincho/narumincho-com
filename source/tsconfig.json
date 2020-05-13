@@ -1,12 +1,12 @@
 {
   "compilerOptions": {
-    "target": "es2019",
-    "module": "commonjs",
-    "lib": ["es2019"],
+    "target": "ES2020",
+    "module": "CommonJS",
+    "lib": ["ES2020"],
     "strict": true,
-    "moduleResolution": "node",
+    "moduleResolution": "Node",
     "removeComments": true,
-    "newLine": "LF",
+    "newLine": "lf",
     "outDir": "../jsOutDir"
   },
   "include": ["page/**.ts", "index.ts", "type.ts"]
