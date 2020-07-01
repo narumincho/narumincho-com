@@ -5,7 +5,7 @@
   "main": "index.js",
   "dependencies": {},
   "devDependencies": {
-    "@narumincho/html": "0.1.1",
+    "@narumincho/html": "0.1.2",
     "@types/fs-extra": "^9.0.1",
     "@types/node": "^14.0.13",
     "@typescript-eslint/eslint-plugin": "^3.2.0",
