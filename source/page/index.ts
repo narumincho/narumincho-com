@@ -1,6 +1,6 @@
-import * as type from "../type";
-import * as petitcom from "./petitcom";
 import * as html from "@narumincho/html";
+import * as petitcom from "./petitcom";
+import * as type from "../type";
 import { URL } from "url";
 
 const brandLogoSvg = (
@@ -8,7 +8,7 @@ const brandLogoSvg = (
   viewBox: string,
   children: ReadonlyArray<html.Element>
 ): html.Element =>
-  html.anchorLink({ class: "snsLink", url: url }, [
+  html.anchorLink({ class: "snsLink", url }, [
     {
       name: "svg",
       attributes: new Map([
@@ -16,7 +16,7 @@ const brandLogoSvg = (
         ["viewBox", viewBox],
       ]),
       children: {
-        _: html.HtmlElementChildren_.HtmlElementList,
+        _: "HtmlElementList",
         value: children,
       },
     },
@@ -34,7 +34,7 @@ const gitHubLink: html.Element = brandLogoSvg(
         ["stroke", "none"],
       ]),
       children: {
-        _: html.HtmlElementChildren_.HtmlElementList,
+        _: "HtmlElementList",
         value: [
           {
             name: "path",
@@ -45,7 +45,7 @@ const gitHubLink: html.Element = brandLogoSvg(
               ],
             ]),
             children: {
-              _: html.HtmlElementChildren_.HtmlElementList,
+              _: "HtmlElementList",
               value: [],
             },
           },
@@ -68,7 +68,7 @@ const twitterLink: html.Element = brandLogoSvg(
         ],
       ]),
       children: {
-        _: html.HtmlElementChildren_.HtmlElementList,
+        _: "HtmlElementList",
         value: [],
       },
     },

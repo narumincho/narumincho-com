@@ -39,7 +39,7 @@ export type ArticleContent =
 
 export const p = (contents: Array<InlineContent> | string): ArticleContent => ({
   c: "p",
-  contents: contents,
+  contents,
 });
 
 export const normalImage = (
@@ -47,13 +47,13 @@ export const normalImage = (
   alternativeText: string
 ): ArticleContent => ({
   c: "img",
-  fileName: fileName,
-  alternativeText: alternativeText,
+  fileName,
+  alternativeText,
 });
 
 export const list = (items: Array<string>): ArticleContent => ({
   c: "list",
-  items: items,
+  items,
 });
 
 export const section = (
@@ -61,53 +61,53 @@ export const section = (
   contents: Array<ArticleContent>
 ): ArticleContent => ({
   c: "section",
-  title: title,
-  contents: contents,
+  title,
+  contents,
 });
 
 export const window = (contents: Array<InlineContent>): ArticleContent => ({
   c: "window",
-  contents: contents,
+  contents,
 });
 
 export const divForScript = (id: string): ArticleContent => ({
   c: "divForScript",
-  id: id,
+  id,
 });
 
 export const quote = (contents: Array<ArticleContent>): ArticleContent => ({
   c: "quote",
-  contents: contents,
+  contents,
 });
 
 export const blockCodeNoHightLight = (code: string): ArticleContent => ({
   c: "code",
-  code: code,
+  code,
 });
 
 export const imageList = (
   images: Array<{ title: string; fileName: string }>
 ): ArticleContent => ({
   c: "imageList",
-  images: images,
+  images,
 });
 
 export const definitionList = (
   items: Array<{ key: string; value: string }>
 ): ArticleContent => ({
   c: "definitionList",
-  items: items,
+  items,
 });
 
 export const twitterEmbedded = (code: string): ArticleContent => ({
   c: "twitterEmbedded",
-  code: code,
+  code,
 });
 
 /** YouTubeの動画を埋め込む */
 export const youTubeEmbedded = (id: string): ArticleContent => ({
   c: "youTubeEmbedded",
-  id: id,
+  id,
 });
 
 /**
@@ -120,13 +120,13 @@ export type InlineContent =
 export const span = (class_: string | null, text: string): InlineContent => ({
   c: "span",
   class: class_,
-  text: text,
+  text,
 });
 
 export const link = (url: string, text: string): InlineContent => ({
   c: "link",
-  url: url,
-  text: text,
+  url,
+  text,
 });
 
 const inlineContentToElement = (inlineContent: InlineContent): html.Element => {
@@ -138,7 +138,7 @@ const inlineContentToElement = (inlineContent: InlineContent): html.Element => {
           inlineContent.class === null ? [] : [["class", inlineContent.class]]
         ),
         children: {
-          _: html.HtmlElementChildren_.Text,
+          _: "Text",
           text: inlineContent.text,
         },
       };
@@ -147,7 +147,7 @@ const inlineContentToElement = (inlineContent: InlineContent): html.Element => {
         name: "a",
         attributes: new Map([["href", inlineContent.url]]),
         children: {
-          _: html.HtmlElementChildren_.Text,
+          _: "Text",
           text: inlineContent.text,
         },
       };
@@ -167,11 +167,11 @@ const ul = (children: ReadonlyArray<string>): html.Element => ({
   name: "ul",
   attributes: new Map(),
   children: {
-    _: html.HtmlElementChildren_.HtmlElementList,
+    _: "HtmlElementList",
     value: children.map<html.Element>((text) => ({
       name: "li",
       attributes: new Map(),
-      children: { _: html.HtmlElementChildren_.Text, text: text },
+      children: { _: "Text", text },
     })),
   },
 });
@@ -197,7 +197,7 @@ const articleContentToElementsLoop = (
     case "list":
       return [ul(content.items)];
     case "section":
-      if (6 < hLevel) {
+      if (hLevel > 6) {
         throw new Error(
           "セクションの入れ子が深すぎる。(h2～h6までしか使えないため)"
         );

@@ -1,11 +1,11 @@
 import * as fse from "fs-extra";
-import * as type from "./type";
+import * as html from "@narumincho/html";
 import * as index from "./page/index";
 import * as notFound404 from "./page/404";
 import * as petitcom from "./page/petitcom";
-import * as will from "./page/will";
 import * as ts from "typescript";
-import * as html from "@narumincho/html";
+import * as type from "./type";
+import * as will from "./page/will";
 import { URL } from "url";
 
 const siteName = "ナルミンチョの創作記録";
@@ -130,10 +130,12 @@ const articleToHtml = (article: type.Article): string =>
     ],
   });
 
-const outputHtml = (path: string, title: string, html: string): void => {
-  fse.outputFile(distributionFolder + "/" + path + ".html", html).then(() => {
-    console.log("「" + title + "」の書き込みに成功!");
-  });
+const outputHtml = (path: string, title: string, htmlCode: string): void => {
+  fse
+    .outputFile(distributionFolder + "/" + path + ".html", htmlCode)
+    .then(() => {
+      console.log("「" + title + "」の書き込みに成功!");
+    });
 };
 
 outputHtml(
