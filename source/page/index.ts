@@ -75,9 +75,72 @@ const twitterLink: html.Element = brandLogoSvg(
   ]
 );
 
+const gitKrakenBoards: html.Element = brandLogoSvg(
+  new URL("https://app.gitkraken.com/glo/board/Xq4Ozb2g7AATOhvn"),
+  "0 0 500 500",
+  [
+    {
+      name: "circle",
+      attributes: new Map([
+        ["fill", "#ff881d"],
+        ["cx", "250"],
+        ["cy", "250"],
+        ["r", "240"],
+      ]),
+      children: {
+        _: "HtmlElementList",
+        value: [],
+      },
+    },
+    {
+      name: "rect",
+      attributes: new Map([
+        ["fill", "#000000"],
+        ["x", "93"],
+        ["y", "133"],
+        ["width", "88"],
+        ["height", "206"],
+      ]),
+      children: {
+        _: "HtmlElementList",
+        value: [],
+      },
+    },
+    {
+      name: "rect",
+      attributes: new Map([
+        ["fill", "#000000"],
+        ["x", "211"],
+        ["y", "132"],
+        ["width", "88"],
+        ["height", "294"],
+      ]),
+      children: {
+        _: "HtmlElementList",
+        value: [],
+      },
+    },
+    {
+      name: "rect",
+      attributes: new Map([
+        ["fill", "#000000"],
+        ["x", "329"],
+        ["y", "132"],
+        ["width", "88"],
+        ["height", "147"],
+      ]),
+      children: {
+        _: "HtmlElementList",
+        value: [],
+      },
+    },
+  ]
+);
+
 const snsLink: html.Element = html.div({ class: "snsLink-list" }, [
   gitHubLink,
   twitterLink,
+  gitKrakenBoards,
 ]);
 
 const createArticleGroup = (data: {
