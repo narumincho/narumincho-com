@@ -1,5 +1,4 @@
 import * as html from "@narumincho/html";
-import { URL } from "url";
 
 export const origin = "https://narumincho.com";
 

@@ -6,7 +6,6 @@ import * as petitcom from "./page/petitcom";
 import * as ts from "typescript";
 import * as type from "./type";
 import * as will from "./page/will";
-import { URL } from "url";
 
 const siteName = "ナルミンチョの創作記録";
 
@@ -71,8 +70,8 @@ const articleToHtml = (article: type.Article): string =>
     url: new URL(type.origin + "/" + article.path.join("/")),
     scriptUrlList: [],
     styleUrlList: [new URL(type.origin + "/assets/style.css")],
-    twitterCard: html.TwitterCard.SummaryCard,
-    language: html.Language.Japanese,
+    twitterCard: "SummaryCard",
+    language: "Japanese",
     ...(article.extendScriptFileName === null
       ? {}
       : {
@@ -151,8 +150,8 @@ outputHtml(
     pageName: siteName,
     scriptUrlList: [],
     styleUrlList: [new URL(type.origin + "/assets/style.css")],
-    twitterCard: html.TwitterCard.SummaryCard,
-    language: html.Language.Japanese,
+    twitterCard: "SummaryCard",
+    language: "Japanese",
     body: index.page.bodyElements.concat(copyright),
   })
 );

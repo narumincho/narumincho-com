@@ -1,7 +1,6 @@
 import * as html from "@narumincho/html";
 import * as petitcom from "./petitcom";
 import * as type from "../type";
-import { URL } from "url";
 
 const brandLogoSvg = (
   url: URL,
