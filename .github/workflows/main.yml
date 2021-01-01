@@ -23,7 +23,7 @@ jobs:
       - name: Run Build Script
         run: node ./jsOutDir/index.js
       - name: deploy functions to firebase
-        uses: w9jds/firebase-action@v1
+        uses: w9jds/firebase-action@master
         with:
           args: deploy --only hosting
         env:
