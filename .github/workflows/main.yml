@@ -11,7 +11,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: checkout repository
-        uses: actions/checkout@master
+        uses: actions/checkout@v2
+      - name: setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14"
       - name: Install npm dependencies (npm ci)
         run: npm ci
       - name: Transpile TypeScript (npx tsc)
@@ -19,7 +23,7 @@ jobs:
       - name: Run Build Script
         run: node ./jsOutDir/index.js
       - name: deploy functions to firebase
-        uses: w9jds/firebase-action@master
+        uses: w9jds/firebase-action@v1
         with:
           args: deploy --only hosting
         env:
