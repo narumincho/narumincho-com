@@ -12,3 +12,4 @@ tokio = { version = "1.0.2", features = ["full"] }
 http = "0.2.3"
 chrono = "0.4.19"
 maplit = "1.0.2"
+url = "2.2.0"

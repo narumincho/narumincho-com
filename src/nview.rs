@@ -158,6 +158,7 @@ pub struct Id(String);
 pub enum Element {
     Div(Div),
     H1(H1),
+    AnchorLink(AnchorLink),
 }
 
 pub enum Children {
@@ -171,6 +172,12 @@ pub struct Div {
 }
 
 pub struct H1 {
+    pub children: Children,
+}
+
+pub struct AnchorLink {
+    pub id: Option<Id>,
+    pub url: url::Url,
     pub children: Children,
 }
 
@@ -210,6 +217,13 @@ pub fn element_to_raw_element(element: &Element) -> RawElement {
             tag_name: "h1".into(),
             attributes: HashMap::new(),
             children: children_to_raw_children(&h1.children),
+        },
+        Element::AnchorLink(anchor_link) => RawElement {
+            tag_name: "a".into(),
+            attributes: hashmap! {
+                String::from("href") => Some(anchor_link.url.clone().into_string())
+            },
+            children: children_to_raw_children(&anchor_link.children),
         },
     }
 }
