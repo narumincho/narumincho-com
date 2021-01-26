@@ -11,15 +11,18 @@ async fn hello_world(
     request: http::Request<hyper::Body>,
 ) -> http::Result<hyper::Response<hyper::Body>> {
     if request.uri().path() == ICON_PATH {
-        http::Response::builder()
-            .header(
-                http::header::CONTENT_TYPE,
-                http::header::HeaderValue::from_static("text/html"),
-            )
-            .body({
-                let contents = fs::read("./sample.png").await;
-                contents.unwrap().into()
-            })
+        let icon_binary_result = fs::read("./icon.svg").await;
+        match icon_binary_result {
+            Ok(binary) => http::Response::builder()
+                .header(http::header::CONTENT_TYPE, "image/svg+xml")
+                .body(hyper::Body::from(binary)),
+            Err(reason) => {
+                println!("アイコンの画像を読み取れなかった {}", reason);
+                http::Response::builder()
+                    .status(http::StatusCode::INTERNAL_SERVER_ERROR)
+                    .body(hyper::Body::default())
+            }
+        }
     } else {
         http::Response::builder()
             .header(
@@ -42,7 +45,7 @@ async fn hello_world(
                             }),
                         ),
                         (
-                            String::from("tile"),
+                            String::from("date"),
                             nview::Element::Div(nview::Div {
                                 id: None,
                                 children: nview::Children::Text(format!("{}", chrono::Utc::now())),
