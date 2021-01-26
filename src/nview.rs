@@ -17,6 +17,9 @@ pub struct View {
     /// タブや, ブックマークのタイトル, OGPのタイトルなどに使用される
     pub page_name: String,
 
+    /// アイコンのパス (/から始まる)
+    pub icon_path: String,
+
     /// body の children
     pub body: Children,
 }
@@ -56,6 +59,7 @@ pub fn head_element(view: &View) -> RawElement {
             charset_element(),
             viewport_element(),
             title_element(&view.page_name),
+            icon_element(&view.icon_path),
         ]),
     }
 }
@@ -79,11 +83,22 @@ fn viewport_element() -> RawElement {
     }
 }
 
-fn title_element(page_name: &String) -> RawElement {
+fn title_element(page_name: &str) -> RawElement {
     RawElement {
         tag_name: String::from("title"),
         attributes: HashMap::new(),
-        children: RawChildren::Text(page_name.clone()),
+        children: RawChildren::Text(String::from(page_name)),
+    }
+}
+
+fn icon_element(icon_path: &str) -> RawElement {
+    RawElement {
+        tag_name: String::from("link"),
+        attributes: hashmap! {
+            String::from("rel") => Some(String::from("icon")),
+            String::from("href") => Some(String::from(icon_path)),
+        },
+        children: RawChildren::NoEndTag,
     }
 }
 

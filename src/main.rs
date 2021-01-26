@@ -1,40 +1,57 @@
+use tokio::fs;
+
 #[macro_use]
 extern crate maplit;
 
 pub mod nview;
 
+const ICON_PATH: &'static str = "/icon";
+
 async fn hello_world(
-    _req: http::Request<hyper::Body>,
+    request: http::Request<hyper::Body>,
 ) -> http::Result<hyper::Response<hyper::Body>> {
-    http::Response::builder()
-        .header(
-            http::header::CONTENT_TYPE,
-            http::header::HeaderValue::from_static("text/html"),
-        )
-        .body(<hyper::Body as core::convert::From<String>>::from(
-            nview::view_to_html_string(&nview::View {
-                page_name: String::from("ナルミンチョの創作記録"),
-                language: Some(nview::Language::Japanese),
-                body: nview::Children::ElementList(vec![
-                    (
-                        String::from("title"),
-                        nview::Element::Div(nview::Div {
-                            id: None,
-                            children: nview::Children::Text(String::from(
-                                "ナルミンチョの創作記録!",
-                            )),
-                        }),
-                    ),
-                    (
-                        String::from("tile"),
-                        nview::Element::Div(nview::Div {
-                            id: None,
-                            children: nview::Children::Text(format!("{}", chrono::Utc::now())),
-                        }),
-                    ),
-                ]),
-            }),
-        ))
+    if request.uri().path() == ICON_PATH {
+        http::Response::builder()
+            .header(
+                http::header::CONTENT_TYPE,
+                http::header::HeaderValue::from_static("text/html"),
+            )
+            .body({
+                let contents = fs::read("./sample.png").await;
+                contents.unwrap().into()
+            })
+    } else {
+        http::Response::builder()
+            .header(
+                http::header::CONTENT_TYPE,
+                http::header::HeaderValue::from_static("text/html"),
+            )
+            .body(<hyper::Body as core::convert::From<String>>::from(
+                nview::view_to_html_string(&nview::View {
+                    page_name: String::from("ナルミンチョの創作記録"),
+                    language: Some(nview::Language::Japanese),
+                    icon_path: String::from(ICON_PATH),
+                    body: nview::Children::ElementList(vec![
+                        (
+                            String::from("title"),
+                            nview::Element::Div(nview::Div {
+                                id: None,
+                                children: nview::Children::Text(String::from(
+                                    "ナルミンチョの創作記録!",
+                                )),
+                            }),
+                        ),
+                        (
+                            String::from("tile"),
+                            nview::Element::Div(nview::Div {
+                                id: None,
+                                children: nview::Children::Text(format!("{}", chrono::Utc::now())),
+                            }),
+                        ),
+                    ]),
+                }),
+            ))
+    }
 }
 
 #[tokio::main]
