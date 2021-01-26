@@ -159,6 +159,7 @@ pub enum Element {
     Div(Div),
     H1(H1),
     AnchorLink(AnchorLink),
+    Image(Image),
 }
 
 pub enum Children {
@@ -181,6 +182,12 @@ pub struct AnchorLink {
     pub children: Children,
 }
 
+pub struct Image {
+    pub id: Option<Id>,
+    pub path: Vec<String>,
+    pub alternative_text: String,
+}
+
 /// SSR ( サーバーサイドレンダリング ) するときの型のゆるい, HTMLElementか, SVGElement
 pub struct RawElement {
     pub tag_name: String,
@@ -201,16 +208,7 @@ pub fn element_to_raw_element(element: &Element) -> RawElement {
     match element {
         Element::Div(div) => RawElement {
             tag_name: String::from("div"),
-            attributes: {
-                let mut hashmap = HashMap::new();
-                match &div.id {
-                    Some(Id(id_as_string)) => {
-                        hashmap.insert(String::from("id"), Some(id_as_string.clone()));
-                    }
-                    None => {}
-                };
-                hashmap
-            },
+            attributes: insert_attribute_id(HashMap::new(), &div.id),
             children: children_to_raw_children(&div.children),
         },
         Element::H1(h1) => RawElement {
@@ -220,13 +218,37 @@ pub fn element_to_raw_element(element: &Element) -> RawElement {
         },
         Element::AnchorLink(anchor_link) => RawElement {
             tag_name: "a".into(),
-            attributes: hashmap! {
-                String::from("href") => Some(anchor_link.url.clone().into_string())
-            },
+            attributes: insert_attribute_id(
+                hashmap! {
+                    String::from("href") => Some(anchor_link.url.clone().into_string())
+                },
+                &anchor_link.id,
+            ),
             children: children_to_raw_children(&anchor_link.children),
+        },
+        Element::Image(image) => RawElement {
+            tag_name: "img".into(),
+            attributes: insert_attribute_id(
+                hashmap! {
+                    String::from("alt") => Some(image.alternative_text.clone())
+                },
+                &image.id,
+            ),
+            children: RawChildren::NoEndTag,
         },
     }
 }
+
+pub fn insert_attribute_id(mut hashmap: RawAttributes, id: &Option<Id>) -> RawAttributes {
+    match id {
+        Some(Id(id_as_string)) => {
+            hashmap.insert(String::from("id"), Some(id_as_string.clone()));
+        }
+        None => {}
+    };
+    hashmap
+}
+
 pub fn children_to_raw_children(children: &Children) -> RawChildren {
     match children {
         Children::ElementList(key_and_element_list) => RawChildren::ElementList(
