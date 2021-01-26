@@ -23,15 +23,13 @@ body {{
 </head>
 
 <body>
-  <div>Rust のサーバーを起動できた!</div>
-  <div>現在の時刻 {}</div>
-  <div>ランダム {}</div>
+  <h1>ナルミンチョの創作記録</h1>
+  <div>アクセス時刻{}</div>
 </body>
 
 </html>
 ",
-            chrono::Utc::now(),
-            uuid::Uuid::new_v4()
+            chrono::Utc::now()
         )))
 }
 

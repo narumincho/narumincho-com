@@ -10,5 +10,4 @@ edition = "2018"
 hyper = { version = "0.14.2", features = ["full"] }
 tokio = { version = "1.0.2", features = ["full"] }
 http = "0.2.3"
-uuid = { version = "0.8.2", features = ["v4"] }
 chrono = "0.4.19"
