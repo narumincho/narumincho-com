@@ -1,3 +1,8 @@
+#[macro_use]
+extern crate maplit;
+
+pub mod nview;
+
 async fn hello_world(
     _req: http::Request<hyper::Body>,
 ) -> http::Result<hyper::Response<hyper::Body>> {
@@ -6,31 +11,30 @@ async fn hello_world(
             http::header::CONTENT_TYPE,
             http::header::HeaderValue::from_static("text/html"),
         )
-        .body(<hyper::Body as core::convert::From<String>>::from(format!(
-            "<!doctype html>
-<html lang=\"ja\">
-
-<head>
-<meta charset=\"utf-8\">
-<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">
-<style>
-body {{
-    font-size: 48px;
-    color: white;
-    background-color: black;
-}}
-</style>
-</head>
-
-<body>
-  <h1>ナルミンチョの創作記録</h1>
-  <div>アクセス時刻{}</div>
-</body>
-
-</html>
-",
-            chrono::Utc::now()
-        )))
+        .body(<hyper::Body as core::convert::From<String>>::from(
+            nview::view_to_html_string(&nview::View {
+                page_name: String::from("ナルミンチョの創作記録"),
+                language: Some(nview::Language::Japanese),
+                body: nview::Children::ElementList(vec![
+                    (
+                        String::from("title"),
+                        nview::Element::Div(nview::Div {
+                            id: None,
+                            children: nview::Children::Text(String::from(
+                                "ナルミンチョの創作記録!",
+                            )),
+                        }),
+                    ),
+                    (
+                        String::from("tile"),
+                        nview::Element::Div(nview::Div {
+                            id: None,
+                            children: nview::Children::Text(format!("{}", chrono::Utc::now())),
+                        }),
+                    ),
+                ]),
+            }),
+        ))
 }
 
 #[tokio::main]
