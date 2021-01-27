@@ -49,7 +49,6 @@ fn main() {
     fs::write("./src/resource.rs", code).unwrap();
 
     println!("cargo:rerun-if-changed=build.rs");
-    println!("cargo:rerun-if-changed={}", RESOURCE_PATH);
 }
 
 fn read_file_hash(path: &std::path::PathBuf) -> Option<String> {
