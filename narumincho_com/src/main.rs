@@ -1,24 +1,13 @@
-use sha2::Digest;
-
-pub mod data;
-
-pub fn icon_path() -> String {
-    let mut hasher = sha2::Sha256::new();
-    hasher.update(ICON_BINARY);
-    let result = hasher.finalize();
-    format!("/icon-{}", hex::encode(result))
-}
-
-const ICON_BINARY: &'static [u8] = include_bytes!("../icon.svg");
+pub mod resource;
 
 async fn hello_world(
     request: http::Request<hyper::Body>,
 ) -> http::Result<hyper::Response<hyper::Body>> {
-    if request.uri().path() == icon_path() {
+    if request.uri().path() == resource::ICON.hash {
         http::Response::builder()
             .header(http::header::CONTENT_TYPE, "image/svg+xml")
             .header(http::header::CACHE_CONTROL, "public, max-age=604800")
-            .body(hyper::Body::from(ICON_BINARY))
+            .body(hyper::Body::from(resource::ICON.binary))
     } else {
         http::Response::builder()
             .header(
@@ -29,7 +18,7 @@ async fn hello_world(
                 nview::view_to_html_string(&nview::View {
                     page_name: String::from("ナルミンチョの創作記録"),
                     language: Some(nview::Language::Japanese),
-                    icon_path: String::from(icon_path()),
+                    icon_path: String::from(resource::ICON.hash),
                     body: nview::Children::ElementList(vec![
                         (
                             String::from("title"),
