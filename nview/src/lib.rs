@@ -1,5 +1,8 @@
 use std::collections::HashMap;
 
+#[macro_use]
+extern crate maplit;
+
 /// ナルミンチョが使う言語
 pub enum Language {
     Japanese,

@@ -1,11 +1,8 @@
 use sha2::Digest;
 
-#[macro_use]
-extern crate maplit;
+pub mod data;
 
-pub mod nview;
-
-fn icon_path() -> String {
+pub fn icon_path() -> String {
     let mut hasher = sha2::Sha256::new();
     hasher.update(ICON_BINARY);
     let result = hasher.finalize();
