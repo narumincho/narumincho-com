@@ -1,28 +1,27 @@
-use tokio::fs;
+use sha2::Digest;
 
 #[macro_use]
 extern crate maplit;
 
 pub mod nview;
 
-const ICON_PATH: &'static str = "/icon";
+fn icon_path() -> String {
+    let mut hasher = sha2::Sha256::new();
+    hasher.update(ICON_BINARY);
+    let result = hasher.finalize();
+    format!("/icon-{}", hex::encode(result))
+}
+
+const ICON_BINARY: &'static [u8] = include_bytes!("../icon.svg");
 
 async fn hello_world(
     request: http::Request<hyper::Body>,
 ) -> http::Result<hyper::Response<hyper::Body>> {
-    if request.uri().path() == ICON_PATH {
-        let icon_binary_result = fs::read("./icon.svg").await;
-        match icon_binary_result {
-            Ok(binary) => http::Response::builder()
-                .header(http::header::CONTENT_TYPE, "image/svg+xml")
-                .body(hyper::Body::from(binary)),
-            Err(reason) => {
-                println!("アイコンの画像を読み取れなかった {}", reason);
-                http::Response::builder()
-                    .status(http::StatusCode::INTERNAL_SERVER_ERROR)
-                    .body(hyper::Body::default())
-            }
-        }
+    if request.uri().path() == icon_path() {
+        http::Response::builder()
+            .header(http::header::CONTENT_TYPE, "image/svg+xml")
+            .header(http::header::CACHE_CONTROL, "public, max-age=604800")
+            .body(hyper::Body::from(ICON_BINARY))
     } else {
         http::Response::builder()
             .header(
@@ -33,7 +32,7 @@ async fn hello_world(
                 nview::view_to_html_string(&nview::View {
                     page_name: String::from("ナルミンチョの創作記録"),
                     language: Some(nview::Language::Japanese),
-                    icon_path: String::from(ICON_PATH),
+                    icon_path: String::from(icon_path()),
                     body: nview::Children::ElementList(vec![
                         (
                             String::from("title"),

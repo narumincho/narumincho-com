@@ -17,7 +17,7 @@ pub struct View {
     /// タブや, ブックマークのタイトル, OGPのタイトルなどに使用される
     pub page_name: String,
 
-    /// アイコンのパス (/から始まる)
+    /// アイコンのパス (/から始まる必要がある)
     pub icon_path: String,
 
     /// body の children
