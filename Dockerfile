@@ -1,5 +1,16 @@
-FROM ubuntu:20.04
+# https://hub.docker.com/_/node
+FROM node:14-slim
 
-COPY ["target/release", "."]
+WORKDIR /usr/src/app
 
-CMD [ "./narumincho_com" ]
+COPY [ "package.json", "./"]
+COPY [ "package-lock.json" , "./"]
+COPY [ "distribution/**", "./"]
+
+# Install production dependencies.
+# If you add a package-lock.json, speed your build by switching to 'npm ci'.
+# RUN npm ci --only=production
+RUN npm ci --only=production
+
+# Run the web service on container startup.
+CMD [ "node", "main.js" ]
