@@ -1,11 +1,13 @@
+import * as esbuild from "esbuild";
 import * as fileSystem from "fs-extra";
 
+const clientSourceEntryPath = "./client/main.ts";
 const distributionPath = "./distribution";
-const functionsPath = `${distributionPath}/functions`;
-const hostingPath = `${distributionPath}/hosting`;
+const functionsDistributionPath = `${distributionPath}/functions`;
+const hostingDistributionPath = `${distributionPath}/hosting`;
 
 fileSystem.outputFile(
-  `${functionsPath}/package.json`,
+  `${functionsDistributionPath}/package.json`,
   JSON.stringify({
     name: "narumincho-creative-record-functions",
     version: "1.0.0",
@@ -20,4 +22,10 @@ fileSystem.outputFile(
   })
 );
 
-fileSystem.ensureDir(hostingPath);
+fileSystem.ensureDir(hostingDistributionPath);
+
+esbuild.build({
+  entryPoints: [clientSourceEntryPath],
+  bundle: true,
+  outdir: hostingDistributionPath,
+});

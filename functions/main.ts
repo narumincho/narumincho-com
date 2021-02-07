@@ -12,5 +12,18 @@ export const main = functions.https.onRequest(async (request, response) => {
   valueDocRef.set({
     value: newValue,
   });
-  response.send(`カウント: ${newValue}`);
+  response.setHeader("content-type", "text/html");
+  response.send(`<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>タイトル</title>
+    <script defer src="/main.js"></script>
+  </head>
+  <body>
+      カウント: ${newValue}
+  </body>
+</html>
+`);
 });
