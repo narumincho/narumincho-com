@@ -7,6 +7,6 @@
     "strict": true,
     "moduleResolution": "Node",
     "module": "CommonJS",
-    "outDir": "../distribution"
+    "outDir": "./distribution"
   }
 }

@@ -19,6 +19,4 @@ jobs:
       - name: Install npm dependencies (npm ci)
         run: npm ci
       - name: type check
-        run: tsc --project source/tsconfig.json
-      - name: Build a docker image
-        run: docker build . -t a
+        run: tsc
