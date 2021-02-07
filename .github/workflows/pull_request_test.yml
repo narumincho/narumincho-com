@@ -12,8 +12,11 @@ jobs:
     steps:
       - name: checkout repository
         uses: actions/checkout@v2
-      - uses: actions-rs/toolchain@v1
+      - name: setup Node.js
+        uses: actions/setup-node@v2
         with:
-          toolchain: stable
-      - name: build
-        run: cargo build --release
+          node-version: "14"
+      - name: Install npm dependencies (npm ci)
+        run: npm ci
+      - name: type check
+        run: tsc
