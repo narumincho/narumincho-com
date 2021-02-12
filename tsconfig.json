@@ -6,7 +6,6 @@
     "lib": ["DOM", "ES2020"],
     "strict": true,
     "moduleResolution": "Node",
-    "module": "CommonJS",
-    "outDir": "./distribution"
+    "module": "CommonJS"
   }
 }
