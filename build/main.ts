@@ -16,8 +16,8 @@ const distributionPath = "./distribution";
 const functionsDistributionPath = `${distributionPath}/functions`;
 const hostingDistributionPath = `${distributionPath}/hosting`;
 
-export const build = (mode: Mode): void => {
-  fileSystem.outputFile(
+export const build = async (mode: Mode): Promise<void> => {
+  await fileSystem.outputFile(
     `${functionsDistributionPath}/package.json`,
     JSON.stringify({
       name: "narumincho-creative-record-functions",
@@ -34,39 +34,38 @@ export const build = (mode: Mode): void => {
     })
   );
 
-  fileSystem.ensureDir(hostingDistributionPath);
+  await fileSystem.ensureDir(hostingDistributionPath);
 
-  fileSystem.readFile("./build/icon.png").then((iconBuffer) => {
-    const iconHash = createSha256Hash(iconBuffer);
-    fileSystem.writeFile(
-      `${hostingDistributionPath}${locationToPath({
-        tag: "icon",
-        hash: iconHash,
-      })}`,
-      iconBuffer
-    );
+  const iconBuffer = await fileSystem.readFile("./build/icon.png");
+  const iconHash = createSha256Hash(iconBuffer);
+  fileSystem.writeFile(
+    `${hostingDistributionPath}${locationToPath({
+      tag: "icon",
+      hash: iconHash,
+    })}`,
+    iconBuffer
+  );
 
-    esbuild.build({
-      entryPoints: [clientSourceEntryPath],
-      bundle: true,
-      outdir: hostingDistributionPath,
-    });
-    fileSystem
-      .readFile(`${hostingDistributionPath}/main.js`)
-      .then((scriptBuffer) => {
-        const scriptHash = createSha256Hash(scriptBuffer);
-        fileSystem.rename(
-          `${hostingDistributionPath}/main.js`,
-          `${hostingDistributionPath}${locationToPath({
-            tag: "script",
-            hash: scriptHash,
-          })}`
-        );
-
-        generateHtml(mode, iconHash, scriptHash);
-        generateFirebaseJson(mode, iconHash, scriptHash);
-      });
+  await esbuild.build({
+    entryPoints: [clientSourceEntryPath],
+    bundle: true,
+    outdir: hostingDistributionPath,
   });
+  const scriptBinary = await fileSystem.readFile(
+    `${hostingDistributionPath}/main.js`
+  );
+  const scriptHash = createSha256Hash(scriptBinary);
+
+  await fileSystem.rename(
+    `${hostingDistributionPath}/main.js`,
+    `${hostingDistributionPath}${locationToPath({
+      tag: "script",
+      hash: scriptHash,
+    })}`
+  );
+
+  await generateHtml(mode, iconHash, scriptHash);
+  await generateFirebaseJson(mode, iconHash, scriptHash);
 
   ts.createProgram({
     rootNames: [functionsSourceEntryPath],
@@ -91,8 +90,8 @@ const generateFirebaseJson = (
   mode: Mode,
   iconHash: string,
   scriptHash: string
-): void => {
-  fileSystem.outputFile(
+): Promise<void> => {
+  return fileSystem.outputFile(
     `firebase.json`,
     JSON.stringify({
       functions: {
@@ -160,7 +159,7 @@ const generateHtml = (
   mode: Mode,
   iconHash: string,
   scriptHash: string
-): void => {
+): Promise<void> => {
   const homePageView: view.View<never> = {
     appName: "ナルミンチョの創作記録",
     pageName: "",
@@ -185,7 +184,10 @@ const generateHtml = (
     twitterCard: "SummaryCard",
   };
   const homePageHtml: string = toString.toString(homePageView);
-  fileSystem.writeFile(`${hostingDistributionPath}/index.html`, homePageHtml);
+  return fileSystem.writeFile(
+    `${hostingDistributionPath}/index.html`,
+    homePageHtml
+  );
 };
 
 const createSha256Hash = (binary: Uint8Array): string => {
