@@ -26,7 +26,7 @@ export const build = async (mode: Mode): Promise<void> => {
       description: "narumincho-creative-record in Cloud Functions for Firebase",
       main: "functions/main.js",
       author: "narumincho",
-      engine: { node: "14" },
+      engines: { node: "14" },
       dependencies: {
         "@narumincho/html": "0.2.3",
         "firebase-admin": "9.4.2",
