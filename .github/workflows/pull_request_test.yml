@@ -1,0 +1,24 @@
+name: Pull Request Test
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  type-check-and-build-test:
+    name: build test
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v2
+      - name: setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+      - name: Install npm dependencies (npm ci)
+        run: npm ci
+      - name: Type Check
+        run: tsc --noEmit
+      - name: Run Production Build Script
+        run: npm run production-build
