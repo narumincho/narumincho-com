@@ -22,17 +22,17 @@
     "node": "14"
   },
   "dependencies": {
-    "@narumincho/html": "0.2.2",
+    "@narumincho/html": "0.2.3",
     "firebase-admin": "9.5.0",
     "firebase-functions": "3.13.1"
   },
   "devDependencies": {
     "@types/fs-extra": "9.0.7",
-    "@types/node": "14.14.26",
+    "@types/node": "14.14.28",
     "@typescript-eslint/eslint-plugin": "4.15.0",
     "@typescript-eslint/parser": "4.15.0",
-    "esbuild": "0.8.44",
-    "eslint": "7.19.0",
+    "esbuild": "0.8.46",
+    "eslint": "7.20.0",
     "eslint-config-prettier": "7.2.0",
     "eslint-plugin-prettier": "3.3.1",
     "fs-extra": "9.1.0",
