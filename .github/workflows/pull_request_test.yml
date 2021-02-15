@@ -1,9 +1,9 @@
-name: build test
+name: Pull Request Test
 
 on:
   pull_request:
     branches:
-      - renewal
+      - main
 
 jobs:
   type-check-and-build-test:
@@ -18,5 +18,7 @@ jobs:
           node-version: "14"
       - name: Install npm dependencies (npm ci)
         run: npm ci
-      - name: type check
+      - name: Type Check
         run: tsc --noEmit
+      - name: Run Production Build Script
+        run: npm run production-build
