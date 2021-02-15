@@ -4,7 +4,8 @@
   "description": "ナルミンチョの創作記録 narumincho.com",
   "main": "distribution/build/main.js",
   "scripts": {
-    "build": "ts-node ./build/main.ts",
+    "develop-build": "ts-node ./build/start-develop.ts",
+    "production-build": "ts-node ./build/start-production.ts",
     "start-emulator": "firebase emulators:start --project narumincho-creative-record"
   },
   "repository": {

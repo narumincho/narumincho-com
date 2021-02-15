@@ -34,13 +34,13 @@ export const pathToLocation = (path: string): Location => {
 
 export const urlDataToUrl = (urlData: UrlData): URL => {
   return new URL(
-    urlData.mode === "develop"
+    (urlData.mode === "develop"
       ? "http://localhost:5000"
-      : "https://narumincho.com" + locationToPath(urlData.location)
+      : "https://narumincho.com") + locationToPath(urlData.location)
   );
 };
 
-const locationToPath = (location: Location): string => {
+export const locationToPath = (location: Location): string => {
   switch (location.tag) {
     case "home":
       return "/";
@@ -50,12 +50,3 @@ const locationToPath = (location: Location): string => {
       return "/script-" + location.hash;
   }
 };
-
-export const COVER_IMAGE_URL = "http:localhost:5000/icon.png";
-export const ICON_PATH = "icon-replace-failure";
-/*
- * icon のハッシュ値はどう含める? build時に functionsのコードに埋め込みたい
- * firebase の 環境変数に入れよう!
- */
-
-export const SCRIPT_URL = "http:localhost:5000/main.js";
