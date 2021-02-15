@@ -1,9 +1,6 @@
 name: build test
 
-on:
-  pull_request:
-    branches:
-      - renewal
+on: workflow_dispatch
 
 jobs:
   type-check-and-build-test:
@@ -18,5 +15,12 @@ jobs:
           node-version: "14"
       - name: Install npm dependencies (npm ci)
         run: npm ci
-      - name: type check
-        run: tsc --noEmit
+      - name: run build script
+        run: npm run production-build
+      - name: deploy firebase hosting
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only hosting
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          PROJECT_ID: narumincho-creative-record

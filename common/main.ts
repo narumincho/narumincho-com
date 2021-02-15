@@ -35,8 +35,9 @@ export const pathToLocation = (path: string): Location => {
 export const urlDataToUrl = (urlData: UrlData): URL => {
   return new URL(
     (urlData.mode === "develop"
-      ? "http://localhost:5000"
-      : "https://narumincho.com") + locationToPath(urlData.location)
+      ? `http://localhost:${debugHostingPortNumber}`
+      : "https://narumincho-creative-record.web.app") +
+      locationToPath(urlData.location)
   );
 };
 
@@ -50,3 +51,5 @@ export const locationToPath = (location: Location): string => {
       return "/script-" + location.hash;
   }
 };
+
+export const debugHostingPortNumber = 5000;

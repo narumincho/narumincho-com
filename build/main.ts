@@ -1,7 +1,12 @@
 import * as esbuild from "esbuild";
 import * as fileSystem from "fs-extra";
 import * as ts from "typescript";
-import { Mode, locationToPath, urlDataToUrl } from "../common/main";
+import {
+  Mode,
+  debugHostingPortNumber,
+  locationToPath,
+  urlDataToUrl,
+} from "../common/main";
 import { toString, view } from "@narumincho/html";
 import { createHash } from "crypto";
 
@@ -141,7 +146,7 @@ const generateFirebaseJson = (
                 port: 8080,
               },
               hosting: {
-                port: 5000,
+                port: debugHostingPortNumber,
               },
               ui: {
                 enabled: true,
