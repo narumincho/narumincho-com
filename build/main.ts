@@ -134,9 +134,10 @@ const generateFirebaseJson = (
             ],
           },
         ],
+        cleanUrls: true,
       },
       emulators:
-        mode === "develop"
+        mode === "production"
           ? undefined
           : {
               functions: {
