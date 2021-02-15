@@ -12,10 +12,22 @@ export const main = functions.https.onRequest(async (request, response) => {
   console.log("request url", request.url);
   console.log("request subdomains", request.subdomains);
 
-  const count: number = (await countRef.get()).data()?.count ?? 0;
+  const count: number = await getCount();
   await countRef.set({ count: count + 1 });
   response.setHeader("content-type", "text/plain");
   response.send(`${common.siteName}
 閲覧数, いいね は 未実装.
 ${count + 1}`);
 });
+
+const getCount = async (): Promise<number> => {
+  const document = (await countRef.get()).data();
+  if (document === undefined) {
+    return 0;
+  }
+  const count: unknown = document.count;
+  if (typeof count === "number") {
+    return count;
+  }
+  return 0;
+};
