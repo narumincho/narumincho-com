@@ -3,7 +3,7 @@ name: Deploy to Firebase Hosting
 on: workflow_dispatch
 
 jobs:
-  type-check-and-build-test:
+  build-and-deploy:
     name: build test
     runs-on: ubuntu-latest
     steps:
