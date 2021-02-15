@@ -135,6 +135,7 @@ const generateFirebaseJson = (
           },
         ],
         cleanUrls: true,
+        trailingSlash: false,
       },
       emulators:
         mode === "production"
