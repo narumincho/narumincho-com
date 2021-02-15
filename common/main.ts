@@ -53,3 +53,5 @@ export const locationToPath = (location: Location): string => {
 };
 
 export const debugHostingPortNumber = 5000;
+
+export const siteName = "ナルミンチョの創作記録";

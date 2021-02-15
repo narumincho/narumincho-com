@@ -5,6 +5,7 @@ import {
   Mode,
   debugHostingPortNumber,
   locationToPath,
+  siteName,
   urlDataToUrl,
 } from "../common/main";
 import { toString, view } from "@narumincho/html";
@@ -161,7 +162,7 @@ const generateHtml = (
   scriptHash: string
 ): Promise<void> => {
   const homePageView: view.View<never> = {
-    appName: "ナルミンチョの創作記録",
+    appName: siteName,
     pageName: "",
     themeColor: { r: 217 / 255, g: 120 / 255, b: 13 / 255 },
     bodyClass: "dummy",

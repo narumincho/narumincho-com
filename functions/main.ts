@@ -1,4 +1,5 @@
 import * as admin from "firebase-admin";
+import * as common from "../common/main";
 import * as functions from "firebase-functions";
 
 const app = admin.initializeApp();
@@ -14,5 +15,7 @@ export const main = functions.https.onRequest(async (request, response) => {
   const count: number = (await countRef.get()).data()?.count ?? 0;
   await countRef.set({ count: count + 1 });
   response.setHeader("content-type", "text/plain");
-  response.send("閲覧数, いいね は 未実装. " + (count + 1).toString());
+  response.send(`${common.siteName}
+閲覧数, いいね は 未実装.
+${count + 1}`);
 });
