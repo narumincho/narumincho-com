@@ -11,7 +11,7 @@ import {
 import { toString, view } from "@narumincho/html";
 import { createHash } from "crypto";
 
-const clientSourceEntryPath = "./client/main.ts";
+const clientSourceEntryPath = "./client/main.tsx";
 const functionsSourceEntryPath = "./functions/main.ts";
 const distributionPath = "./distribution";
 const functionsDistributionPath = `${distributionPath}/functions`;
@@ -51,6 +51,9 @@ export const build = async (mode: Mode): Promise<void> => {
     entryPoints: [clientSourceEntryPath],
     bundle: true,
     outdir: hostingDistributionPath,
+    define: {
+      "process.env.NODE_ENV": `"development"`,
+    },
   });
   const scriptBinary = await fileSystem.readFile(
     `${hostingDistributionPath}/main.js`

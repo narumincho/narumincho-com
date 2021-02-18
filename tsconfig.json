@@ -6,6 +6,7 @@
     "lib": ["DOM", "ES2020"],
     "strict": true,
     "moduleResolution": "Node",
-    "module": "CommonJS"
+    "module": "CommonJS",
+    "jsx": "react"
   }
 }
