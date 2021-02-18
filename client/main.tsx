@@ -8,7 +8,7 @@ document.body.appendChild(entryElement);
 
 ReactDom.render(
   <React.StrictMode>
-    <App spaceSize={{ width: 16, height: 9 }} />
+    <App spaceSize={{ width: 256, height: 256 }} />
   </React.StrictMode>,
   entryElement
 );

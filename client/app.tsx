@@ -1,8 +1,10 @@
 import * as React from "react";
 import * as lib from "./lib";
+import { MyStar } from "./myStar";
 
 export type State = {
   readonly mouseX: number;
+  readonly frame: number;
 };
 
 export type Props = {
@@ -10,8 +12,8 @@ export type Props = {
   readonly spaceSize: lib.Size;
 };
 
-export class App extends React.Component<Props> {
-  state: State = { mouseX: 0 };
+export class App extends React.Component<Props, State> {
+  state: State = { mouseX: 0, frame: 0 };
 
   constructor(props: Props) {
     super(props);
@@ -22,7 +24,7 @@ export class App extends React.Component<Props> {
   }
 
   componentDidMount(): void {
-    window.addEventListener("mousemove", (e) => {
+    window.addEventListener("pointermove", (e) => {
       this.setState({
         mouseX: lib.getMouseX(
           {
@@ -34,6 +36,11 @@ export class App extends React.Component<Props> {
         ),
       });
     });
+    const loop = () => {
+      this.setState((oldState) => ({ frame: oldState.frame + 1 }));
+      requestAnimationFrame(loop);
+    };
+    window.requestAnimationFrame(loop);
   }
 
   render(): React.ReactElement {
@@ -64,12 +71,13 @@ export class App extends React.Component<Props> {
             fill="#000"
             strokeWidth={this.props.spaceSize.width / 100}
           ></rect>
-          <circle
-            cx={this.state.mouseX}
-            cy={this.props.spaceSize.height / 2}
-            r={this.props.spaceSize.width / 5}
-            fill="red"
-          ></circle>
+          <MyStar
+            x={this.state.mouseX}
+            y={this.props.spaceSize.height / 2}
+            radius={this.props.spaceSize.width / 20}
+            frame={this.state.frame}
+            isVacuum={false}
+          />
         </svg>
       </div>
     );
