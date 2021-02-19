@@ -22,11 +22,19 @@ export const pathToLocation = (path: string): Location => {
     return { tag: "home" };
   }
   const iconMatchResult = path.match(/^\/icon-(?<hash>[0-9a-f]+)$/u);
-  if (iconMatchResult !== null && iconMatchResult.groups !== undefined) {
+  if (
+    iconMatchResult !== null &&
+    iconMatchResult.groups !== undefined &&
+    iconMatchResult.groups.hash !== undefined
+  ) {
     return { tag: "icon", hash: iconMatchResult.groups.hash };
   }
   const scriptMatchResult = path.match(/^\/script-(?<hash>[0-9a-f]+)$/u);
-  if (scriptMatchResult !== null && scriptMatchResult.groups !== undefined) {
+  if (
+    scriptMatchResult !== null &&
+    scriptMatchResult.groups !== undefined &&
+    scriptMatchResult.groups.hash !== undefined
+  ) {
     return { tag: "script", hash: scriptMatchResult.groups.hash };
   }
   return { tag: "home" };

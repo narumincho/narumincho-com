@@ -3,13 +3,13 @@ import * as lib from "./lib";
 import * as v2 from "./vector2";
 import { MoveStar } from "./moveStar";
 import { MyStar } from "./myStar";
+import { PredictionOrbit } from "./predictionOrbit";
 
 export type State = {
   readonly mouseX: number;
   readonly frame: number;
   readonly isVacuum: boolean;
-  readonly moveStarPosition: v2.Vector2;
-  readonly moveStarVelocity: v2.Vector2;
+  readonly moveStar: PositionAndVelocity;
 };
 
 export type Props = {
@@ -30,8 +30,10 @@ export class App extends React.Component<Props, State> {
       mouseX: 0,
       frame: 0,
       isVacuum: false,
-      moveStarPosition: { x: props.spaceSize.width / 2, y: 0 },
-      moveStarVelocity: { x: 0, y: 0 },
+      moveStar: {
+        position: { x: props.spaceSize.width / 2, y: 0 },
+        velocity: { x: 0, y: 0 },
+      },
     };
   }
 
@@ -88,6 +90,14 @@ export class App extends React.Component<Props, State> {
             fill="#000"
             strokeWidth={this.props.spaceSize.width / 100}
           ></rect>
+          <PredictionOrbit
+            orbitList={generatePredictionOrbit(
+              this.state.moveStar,
+              mouseXToMyStarPosition(this.state.mouseX, this.props.spaceSize),
+              this.state.isVacuum,
+              this.props.spaceSize
+            )}
+          />
           <MyStar
             x={this.state.mouseX}
             y={this.props.spaceSize.height / 2}
@@ -96,8 +106,8 @@ export class App extends React.Component<Props, State> {
             isVacuum={this.state.isVacuum}
           />
           <MoveStar
-            x={this.state.moveStarPosition.x}
-            y={this.state.moveStarPosition.y}
+            x={this.state.moveStar.position.x}
+            y={this.state.moveStar.position.y}
             radius={this.props.spaceSize.width / 40}
           />
         </svg>
@@ -134,49 +144,100 @@ const velocityToCenter = (
 };
 
 const update = (oldState: State, spaceSize: lib.Size): State => {
-  /** 重力星の位置 */
-  const myStarPosition: v2.Vector2 = {
-    x: oldState.mouseX,
-    y: spaceSize.height / 2,
+  const newMoveStarPositionAndVelocity = updateMoveStar(
+    oldState.moveStar,
+    mouseXToMyStarPosition(oldState.mouseX, spaceSize),
+    oldState.isVacuum,
+    spaceSize
+  );
+
+  return {
+    frame: oldState.frame + 1,
+    moveStar: newMoveStarPositionAndVelocity,
+    isVacuum: oldState.isVacuum,
+    mouseX: oldState.mouseX,
   };
+};
+
+/** 位置と速度 */
+type PositionAndVelocity = {
+  position: v2.Vector2;
+  velocity: v2.Vector2;
+};
+
+const generatePredictionOrbit = (
+  moveStarPositionAndVelocity: PositionAndVelocity,
+  myStarPosition: v2.Vector2,
+  isVacuum: boolean,
+  spaceSize: lib.Size
+): ReadonlyArray<v2.Vector2> => {
+  const result: Array<v2.Vector2> = [];
+  let templateMyStartPositionAndVelocity = moveStarPositionAndVelocity;
+  for (let index = 0; index < 120; index += 1) {
+    templateMyStartPositionAndVelocity = updateMoveStar(
+      templateMyStartPositionAndVelocity,
+      myStarPosition,
+      isVacuum,
+      spaceSize
+    );
+    result.push(templateMyStartPositionAndVelocity.position);
+  }
+  return result;
+};
+
+/** 動く星の次のフレームの動きを算出する */
+const updateMoveStar = (
+  moveStarPositionAndVelocity: PositionAndVelocity,
+  myStarPosition: v2.Vector2,
+  isVacuum: boolean,
+  spaceSize: lib.Size
+): PositionAndVelocity => {
   const myStarToMoveStarDistance = v2.getDistance(
     myStarPosition,
-    oldState.moveStarPosition
+    moveStarPositionAndVelocity.position
   );
   /** 動く星から重力星へ向かうベクトル */
   const moveStarToMyStar: v2.Vector2 = v2.getAToB(
-    oldState.moveStarPosition,
+    moveStarPositionAndVelocity.position,
     myStarPosition
   );
   /** 動く星の加速度 */
   const moveStarAcceleration: v2.Vector2 = v2.multipleNumber(
     v2.setLength(moveStarToMyStar, 50 / myStarToMoveStarDistance),
-    oldState.isVacuum ? 1 : -1
+    isVacuum ? 1 : -1
   );
   /** 動く星の速度 */
   const newMoveStarVelocity: v2.Vector2 = v2.setMaxLength(
-    v2.add(oldState.moveStarVelocity, moveStarAcceleration),
+    v2.add(moveStarPositionAndVelocity.velocity, moveStarAcceleration),
     10
   );
   /** 動く星の場所 領域外にも出る */
   const newMoveStarPosition = v2.add(
-    oldState.moveStarPosition,
+    moveStarPositionAndVelocity.position,
     newMoveStarVelocity
   );
 
   return {
-    frame: oldState.frame + 1,
-    moveStarVelocity: wallCollisionVelocity(
+    velocity: wallCollisionVelocity(
       newMoveStarVelocity,
       newMoveStarPosition,
       spaceSize
     ),
-    moveStarPosition: v2.clamp(
+    position: v2.clamp(
       newMoveStarPosition,
       { x: 0, y: 0 },
       { x: spaceSize.width, y: spaceSize.height }
     ),
-    isVacuum: oldState.isVacuum,
-    mouseX: oldState.mouseX,
+  };
+};
+
+/** マウスのX座標から, 重力星の座標に変換する */
+const mouseXToMyStarPosition = (
+  mouseX: number,
+  spaceSize: lib.Size
+): v2.Vector2 => {
+  return {
+    x: mouseX,
+    y: spaceSize.height / 2,
   };
 };
