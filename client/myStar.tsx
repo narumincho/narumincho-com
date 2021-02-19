@@ -1,8 +1,8 @@
 import * as React from "react";
+import * as v2 from "./vector2";
 
 export type Props = {
-  x: number;
-  y: number;
+  position: v2.Vector2;
   radius: number;
   frame: number;
   isVacuum: boolean;
@@ -28,8 +28,8 @@ export const MyStar: React.FunctionComponent<Props> = (props) => {
         return (
           <circle
             key={layer}
-            cx={props.x}
-            cy={props.y}
+            cx={props.position.x}
+            cy={props.position.y}
             r={props.radius * (0.5 + 4 * layerWithFrame)}
             stroke={getColor(props.isVacuum, layerWithFrame)}
             fill="none"
@@ -37,8 +37,8 @@ export const MyStar: React.FunctionComponent<Props> = (props) => {
         );
       })}
       <circle
-        cx={props.x}
-        cy={props.y}
+        cx={props.position.x}
+        cy={props.position.y}
         r={props.radius}
         fill={getColor(props.isVacuum, 0)}
       ></circle>

@@ -100,15 +100,16 @@ export class App extends React.Component<Props, State> {
             )}
           />
           <MyStar
-            x={this.state.mouseX}
-            y={this.props.spaceSize.height / 2}
+            position={mouseXToMyStarPosition(
+              this.state.mouseX,
+              this.props.spaceSize
+            )}
             radius={this.props.spaceSize.width / 20}
             frame={this.state.frame}
             isVacuum={this.state.isVacuum}
           />
           <MoveStar
-            x={this.state.moveStar.position.x}
-            y={this.state.moveStar.position.y}
+            position={this.state.moveStar.position}
             radius={this.props.spaceSize.width / 40}
           />
         </svg>
