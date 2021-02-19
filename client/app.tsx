@@ -5,6 +5,7 @@ import { MyStar } from "./myStar";
 export type State = {
   readonly mouseX: number;
   readonly frame: number;
+  readonly isVacuum: boolean;
 };
 
 export type Props = {
@@ -13,7 +14,7 @@ export type Props = {
 };
 
 export class App extends React.Component<Props, State> {
-  state: State = { mouseX: 0, frame: 0 };
+  state: State = { mouseX: 0, frame: 0, isVacuum: false };
 
   constructor(props: Props) {
     super(props);
@@ -24,6 +25,11 @@ export class App extends React.Component<Props, State> {
   }
 
   componentDidMount(): void {
+    window.addEventListener("pointerdown", () => {
+      this.setState((oldState) => ({
+        isVacuum: !oldState.isVacuum,
+      }));
+    });
     window.addEventListener("pointermove", (e) => {
       this.setState({
         mouseX: lib.getMouseX(
@@ -45,7 +51,7 @@ export class App extends React.Component<Props, State> {
 
   render(): React.ReactElement {
     return (
-      <div>
+      <div style={{ touchAction: "none" }}>
         <svg
           style={{
             width: this.props.spaceSize.width,
@@ -76,7 +82,7 @@ export class App extends React.Component<Props, State> {
             y={this.props.spaceSize.height / 2}
             radius={this.props.spaceSize.width / 20}
             frame={this.state.frame}
-            isVacuum={false}
+            isVacuum={this.state.isVacuum}
           />
         </svg>
       </div>
