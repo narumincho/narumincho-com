@@ -95,7 +95,8 @@ export class App extends React.Component<Props, State> {
               this.state.moveStar,
               mouseXToMyStarPosition(this.state.mouseX, this.props.spaceSize),
               this.state.isVacuum,
-              this.props.spaceSize
+              this.props.spaceSize,
+              this.state.frame
             )}
           />
           <MyStar
@@ -169,7 +170,8 @@ const generatePredictionOrbit = (
   moveStarPositionAndVelocity: PositionAndVelocity,
   myStarPosition: v2.Vector2,
   isVacuum: boolean,
-  spaceSize: lib.Size
+  spaceSize: lib.Size,
+  frame: number
 ): ReadonlyArray<v2.Vector2> => {
   const result: Array<v2.Vector2> = [];
   let templateMyStartPositionAndVelocity = moveStarPositionAndVelocity;
@@ -180,7 +182,9 @@ const generatePredictionOrbit = (
       isVacuum,
       spaceSize
     );
-    result.push(templateMyStartPositionAndVelocity.position);
+    if ((index + frame) % 3 === 0) {
+      result.push(templateMyStartPositionAndVelocity.position);
+    }
   }
   return result;
 };
