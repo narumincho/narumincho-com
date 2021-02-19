@@ -14,6 +14,7 @@ export type State = {
   readonly isVacuum: boolean;
   readonly moveStar: lib.PositionAndVelocity;
   readonly enemyGroupState: enemyStarGroup.EnemyGroupState;
+  readonly clearTime: number | undefined;
 };
 
 export type Props = {
@@ -33,12 +34,13 @@ export class App extends React.Component<Props, State> {
     this.state = {
       mouseX: 0,
       frame: 0,
-      isVacuum: false,
+      isVacuum: true,
       moveStar: {
         position: { x: props.spaceSize.width / 2, y: 0 },
         velocity: { x: 0, y: 0 },
       },
       enemyGroupState: enemyStarGroup.initStatusList,
+      clearTime: undefined,
     };
   }
 
@@ -91,7 +93,7 @@ export class App extends React.Component<Props, State> {
             y={0}
             width={this.props.spaceSize.width}
             height={this.props.spaceSize.height}
-            stroke="red"
+            stroke="#333"
             fill="#000"
             strokeWidth={this.props.spaceSize.width / 100}
           ></rect>
@@ -121,6 +123,11 @@ export class App extends React.Component<Props, State> {
             position={this.state.moveStar.position}
             radius={this.props.spaceSize.width / 40}
           />
+          <text x={0} y={16} fill="#fff" style={{ userSelect: "none" }}>
+            {this.state.clearTime === undefined
+              ? `time=${this.state.frame}`
+              : `clear time=${this.state.clearTime}`}
+          </text>
         </svg>
       </div>
     );
@@ -161,23 +168,26 @@ const update = (oldState: State, spaceSize: lib.Size): State => {
     oldState.isVacuum,
     spaceSize
   );
-  const statusAndIsReflect = enemyStarGroup.updateStatus(
-    oldState.enemyGroupState,
-    oldState.moveStar,
-    spaceSize
-  );
+  const clearTime =
+    oldState.clearTime === undefined &&
+    enemyStarGroup.isClear(oldState.enemyGroupState)
+      ? oldState.frame
+      : oldState.clearTime;
 
   return {
     frame: oldState.frame + 1,
     moveStar: {
       position: newMoveStarPositionAndVelocity.position,
-      velocity: statusAndIsReflect.isReflect
-        ? v2.multipleNumber(newMoveStarPositionAndVelocity.velocity, 0.9)
-        : newMoveStarPositionAndVelocity.velocity,
+      velocity: newMoveStarPositionAndVelocity.velocity,
     },
     isVacuum: oldState.isVacuum,
     mouseX: oldState.mouseX,
-    enemyGroupState: statusAndIsReflect.newStatus,
+    enemyGroupState: enemyStarGroup.updateStatus(
+      oldState.enemyGroupState,
+      oldState.moveStar.position,
+      spaceSize
+    ),
+    clearTime,
   };
 };
 
@@ -222,7 +232,7 @@ const updateMoveStar = (
   );
   /** 動く星の加速度 */
   const moveStarAcceleration: v2.Vector2 = v2.multipleNumber(
-    v2.setLength(moveStarToMyStar, 50 / myStarToMoveStarDistance),
+    v2.setLength(moveStarToMyStar, 30 / myStarToMoveStarDistance),
     isVacuum ? 1 : -1
   );
   /** 動く星の速度 */

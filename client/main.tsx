@@ -4,6 +4,7 @@ import { App } from "./app";
 
 const entryElement = document.createElement("div");
 document.body.innerText = "";
+document.body.style.backgroundColor = "#111";
 document.body.appendChild(entryElement);
 
 ReactDom.render(
