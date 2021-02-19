@@ -1,3 +1,5 @@
+import * as v2 from "./vector2";
+
 export type Size = {
   readonly width: number;
   readonly height: number;
@@ -86,4 +88,10 @@ export const getFullScreenTransform = (
   return `matrix(${screenSize.height / spaceSize.height}, 0, 0, ${
     screenSize.height / spaceSize.height
   }, ${marginX}, 0)`;
+};
+
+/** 位置と速度 */
+export type PositionAndVelocity = {
+  position: v2.Vector2;
+  velocity: v2.Vector2;
 };

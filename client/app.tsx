@@ -1,15 +1,19 @@
 import * as React from "react";
+import * as enemyStarGroup from "./enemyStarGroup";
 import * as lib from "./lib";
 import * as v2 from "./vector2";
 import { MoveStar } from "./moveStar";
 import { MyStar } from "./myStar";
 import { PredictionOrbit } from "./predictionOrbit";
 
+const maxSpeed = 10;
+
 export type State = {
   readonly mouseX: number;
   readonly frame: number;
   readonly isVacuum: boolean;
-  readonly moveStar: PositionAndVelocity;
+  readonly moveStar: lib.PositionAndVelocity;
+  readonly enemyGroupState: enemyStarGroup.EnemyGroupState;
 };
 
 export type Props = {
@@ -34,6 +38,7 @@ export class App extends React.Component<Props, State> {
         position: { x: props.spaceSize.width / 2, y: 0 },
         velocity: { x: 0, y: 0 },
       },
+      enemyGroupState: enemyStarGroup.initStatusList,
     };
   }
 
@@ -108,6 +113,10 @@ export class App extends React.Component<Props, State> {
             frame={this.state.frame}
             isVacuum={this.state.isVacuum}
           />
+          <enemyStarGroup.EnemyStarGroup
+            spaceSize={this.props.spaceSize}
+            enemyStarGroupStatus={this.state.enemyGroupState}
+          />
           <MoveStar
             position={this.state.moveStar.position}
             radius={this.props.spaceSize.width / 40}
@@ -152,23 +161,28 @@ const update = (oldState: State, spaceSize: lib.Size): State => {
     oldState.isVacuum,
     spaceSize
   );
+  const statusAndIsReflect = enemyStarGroup.updateStatus(
+    oldState.enemyGroupState,
+    oldState.moveStar,
+    spaceSize
+  );
 
   return {
     frame: oldState.frame + 1,
-    moveStar: newMoveStarPositionAndVelocity,
+    moveStar: {
+      position: newMoveStarPositionAndVelocity.position,
+      velocity: statusAndIsReflect.isReflect
+        ? v2.multipleNumber(newMoveStarPositionAndVelocity.velocity, 0.9)
+        : newMoveStarPositionAndVelocity.velocity,
+    },
     isVacuum: oldState.isVacuum,
     mouseX: oldState.mouseX,
+    enemyGroupState: statusAndIsReflect.newStatus,
   };
 };
 
-/** 位置と速度 */
-type PositionAndVelocity = {
-  position: v2.Vector2;
-  velocity: v2.Vector2;
-};
-
 const generatePredictionOrbit = (
-  moveStarPositionAndVelocity: PositionAndVelocity,
+  moveStarPositionAndVelocity: lib.PositionAndVelocity,
   myStarPosition: v2.Vector2,
   isVacuum: boolean,
   spaceSize: lib.Size,
@@ -192,11 +206,11 @@ const generatePredictionOrbit = (
 
 /** 動く星の次のフレームの動きを算出する */
 const updateMoveStar = (
-  moveStarPositionAndVelocity: PositionAndVelocity,
+  moveStarPositionAndVelocity: lib.PositionAndVelocity,
   myStarPosition: v2.Vector2,
   isVacuum: boolean,
   spaceSize: lib.Size
-): PositionAndVelocity => {
+): lib.PositionAndVelocity => {
   const myStarToMoveStarDistance = v2.getDistance(
     myStarPosition,
     moveStarPositionAndVelocity.position
@@ -214,7 +228,7 @@ const updateMoveStar = (
   /** 動く星の速度 */
   const newMoveStarVelocity: v2.Vector2 = v2.setMaxLength(
     v2.add(moveStarPositionAndVelocity.velocity, moveStarAcceleration),
-    10
+    maxSpeed
   );
   /** 動く星の場所 領域外にも出る */
   const newMoveStarPosition = v2.add(

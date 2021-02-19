@@ -24,6 +24,13 @@ export const add = (a: Vector2, b: Vector2): Vector2 => {
   };
 };
 
+export const minus = (vector2: Vector2): Vector2 => {
+  return {
+    x: -vector2.x,
+    y: -vector2.y,
+  };
+};
+
 export const multipleNumber = (vector2: Vector2, num: number): Vector2 => {
   return {
     x: vector2.x * num,
