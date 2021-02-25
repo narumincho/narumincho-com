@@ -18,22 +18,7 @@ const functionsDistributionPath = `${distributionPath}/functions`;
 const hostingDistributionPath = `${distributionPath}/hosting`;
 
 export const build = async (mode: Mode): Promise<void> => {
-  await fileSystem.outputFile(
-    `${functionsDistributionPath}/package.json`,
-    JSON.stringify({
-      name: "narumincho-creative-record-functions",
-      version: "1.0.0",
-      description: "narumincho-creative-record in Cloud Functions for Firebase",
-      main: "functions/main.js",
-      author: "narumincho",
-      engines: { node: "14" },
-      dependencies: {
-        "@narumincho/html": "0.2.3",
-        "firebase-admin": "9.4.2",
-        "firebase-functions": "3.13.1",
-      },
-    })
-  );
+  await outputPackageJsonForFunctions();
 
   await fileSystem.ensureDir(hostingDistributionPath);
 
@@ -198,4 +183,37 @@ const generateHtml = (
 
 const createSha256Hash = (binary: Uint8Array): string => {
   return createHash("sha256").update(binary).digest("hex");
+};
+
+const outputPackageJsonForFunctions = async (): Promise<void> => {
+  const packageJson: {
+    devDependencies: Record<string, string>;
+  } = await fileSystem.readJSON("package.json");
+  const packageNameUseInFunctions = [
+    "@narumincho/html",
+    "firebase-admin",
+    "firebase-functions",
+  ];
+
+  await fileSystem.outputFile(
+    `${functionsDistributionPath}/package.json`,
+    JSON.stringify({
+      name: "narumincho-creative-record-functions",
+      version: "1.0.0",
+      description: "narumincho-creative-record in Cloud Functions for Firebase",
+      main: "functions/main.js",
+      author: "narumincho",
+      engines: { node: "14" },
+      dependencies: Object.fromEntries(
+        Object.entries(packageJson.devDependencies).flatMap(
+          ([packageName, packageVersion]): ReadonlyArray<
+            readonly [string, string]
+          > =>
+            packageNameUseInFunctions.includes(packageName)
+              ? [[packageName, packageVersion]]
+              : []
+        )
+      ),
+    })
+  );
 };
