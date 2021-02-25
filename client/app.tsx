@@ -5,6 +5,7 @@ import * as v2 from "./vector2";
 import { MoveStar } from "./moveStar";
 import { MyStar } from "./myStar";
 import { PredictionOrbit } from "./predictionOrbit";
+import { Time } from "./time";
 
 const maxSpeed = 10;
 
@@ -123,11 +124,7 @@ export class App extends React.Component<Props, State> {
             position={this.state.moveStar.position}
             radius={this.props.spaceSize.width / 40}
           />
-          <text x={0} y={16} fill="#fff" style={{ userSelect: "none" }}>
-            {this.state.clearTime === undefined
-              ? `time=${this.state.frame}`
-              : `clear time=${this.state.clearTime}`}
-          </text>
+          <Time frame={this.state.frame} clearTime={this.state.clearTime} />
         </svg>
       </div>
     );
