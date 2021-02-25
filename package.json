@@ -32,7 +32,7 @@
     "@typescript-eslint/parser": "4.15.1",
     "esbuild": "0.8.49",
     "eslint": "7.20.0",
-    "eslint-config-prettier": "7.2.0",
+    "eslint-config-prettier": "8.1.0",
     "eslint-plugin-prettier": "3.3.1",
     "firebase-admin": "9.5.0",
     "firebase-functions": "3.13.1",
