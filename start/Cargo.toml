@@ -1,0 +1,10 @@
+[package]
+name = "start"
+version = "0.1.0"
+edition = "2018"
+
+[dependencies]
+tokio = { version = "1.9.0", features = ["full"] }
+hyper = { version = "0.14.11", features = ["full"] }
+rand = "0.8.4"
+http = "0.2.4"
