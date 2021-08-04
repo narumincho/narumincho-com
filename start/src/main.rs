@@ -53,22 +53,7 @@ async fn handle_request(
         }
     }
     let mut r = hyper::Response::new(hyper::Body::from(
-        "<!DOCTYPE html>
-    <html lang=\"ja\">
-    
-    <head>
-        <meta charset=\"UTF-8\">
-        <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
-        <title>ナルミンチョの創作記録</title>
-        <script type=\"module\" src=\"/program\">
-        </script>
-    </head>
-    
-    <body>
-      init
-    </body>
-    
-    </html>",
+        n_gen_html::structured_html_to_html_as_string(),
     ));
     r.headers_mut().insert(
         http::header::CONTENT_TYPE,
