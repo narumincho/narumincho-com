@@ -8,3 +8,4 @@ tokio = { version = "1.9.0", features = ["full"] }
 hyper = { version = "0.14.11", features = ["full"] }
 http = "0.2.4"
 n-gen-html = { path = "../n-gen-html" }
+url = "2.2.2"
