@@ -1,3 +1,6 @@
+const PROGRAM_PATH: &'static str = "/program";
+const WASM_PATH: &'static str = "/wasm";
+
 #[tokio::main]
 async fn main() {
     let addr = std::net::SocketAddr::V6(std::net::SocketAddrV6::new(
@@ -26,7 +29,7 @@ async fn handle_request(
 ) -> Result<hyper::Response<hyper::Body>, std::convert::Infallible> {
     let path = request.uri().path();
     println!("request path: {}", path);
-    if path == "/program" {
+    if path == PROGRAM_PATH {
         match program_response().await {
             Some(js_code) => {
                 let mut r = hyper::Response::new(hyper::Body::from(js_code));
@@ -39,7 +42,7 @@ async fn handle_request(
             None => {}
         };
     }
-    if path == "/wasm" {
+    if path == WASM_PATH {
         match std::fs::read("./pkg/narumincho_creative_record_bg.wasm") {
             Ok(wasm) => {
                 let mut r = hyper::Response::new(hyper::Body::from(wasm));
@@ -67,7 +70,7 @@ async fn handle_request(
             language: Some(n_gen_html::data::Language::Japanese),
             page_name: String::from("ナルミンチョの創作記録"),
             script: None,
-            script_url_list: vec![],
+            script_url_list: vec![url::Url::parse(&(String::from("http://[::1]:3000") + &PROGRAM_PATH)).unwrap()],
             style: None,
             style_url_list: vec![],
             theme_color: None,
@@ -98,9 +101,12 @@ async fn program_response() -> Option<String> {
             match std::fs::read_to_string("./pkg/narumincho_creative_record.js") {
                 Ok(js_code) => {
                     let added_js_code = js_code
-                        + "
-                    wasm_bindgen(\"wasm\")
-                    ";
+                        + &format!(
+                            r##"
+wasm_bindgen("{}")
+"##,
+                            WASM_PATH
+                        );
                     Some(added_js_code)
                 }
                 Err(error) => {
