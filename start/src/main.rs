@@ -1,5 +1,6 @@
 const PROGRAM_PATH: &'static str = "/program";
 const WASM_PATH: &'static str = "/wasm";
+const ICON_PATH: &'static str = "/icon";
 
 fn path_to_url(path: &str) -> url::Url {
     match url::Url::parse(&(String::from("http://") + &address().to_string() + path)) {
@@ -66,30 +67,20 @@ async fn handle_request(
             Err(_) => {}
         }
     }
-    let mut r = hyper::Response::new(hyper::Body::from(
-        n_gen_html::structured_html_to_html_as_string(&n_gen_html::data::StructuredHtml {
-            app_name: String::from("ナルミンチョの創作記録"),
-            body_class: None,
-            children: vec![n_gen_html::data::HtmlElement::new(
-                "div",
-                vec![],
-                n_gen_html::data::HtmlChildren::Text(String::from("init!")),
-            )],
-            cover_image_url: url::Url::parse("https://narumincho.com/cover").unwrap(),
-            description: String::from("革新的なプログラミング言語のDefiny, Web技術, 作っているゲームなどについて解説しています"),
-            icon_url: url::Url::parse("https://narumincho.com/icon").unwrap(),
-            language: Some(n_gen_html::data::Language::Japanese),
-            page_name: String::from("ナルミンチョの創作記録"),
-            script: None,
-            script_url_list: vec![path_to_url(PROGRAM_PATH)],
-            style: None,
-            style_url_list: vec![],
-            theme_color: None,
-            twitter_card: n_gen_html::data::TwitterCard::SummaryCard,
-            url: url::Url::parse("https://narumincho.com").unwrap(),
-            web_app_manifest_url: None,
-        }),
-    ));
+    if path == ICON_PATH {
+        match std::fs::read("./assets/icon.png") {
+            Ok(wasm) => {
+                let mut r = hyper::Response::new(hyper::Body::from(wasm));
+                r.headers_mut().insert(
+                    http::header::CONTENT_TYPE,
+                    http::HeaderValue::from_static("image/png"),
+                );
+                return Ok(r);
+            }
+            Err(_) => {}
+        }
+    }
+    let mut r = hyper::Response::new(hyper::Body::from(html_response()));
     r.headers_mut().insert(
         http::header::CONTENT_TYPE,
         http::HeaderValue::from_static("text/html"),
@@ -131,4 +122,29 @@ wasm_bindgen(new URL("{}"))
             None
         }
     }
+}
+
+fn html_response() -> String {
+    n_gen_html::structured_html_to_html_as_string(&n_gen_html::data::StructuredHtml {
+        app_name: String::from("ナルミンチョの創作記録"),
+        body_class: None,
+        children: vec![n_gen_html::data::HtmlElement::new(
+            "div",
+            vec![],
+            n_gen_html::data::HtmlChildren::Text(String::from("init!")),
+        )],
+        cover_image_url: path_to_url(ICON_PATH),
+        description: String::from("革新的なプログラミング言語のDefiny, Web技術, 作っているゲームなどについて解説しています"),
+        icon_url: path_to_url(ICON_PATH),
+        language: Some(n_gen_html::data::Language::Japanese),
+        page_name: String::from("ナルミンチョの創作記録"),
+        script: None,
+        script_url_list: vec![path_to_url(PROGRAM_PATH)],
+        style: None,
+        style_url_list: vec![],
+        theme_color: None,
+        twitter_card: n_gen_html::data::TwitterCard::SummaryCard,
+        url: path_to_url("/"),
+        web_app_manifest_url: None,
+    })
 }
