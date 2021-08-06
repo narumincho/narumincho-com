@@ -1,22 +1,33 @@
 const PROGRAM_PATH: &'static str = "/program";
 const WASM_PATH: &'static str = "/wasm";
 
-#[tokio::main]
-async fn main() {
-    let addr = std::net::SocketAddr::V6(std::net::SocketAddrV6::new(
+fn path_to_url(path: &str) -> url::Url {
+    match url::Url::parse(&(String::from("http://") + &address().to_string() + path)) {
+        Ok(url) => url,
+        Err(error) => {
+            std::panic!("URL の作成に失敗しました {}", error)
+        }
+    }
+}
+
+fn address() -> std::net::SocketAddr {
+    std::net::SocketAddr::V6(std::net::SocketAddrV6::new(
         std::net::Ipv6Addr::LOCALHOST,
         3000,
         0,
         0,
-    ));
+    ))
+}
 
+#[tokio::main]
+async fn main() {
     let make_svc = hyper::service::make_service_fn(|_conn| async {
         Ok::<_, std::convert::Infallible>(hyper::service::service_fn(handle_request))
     });
 
-    let server = hyper::Server::bind(&addr).serve(make_svc);
+    let server = hyper::Server::bind(&address()).serve(make_svc);
 
-    println!("development server start! http://{}", addr.to_string());
+    println!("development server start! {}", path_to_url("/"));
 
     // Run this server for... forever!
     if let Err(e) = server.await {
@@ -70,7 +81,7 @@ async fn handle_request(
             language: Some(n_gen_html::data::Language::Japanese),
             page_name: String::from("ナルミンチョの創作記録"),
             script: None,
-            script_url_list: vec![url::Url::parse(&(String::from("http://[::1]:3000") + &PROGRAM_PATH)).unwrap()],
+            script_url_list: vec![path_to_url(PROGRAM_PATH)],
             style: None,
             style_url_list: vec![],
             theme_color: None,
@@ -103,9 +114,9 @@ async fn program_response() -> Option<String> {
                     let added_js_code = js_code
                         + &format!(
                             r##"
-wasm_bindgen("{}")
+wasm_bindgen(new URL("{}"))
 "##,
-                            WASM_PATH
+                            path_to_url(WASM_PATH)
                         );
                     Some(added_js_code)
                 }
