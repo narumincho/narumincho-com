@@ -102,7 +102,7 @@ impl HtmlElement {
         HtmlElement {
             name: name.into(),
             attributes: HashMap::<String, Option<String>>::from_iter(attributes.into_iter()),
-            children: children,
+            children,
         }
     }
 }

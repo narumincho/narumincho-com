@@ -54,14 +54,18 @@ async fn handle_request(
     }
     let mut r = hyper::Response::new(hyper::Body::from(
         n_gen_html::structured_html_to_html_as_string(&n_gen_html::data::StructuredHtml {
-            app_name: "ナルミンチョの創作記録".to_string(),
+            app_name: String::from("ナルミンチョの創作記録"),
             body_class: None,
-            children: vec![],
+            children: vec![n_gen_html::data::HtmlElement::new(
+                "div",
+                vec![],
+                n_gen_html::data::HtmlChildren::Text(String::from("init!")),
+            )],
             cover_image_url: url::Url::parse("https://narumincho.com/cover").unwrap(),
-            description: "".to_string(),
+            description: String::from("革新的なプログラミング言語のDefiny, Web技術, 作っているゲームなどについて解説しています"),
             icon_url: url::Url::parse("https://narumincho.com/icon").unwrap(),
             language: Some(n_gen_html::data::Language::Japanese),
-            page_name: "ナルミンチョの創作記録".to_string(),
+            page_name: String::from("ナルミンチョの創作記録"),
             script: None,
             script_url_list: vec![],
             style: None,
