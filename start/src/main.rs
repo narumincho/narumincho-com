@@ -53,21 +53,21 @@ async fn handle_request(
         }
     }
     let mut r = hyper::Response::new(hyper::Body::from(
-        n_gen_html::structured_html_to_html_as_string(&n_gen_html::StructuredHtml {
+        n_gen_html::structured_html_to_html_as_string(&n_gen_html::data::StructuredHtml {
             app_name: "ナルミンチョの創作記録".to_string(),
             body_class: None,
             children: vec![],
             cover_image_url: url::Url::parse("https://narumincho.com/cover").unwrap(),
             description: "".to_string(),
             icon_url: url::Url::parse("https://narumincho.com/icon").unwrap(),
-            language: Some(n_gen_html::Language::Japanese),
+            language: Some(n_gen_html::data::Language::Japanese),
             page_name: "ナルミンチョの創作記録".to_string(),
             script: None,
             script_url_list: vec![],
             style: None,
             style_url_list: vec![],
             theme_color: None,
-            twitter_card: n_gen_html::TwitterCard::SummaryCard,
+            twitter_card: n_gen_html::data::TwitterCard::SummaryCard,
             url: url::Url::parse("https://narumincho.com").unwrap(),
             web_app_manifest_url: None,
         }),
