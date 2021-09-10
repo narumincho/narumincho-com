@@ -1,3 +1,5 @@
+https://github.com/narumincho/definy に統合予定
+
 # ナルミンチョの創作記録
 
 ## 構成図
