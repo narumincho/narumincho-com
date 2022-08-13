@@ -12,14 +12,28 @@ export const TopPage = (): React.ReactElement => {
       <div
         css={{
           display: "grid",
-          backgroundColor: "black",
-          color: "white",
           placeContent: "center",
+          height: "100%",
+          color: "white",
+          backgroundColor: "black",
         }}
+        lang="ja"
       >
-        <div>
+        <div
+          css={{
+            borderStyle: "solid",
+            borderColor: "gray",
+            borderRadius: 8,
+            padding: 8,
+          }}
+        >
           ナルミンチョの創作記録は
-          <a href="https://narumincho.notion.site/22961d0ee2924074a22ce37f405b941a">
+          <a
+            href="https://narumincho.notion.site/22961d0ee2924074a22ce37f405b941a"
+            css={{
+              color: "cyan",
+            }}
+          >
             Notion
           </a>
           に移動しましたが. このサイトでもなにかするかも
