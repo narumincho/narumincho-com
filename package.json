@@ -4,8 +4,9 @@
   "description": "ナルミンチョの創作記録 narumincho.com",
   "main": "distribution/build/main.js",
   "scripts": {
-    "typeCheck": "tsc --noEmit",
-    "update-package-json": "ncu -u"
+    "typeCheck": "npx tsc --noEmit",
+    "update-package-json": "npx ncu -u",
+    "dev": "npx next dev"
   },
   "repository": {
     "type": "git",
@@ -20,6 +21,10 @@
   "engines": {
     "node": "16"
   },
+  "dependencies": {
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  },
   "devDependencies": {
     "@types/node": "18.7.2",
     "@types/react": "18.0.17",
@@ -29,10 +34,9 @@
     "eslint": "8.21.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-prettier": "4.2.1",
+    "next": "12.2.5",
     "npm-check-updates": "16.0.5",
     "prettier": "2.7.1",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
     "typescript": "4.7.4"
   },
   "eslintConfig": {
