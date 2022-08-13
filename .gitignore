@@ -1,4 +1,2 @@
 node_modules
-distribution
-*.log
-firebase.json
+.next
