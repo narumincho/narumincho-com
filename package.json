@@ -183,5 +183,6 @@
         "off"
       ]
     }
-  }
+  },
+  "packageManager": "pnpm@7.9.3"
 }
