@@ -19,26 +19,26 @@
   },
   "homepage": "https://github.com/narumincho/HomePage#readme",
   "engines": {
-    "node": "16"
+    "node": "18"
   },
   "dependencies": {
-    "@emotion/react": "^11.10.0",
+    "@emotion/react": "11.10.5",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },
   "devDependencies": {
-    "@types/node": "18.7.2",
-    "@types/react": "18.0.17",
-    "@types/react-dom": "18.0.6",
-    "@typescript-eslint/eslint-plugin": "5.33.0",
-    "@typescript-eslint/parser": "5.33.0",
-    "eslint": "8.21.0",
-    "eslint-config-prettier": "8.5.0",
+    "@types/node": "18.13.0",
+    "@types/react": "18.0.28",
+    "@types/react-dom": "18.0.10",
+    "@typescript-eslint/eslint-plugin": "5.51.0",
+    "@typescript-eslint/parser": "5.51.0",
+    "eslint": "8.34.0",
+    "eslint-config-prettier": "8.6.0",
     "eslint-plugin-prettier": "4.2.1",
-    "next": "12.2.5",
-    "npm-check-updates": "16.0.5",
-    "prettier": "2.7.1",
-    "typescript": "4.7.4"
+    "next": "13.1.6",
+    "npm-check-updates": "16.7.4",
+    "prettier": "2.8.4",
+    "typescript": "4.9.5"
   },
   "eslintConfig": {
     "extends": [
@@ -183,6 +183,5 @@
         "off"
       ]
     }
-  },
-  "packageManager": "pnpm@7.9.3"
+  }
 }
