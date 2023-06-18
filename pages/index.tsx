@@ -36,7 +36,7 @@ export const TopPage = (): React.ReactElement => {
           >
             Notion
           </a>
-          に移動しましたが. このサイトでもなにかするかも
+          に移動しましたが. このサイトでもなにかするかも...?
         </div>
       </div>
     </>
