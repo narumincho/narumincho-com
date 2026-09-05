@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ナルミンチョの創作記録</title>
+  <meta name="description" content="ナルミンチョの個人サイト・創作記録。Web標準・Deno・TypeScript・言語処理系・UIデザイン・プチコン3号（DESIRED Route / NPIME）などの創作物を高速かつ美しくまとめています。">
+  <meta name="author" content="ナルミンチョ (narumincho / 鳴海 敏史)">
+  <link rel="icon" type="image/png" href="/icon.png">
+  <link rel="apple-touch-icon" href="/icon.png">
+
+  <!-- Open Graph / Social Meta -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://narumincho.com/">
+  <meta property="og:title" content="ナルミンチョの創作記録">
+  <meta property="og:description" content="ナルミンチョの個人サイト・創作記録。Web標準・Deno・TypeScript・言語処理系・UIデザイン・プチコン3号（DESIRED Route / NPIME）などの創作物を高速かつ美しくまとめています。">
+  <meta property="og:image" content="https://narumincho.com/icon.png">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:site" content="@naru_mincho">
+  <meta name="twitter:creator" content="@naru_mincho">
+
+  <link rel="stylesheet" href="/style.css">
+  <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"Person","name":"ナルミンチョ","alternateName":"narumincho","url":"https://narumincho.com","image":"https://narumincho.com/icon.png","sameAs":["https://x.com/naru_mincho","https://github.com/narumincho","https://zenn.dev/narumincho","https://qiita.com/narumincho","https://note.com/narumincho","https://bsky.app/profile/narumincho.com","https://www.youtube.com/@narumincho","https://narumincho.notion.site/22961d0ee2924074a22ce37f405b941a"],"jobTitle":"Creator / Software Engineer","description":"ナルミンチョの個人サイト・創作記録。Web標準・Deno・TypeScript・言語処理系・UIデザイン・プチコン3号（DESIRED Route / NPIME）などの創作物を高速かつ美しくまとめています。"}
+  </script>
+</head>
+<body>
+  <header class="hero">
+    <div class="container">
+      <div class="hero-avatar-wrapper">
+        <img src="/icon.png" alt="ナルミンチョのアイコン" class="hero-avatar" width="108" height="108">
+      </div>
+      <div class="hero-badge">narumincho.com • Instant Static</div>
+      <h1 class="hero-title">ナルミンチョの創作記録</h1>
+      <div class="hero-author">ナルミンチョ (narumincho / 鳴海 敏史)</div>
+      <div class="hero-bio">
+        <p>プログラミング、UIデザイン、言語処理系、Web標準が好きな創作者。</p><p>直感的で型安全なビジュアルプログラミング環境「Definy」の開発をはじめ、Webツール、ニンテンドー3DS プチコン3号でのRPG制作など、幅広いものづくりを行っています。</p><p>従来の Notion ページ初期ロードの重さを解消するため、静的HTML/CSSによる超高速配信へリニューアルしました。</p>
+      </div>
+      <div class="accounts-grid" aria-label="ソーシャル・関連リンク">
+        
+      <a href="https://x.com/naru_mincho" target="_blank" rel="noopener noreferrer" class="account-chip " aria-label="X (Twitter)">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        <span>X (Twitter)</span>
+      </a>
+      <a href="https://github.com/narumincho" target="_blank" rel="noopener noreferrer" class="account-chip " aria-label="GitHub">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+        <span>GitHub</span>
+      </a>
+      <a href="https://zenn.dev/narumincho" target="_blank" rel="noopener noreferrer" class="account-chip " aria-label="Zenn">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M.264 23.771h4.984c.264 0 .498-.147.645-.352L19.98 4.776H15.02L.264 23.771zm18.06-18.995h5.412c.147 0 .264-.117.264-.264V.264A.264.264 0 0 0 23.736 0H18.06c-.147 0-.264.117-.264.264v4.248c0 .147.117.264.264.264z"/></svg>
+        <span>Zenn</span>
+      </a>
+      <a href="https://qiita.com/narumincho" target="_blank" rel="noopener noreferrer" class="account-chip " aria-label="Qiita">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/><path d="M12 7v5l3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <span>Qiita</span>
+      </a>
+      <a href="https://note.com/narumincho" target="_blank" rel="noopener noreferrer" class="account-chip " aria-label="note">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M4 4h16v16H4V4zm3 4v8h10V8H7z"/></svg>
+        <span>note</span>
+      </a>
+      <a href="https://bsky.app/profile/narumincho.com" target="_blank" rel="noopener noreferrer" class="account-chip " aria-label="Bluesky">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566 1.01 1.5 1.7 1.5 3.7c0 1.25.438 6.55 1.25 8.1 1.25 2.4 3.75 3.2 5.75 2.2-2.5 1.5-5.5 3.5-3.5 7 2.5 4.4 7-2 7-2s4.5 6.4 7 2c2-3.5-1-5.5-3.5-7 2 1 4.5.2 5.75-2.2.812-1.55 1.25-6.85 1.25-8.1 0-2-1.066-2.69-3.702-.895C16.046 4.747 13.087 8.686 12 10.8z"/></svg>
+        <span>Bluesky</span>
+      </a>
+      <a href="https://www.youtube.com/@narumincho" target="_blank" rel="noopener noreferrer" class="account-chip " aria-label="YouTube">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        <span>YouTube</span>
+      </a>
+      <a href="https://narumincho.notion.site/22961d0ee2924074a22ce37f405b941a" target="_blank" rel="noopener noreferrer" class="account-chip chip-notion" aria-label="Notion (詳細アーカイブ)">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M4.459 4.208c.746.606 1.026.56 2.428.466l13.215-.793c.28 0 .047-.28-.093-.373L18.172 2.11c-.56-.42-1.307-.7-2.146-.653L3.992 2.25c-.466.047-.56.28-.373.467l.84 1.491zm-.093 3.312v12.593c0 .84.467 1.166 1.493 1.12l14.194-.84c1.026-.046 1.166-.653 1.166-1.4v-12.64c0-.746-.373-1.026-1.12-1.026l-14.614.887c-.793.047-1.119.42-1.119 1.306zm13.447.886c.093.373 0 .747-.373.793l-.84.14v8.956c0 .793-.42 1.12-1.166 1.12-.56 0-.84-.28-1.26-.84l-4.757-7.464v7.091l1.492.327c.373.093.466.42.466.746 0 .373-.28.467-.653.467l-3.5-.047c-.373 0-.56-.14-.56-.467 0-.373.187-.653.56-.746l1.213-.327V9.48l-1.4-.14c-.374-.047-.467-.373-.467-.653 0-.327.28-.467.653-.467l3.687.047c.56 0 .84.28 1.213.84l4.804 7.51V9.574l-1.306-.187c-.373-.093-.467-.42-.467-.746 0-.374.28-.467.653-.467l3.22.046c.373 0 .56.14.56.467 0 .374-.187.654-.56.747z"/></svg>
+        <span>Notion (詳細アーカイブ)</span>
+      </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Projects Section -->
+    <section class="section" id="creations">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <div class="section-icon">✦</div>
+          <h2 class="section-title">創作物・プロジェクト</h2>
+        </div>
+        <p class="section-desc">Webブラウザ上で動作するプログラミング言語から、3DS プチコン3号でのRPG制作、各種ツール・ライブラリまで。</p>
+      </div>
+
+      <!-- Filter Tabs -->
+      <div class="filter-tabs" role="tablist">
+        <button class="filter-btn active" onclick="filterCategory('all', this)" role="tab" aria-selected="true">すべて</button>
+        <button class="filter-btn" onclick="filterCategory('featured', this)" role="tab" aria-selected="false">代表作 (Definy等)</button>
+        <button class="filter-btn" onclick="filterCategory('peticom_archive', this)" role="tab" aria-selected="false">プチコン3号・過去作</button>
+        <button class="filter-btn" onclick="filterCategory('tool', this)" role="tab" aria-selected="false">ツール・ライブラリ</button>
+      </div>
+
+      <!-- Cards Grid -->
+      <div class="cards-grid" id="projects-grid">
+        
+      <article class="card featured wide" data-category="featured">
+        <div class="card-header">
+          <div class="card-title-group">
+            <span class="card-period">2020 - 現在</span>
+            <h3 class="card-title">Definy</h3>
+          </div>
+          <span class="card-category-badge badge-featured">注目プロジェクト</span>
+        </div>
+        <p class="card-desc">Webブラウザ上で動作する純粋関数型ビジュアルプログラミング言語・共同編集プラットフォーム。型安全性を極め、構文エラーのない直感的なプログラミング体験を追求しています。</p>
+        <ul class="card-highlights">
+            <li>Webブラウザだけで完結する共同編集プログラミング環境</li><li>構文エラーが発生しない構造化エディタ</li><li>TypeScript / WebAssembly / Web標準技術による堅牢な実装</li>
+          </ul>
+        
+        
+        <div class="card-tags"><span class="card-tag">#TypeScript</span><span class="card-tag">#WebAssembly</span><span class="card-tag">#Programming Language</span><span class="card-tag">#Compiler</span></div>
+        <div class="card-links"><a href="https://definy.me" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+            Definy を開く
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M17 17V8H8"/></svg>
+          </a><a href="https://github.com/narumincho/definy" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+            GitHub リポジトリ
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M17 17V8H8"/></svg>
+          </a></div>
+      </article>
+      <article class="card featured wide" data-category="featured">
+        <div class="card-header">
+          <div class="card-title-group">
+            <span class="card-period">2024 - 2026</span>
+            <h3 class="card-title">CryptoFinder (Web File Encryptor)</h3>
+          </div>
+          <span class="card-category-badge badge-featured">注目プロジェクト</span>
+        </div>
+        <p class="card-desc">ローカル環境やサーバー上のファイルを安全に暗号化・復号・プレビューできるモダンなエクスプローラー型Webアプリケーション。強固な暗号化（AES-GCM / Argon2id）と直感的なファイル管理UIを融合。</p>
+        <ul class="card-highlights">
+            <li>Web Crypto API と Deno を活用した高速暗号処理</li><li>安全なプレビュー機能付きファイルマネージャーUI</li>
+          </ul>
+        
+        
+        <div class="card-tags"><span class="card-tag">#Deno</span><span class="card-tag">#TypeScript</span><span class="card-tag">#Web Crypto</span><span class="card-tag">#Security</span></div>
+        <div class="card-links"><a href="https://github.com/narumincho/web-file-encryptor" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+            GitHub リポジトリ
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M17 17V8H8"/></svg>
+          </a></div>
+      </article>
+      <article class="card  wide" data-category="peticom_archive">
+        <div class="card-header">
+          <div class="card-title-group">
+            <span class="card-period">2015 - 2018</span>
+            <h3 class="card-title">DESIRED Route (プチコン3号 RPG)</h3>
+          </div>
+          <span class="card-category-badge badge-peticom">プチコン3号・アーカイブ</span>
+        </div>
+        <p class="card-desc">ニンテンドー3DSの「プチコン3号」上で制作された本格長編RPG。自作の漢字フォントレンダラー、操作性を追求したウィンドウ挙動、独自のエンカウント方式、Excelによるデータ連携など、技術的挑戦が詰まった代表作です。</p>
+        <ul class="card-highlights">
+            <li>プチコン3号上で美麗な漢字表示を実現する独自フォントシステム</li><li>RPGとしてのテンポ・GUIの配色・レスポンスの徹底した最適化</li><li>現在も読める詳細な技術解説・設計ドキュメントが多数残存</li>
+          </ul>
+        
+        <div class="archive-articles">
+            <div class="archive-articles-title">当時の技術解説記事</div>
+            <div class="archive-article-tags">
+              <a href="https://pub-1463f3b1a6d64d348162c5230dfdd105.r2.dev/HomePage/desired_route/window.html" target="_blank" rel="noopener noreferrer" class="archive-article-link">ウィンドウの挙動</a><a href="https://pub-1463f3b1a6d64d348162c5230dfdd105.r2.dev/HomePage/desired_route/font.html" target="_blank" rel="noopener noreferrer" class="archive-article-link">漢字の表示</a><a href="https://pub-1463f3b1a6d64d348162c5230dfdd105.r2.dev/HomePage/desired_route/list.html" target="_blank" rel="noopener noreferrer" class="archive-article-link">リストの選択の挙動</a><a href="https://pub-1463f3b1a6d64d348162c5230dfdd105.r2.dev/HomePage/desired_route/guicolor.html" target="_blank" rel="noopener noreferrer" class="archive-article-link">GUIの配色</a><a href="https://pub-1463f3b1a6d64d348162c5230dfdd105.r2.dev/HomePage/desired_route/encount.html" target="_blank" rel="noopener noreferrer" class="archive-article-link">エンカウント方式</a><a href="https://pub-1463f3b1a6d64d348162c5230dfdd105.r2.dev/HomePage/desired_route/input.html" target="_blank" rel="noopener noreferrer" class="archive-article-link">入力の挙動</a><a href="https://pub-1463f3b1a6d64d348162c5230dfdd105.r2.dev/HomePage/desired_route/excel.html" target="_blank" rel="noopener noreferrer" class="archive-article-link">Excelでのデータ作成</a><a href="https://pub-1463f3b1a6d64d348162c5230dfdd105.r2.dev/HomePage/desired_route/star.html" target="_blank" rel="noopener noreferrer" class="archive-article-link">星の図形</a>
+            </div>
+          </div>
+        <div class="card-tags"><span class="card-tag">#Petitcom 3号</span><span class="card-tag">#3DS</span><span class="card-tag">#RPG</span><span class="card-tag">#Game Dev</span><span class="card-tag">#2018 Archive</span></div>
+        <div class="card-links"><a href="https://pub-1463f3b1a6d64d348162c5230dfdd105.r2.dev/HomePage/index.html" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+            2018年 当時サイトを見る
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M17 17V8H8"/></svg>
+          </a></div>
+      </article>
+      <article class="card  wide" data-category="peticom_archive">
+        <div class="card-header">
+          <div class="card-title-group">
+            <span class="card-period">2017 - 2018</span>
+            <h3 class="card-title">N Petitcom IME (NPIME)</h3>
+          </div>
+          <span class="card-category-badge badge-peticom">プチコン3号・アーカイブ</span>
+        </div>
+        <p class="card-desc">プチコン3号環境で動作する画期的な漢字入力IME。ひらがなから漢字への変換ロジックを実装し、ゲーム内外での日本語表現を大幅に拡張しました。</p>
+        
+        <div class="public-key-box">
+            <span class="public-key-label">N プチコン漢字入力 公開キー</span>
+            <div class="public-key-val-wrap">
+              <code class="public-key-val" id="key-npime">BEREV2HV</code>
+              <button class="copy-btn" onclick="copyText('BEREV2HV', this)" title="公開キーをコピー">コピー</button>
+            </div>
+          </div>
+        
+        <div class="card-tags"><span class="card-tag">#Petitcom 3号</span><span class="card-tag">#3DS</span><span class="card-tag">#IME</span><span class="card-tag">#Algorithm</span><span class="card-tag">#2018 Archive</span></div>
+        <div class="card-links"><a href="https://pub-1463f3b1a6d64d348162c5230dfdd105.r2.dev/HomePage/npime/char.html" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+            対応している文字
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M17 17V8H8"/></svg>
+          </a><a href="https://pub-1463f3b1a6d64d348162c5230dfdd105.r2.dev/HomePage/npime/convert_prg.html" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+            変換プログラム解説
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M17 17V8H8"/></svg>
+          </a></div>
+      </article>
+      <article class="card  wide" data-category="peticom_archive">
+        <div class="card-header">
+          <div class="card-title-group">
+            <span class="card-period">2018</span>
+            <h3 class="card-title">Gladsheim (グラズヘイム)</h3>
+          </div>
+          <span class="card-category-badge badge-peticom">プチコン3号・アーカイブ</span>
+        </div>
+        <p class="card-desc">壮大な世界観とキャラクター設定を盛り込んだオリジナルRPGの制作記録・開発ログ。</p>
+        
+        
+        
+        <div class="card-tags"><span class="card-tag">#RPG</span><span class="card-tag">#Game Design</span><span class="card-tag">#Log</span><span class="card-tag">#2018 Archive</span></div>
+        <div class="card-links"><a href="https://pub-1463f3b1a6d64d348162c5230dfdd105.r2.dev/HomePage/Gladsheim/201807/index.html" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+            Gladsheim 2018-07 ログ
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M17 17V8H8"/></svg>
+          </a><a href="https://pub-1463f3b1a6d64d348162c5230dfdd105.r2.dev/HomePage/Gladsheim/201808/index.html" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+            Gladsheim 2018-08 ログ
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M17 17V8H8"/></svg>
+          </a><a href="https://pub-1463f3b1a6d64d348162c5230dfdd105.r2.dev/HomePage/Gladsheim/201809/index.html" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+            Gladsheim 2018-09 ログ
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M17 17V8H8"/></svg>
+          </a></div>
+      </article>
+      <article class="card  " data-category="tool">
+        <div class="card-header">
+          <div class="card-title-group">
+            <span class="card-period">2021</span>
+            <h3 class="card-title">line-stamp-maker</h3>
+          </div>
+          <span class="card-category-badge badge-tool">ツール・ライブラリ</span>
+        </div>
+        <p class="card-desc">LINEスタンプの厳密な規格（余白、偶数ピクセルサイズ、APNG形式）に沿った画像の一括自動変換・書き出しをブラウザ上で行える支援ツール。</p>
+        
+        
+        
+        <div class="card-tags"><span class="card-tag">#Web Tool</span><span class="card-tag">#Canvas API</span><span class="card-tag">#Productivity</span></div>
+        <div class="card-links"><a href="https://github.com/narumincho/line-stamp-maker" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+            GitHub リポジトリ
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M17 17V8H8"/></svg>
+          </a></div>
+      </article>
+      <article class="card  " data-category="tool">
+        <div class="card-header">
+          <div class="card-title-group">
+            <span class="card-period">2022</span>
+            <h3 class="card-title">Simple Markdown</h3>
+          </div>
+          <span class="card-category-badge badge-tool">ツール・ライブラリ</span>
+        </div>
+        <p class="card-desc">Web標準とTypeScriptで実装された軽量かつ安全なMarkdownパーサー＆HTMLジェネレーター。カスタマイズ性の高い構文木変換を提供。</p>
+        
+        
+        
+        <div class="card-tags"><span class="card-tag">#TypeScript</span><span class="card-tag">#Parser</span><span class="card-tag">#Markdown</span><span class="card-tag">#OSS</span></div>
+        <div class="card-links"><a href="https://github.com/narumincho/simple-markdown" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+            GitHub リポジトリ
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M17 17V8H8"/></svg>
+          </a></div>
+      </article>
+      <article class="card  " data-category="tool">
+        <div class="card-header">
+          <div class="card-title-group">
+            <span class="card-period">2021</span>
+            <h3 class="card-title">Speech Balloon (Web 吹き出し)</h3>
+          </div>
+          <span class="card-category-badge badge-tool">ツール・ライブラリ</span>
+        </div>
+        <p class="card-desc">チャットやノベルゲーム風UIを簡単にWebページに組み込める、軽量でカスタマイズ性の高い吹き出しコンポーネントライブラリ。</p>
+        
+        
+        
+        <div class="card-tags"><span class="card-tag">#Web Component</span><span class="card-tag">#CSS</span><span class="card-tag">#UI Component</span></div>
+        <div class="card-links"><a href="https://github.com/narumincho/speech-balloon" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+            GitHub リポジトリ
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M17 17V8H8"/></svg>
+          </a></div>
+      </article>
+      <article class="card  " data-category="experimental">
+        <div class="card-header">
+          <div class="card-title-group">
+            <span class="card-period">2023</span>
+            <h3 class="card-title">Chidori (千鳥)</h3>
+          </div>
+          <span class="card-category-badge badge-experimental">実験的プロジェクト</span>
+        </div>
+        <p class="card-desc">日本語タイポグラフィ、字形、フォントレンダリングの最適化を探求する実験的プロジェクト。</p>
+        
+        
+        
+        <div class="card-tags"><span class="card-tag">#Typography</span><span class="card-tag">#Font</span><span class="card-tag">#Graphics</span></div>
+        <div class="card-links"><a href="https://github.com/narumincho/chidori" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+            GitHub リポジトリ
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M17 17V8H8"/></svg>
+          </a></div>
+      </article>
+      </div>
+    </section>
+
+    <!-- 2018 Archive History Banner -->
+    <div class="history-banner">
+      <div class="history-banner-text">
+        <h3>2018年 当時サイトのアーカイブ</h3>
+        <p>プチコン3号 RPG「DESIRED Route」のウィンドウ挙動や漢字フォント解説、NPIME、Gladsheim の開発記録は、当時のまま保存・閲覧可能です。</p>
+      </div>
+      <a href="https://pub-1463f3b1a6d64d348162c5230dfdd105.r2.dev/HomePage/index.html" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+        当時のサイトを開く
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+      </a>
+    </div>
+
+    <!-- Writing & Tech Articles Section -->
+    <section class="section" id="articles">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <div class="section-icon">✎</div>
+          <h2 class="section-title">記事・執筆活動</h2>
+        </div>
+        <p class="section-desc">技術的知見や設計思想、言語処理系の自作プロセスなどを定期的に発信しています。</p>
+      </div>
+      <div class="writing-grid">
+        
+      <a href="https://zenn.dev/narumincho" target="_blank" rel="noopener noreferrer" class="writing-card">
+        <div class="writing-platform">Zenn</div>
+        <div class="writing-topic">WebAssembly / TypeScript / Deno / プログラミング言語自作</div>
+        <div class="btn btn-secondary" style="margin-top:auto; font-size: 0.85rem; padding: 6px 12px;">
+          記事一覧を見る
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M17 17V8H8"/></svg>
+        </div>
+      </a>
+      <a href="https://qiita.com/narumincho" target="_blank" rel="noopener noreferrer" class="writing-card">
+        <div class="writing-platform">Qiita</div>
+        <div class="writing-topic">フロントエンド・設計・Web標準API活用法</div>
+        <div class="btn btn-secondary" style="margin-top:auto; font-size: 0.85rem; padding: 6px 12px;">
+          記事一覧を見る
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M17 17V8H8"/></svg>
+        </div>
+      </a>
+      <a href="https://note.com/narumincho" target="_blank" rel="noopener noreferrer" class="writing-card">
+        <div class="writing-platform">Note</div>
+        <div class="writing-topic">創作に関する思考、UI/UXデザインについての考察</div>
+        <div class="btn btn-secondary" style="margin-top:auto; font-size: 0.85rem; padding: 6px 12px;">
+          記事一覧を見る
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M17 17V8H8"/></svg>
+        </div>
+      </a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-links">
+        <a href="https://github.com/narumincho" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="https://x.com/naru_mincho" target="_blank" rel="noopener noreferrer">X (Twitter)</a>
+        <a href="https://narumincho.notion.site/22961d0ee2924074a22ce37f405b941a" target="_blank" rel="noopener noreferrer">Notion (アーカイブ)</a>
+      </div>
+      <p>&copy; 2026 narumincho (鳴海 敏史). All rights reserved.</p>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    function copyText(text, btn) {
+      navigator.clipboard.writeText(text).then(function() {
+        showToast('公開キー「' + text + '」をコピーしました！');
+        var original = btn.textContent;
+        btn.textContent = '済!';
+        setTimeout(function() { btn.textContent = original; }, 2000);
+      }).catch(function(err) {
+        showToast('コピーに失敗しました');
+      });
+    }
+
+    function showToast(msg) {
+      var toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(function() { toast.classList.remove('show'); }, 2500);
+    }
+
+    function filterCategory(cat, btn) {
+      var buttons = document.querySelectorAll('.filter-btn');
+      buttons.forEach(function(b) {
+        b.classList.remove('active');
+        b.setAttribute('aria-selected', 'false');
+      });
+      btn.classList.add('active');
+      btn.setAttribute('aria-selected', 'true');
+
+      var cards = document.querySelectorAll('#projects-grid .card');
+      cards.forEach(function(card) {
+        var cardCat = card.getAttribute('data-category');
+        if (cat === 'all' || cardCat === cat) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+  </script>
+</body>
+</html>

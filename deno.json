@@ -1,0 +1,10 @@
+{
+  "tasks": {
+    "build": "deno run --allow-read --allow-write src/build.ts",
+    "dev": "deno run --allow-net --allow-read src/dev.ts",
+    "check": "deno check src/build.ts src/dev.ts"
+  },
+  "compilerOptions": {
+    "lib": ["deno.window", "dom"]
+  }
+}

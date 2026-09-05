@@ -1,24 +1,54 @@
-# ナルミンチョの創作記録 https://narumincho.com/
+# ナルミンチョの創作記録 (narumincho.com)
 
-今後, いろいろ作る. ほどんどのコンテンツは Notion に移植済み.
-https://narumincho.notion.site/22961d0ee2924074a22ce37f405b941a
+ナルミンチョ（鳴海 敏史）の個人サイト・ポートフォリオ。
 
-現在 narumincho.com のドメインがなぜか動いていない. (仮
-https://cf.narumincho.com) Cloudflareにドメインを2024年3月ごろ移行するのでその時
-直ると思う.
+Notion ページの初期表示の重さを解消するため、Deno を用いて純粋な静的
+HTML/CSS（Zero Runtime Overhead）を事前生成し、Cloudflare（Workers Static Assets
+/ Pages）で配信します。
 
-## 開発方法
+---
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/narumincho/narumincho-com)
+## 開発環境 (Deno)
 
-開発用サーバーの起動
+本リポジトリは Node.js や npm を一切使用せず、**Deno**
+のみで開発・ビルドを行います。
 
-```sh
-npx next dev
-```
-
-ビルド
+### 1. ビルド
 
 ```sh
-npx next build
+deno task build
 ```
+
+`src/data/siteData.ts` と `src/style.css` から、`dist/`
+ディレクトリ配下に完全静的なサイト（`index.html`, `style.css`,
+`icon.png`）を出力します。
+
+### 2. ローカル開発サーバー起動
+
+```sh
+deno task dev
+```
+
+`http://localhost:8000` でローカルプレビューサーバーが起動します。
+
+### 3. 型チェック
+
+```sh
+deno task check
+```
+
+---
+
+## デプロイ (Cloudflare)
+
+### Cloudflare Workers (Static Assets)
+
+`wrangler.json` が設定済みのため、Cloudflare Workers Static Assets
+としてそのまま高速配信されます。
+
+### Cloudflare Pages
+
+GitHub 連携でビルドする場合は、以下のように設定します：
+
+- **Build command**: `deno task build`
+- **Build output directory**: `dist`
