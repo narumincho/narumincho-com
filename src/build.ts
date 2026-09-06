@@ -10,18 +10,6 @@ function escapeHtml(str: string): string {
 }
 
 function renderHtml(): string {
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    name: "ナルミンチョ",
-    alternateName: "narumincho",
-    url: siteData.url,
-    image: `${siteData.url}/icon.png`,
-    sameAs: siteData.accounts.map((a) => a.url),
-    jobTitle: "Creator / Software Engineer",
-    description: siteData.description,
-  };
-
   const accountChipsHtml = siteData.accounts
     .map((account) => {
       const isNotion = account.id === "notion";
@@ -35,37 +23,44 @@ function renderHtml(): string {
     })
     .join("");
 
-  const projectsHtml = siteData.projects
-    .map((p) => {
-      const isWide = p.category === "featured" ||
-        p.category === "peticom_archive";
-      let badgeClass = "badge-tool";
-      let badgeLabel = "ツール・ライブラリ";
-
-      if (p.category === "featured") {
-        badgeClass = "badge-featured";
-        badgeLabel = "注目プロジェクト";
-      } else if (p.category === "peticom_archive") {
-        badgeClass = "badge-peticom";
-        badgeLabel = "プチコン3号・アーカイブ";
-      } else if (p.category === "experimental") {
-        badgeClass = "badge-experimental";
-        badgeLabel = "実験的プロジェクト";
-      }
-
-      const highlightsHtml = p.highlights && p.highlights.length > 0
-        ? `<ul class="card-highlights">
-            ${p.highlights.map((h) => `<li>${escapeHtml(h)}</li>`).join("")}
-          </ul>`
+  // ✨ ナルミンチョが作った Webアプリなど
+  const webAppsHtml = siteData.webApps
+    .map((app) => {
+      const descHtml = app.description
+        ? `<p class="card-desc">${escapeHtml(app.description)}</p>`
+        : "";
+      const notionLink = app.notionPageId
+        ? `<a href="https://narumincho.notion.site/${app.notionPageId}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+            Notion ページ
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+          </a>`
         : "";
 
+      return `
+      <article class="card">
+        <div class="card-header">
+          <h3 class="card-title">${escapeHtml(app.title)}</h3>
+        </div>
+        ${descHtml}
+        <div class="card-links">
+          <a href="${app.url}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+            アプリを開く
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M17 17V8H8"/></svg>
+          </a>
+          ${notionLink}
+        </div>
+      </article>`;
+    })
+    .join("");
+
+  // 2018年サイトの創作記録 (DESIRED Route, NPIME, Gladsheim)
+  const peticomProjectsHtml = siteData.peticomProjects
+    .map((p) => {
       const publicKeyHtml = p.publicKey
         ? `<div class="public-key-box">
-            <span class="public-key-label">N プチコン漢字入力 公開キー</span>
+            <span class="public-key-label">N プチコン漢字入力 Beta の公開キー</span>
             <div class="public-key-val-wrap">
-              <code class="public-key-val" id="key-${p.id}">${
-          escapeHtml(p.publicKey)
-        }</code>
+              <code class="public-key-val">${escapeHtml(p.publicKey)}</code>
               <button class="copy-btn" onclick="copyText('${
           escapeHtml(p.publicKey)
         }', this)" title="公開キーをコピー">コピー</button>
@@ -75,7 +70,7 @@ function renderHtml(): string {
 
       const articlesHtml = p.articles && p.articles.length > 0
         ? `<div class="archive-articles">
-            <div class="archive-articles-title">当時の技術解説記事</div>
+            <div class="archive-articles-title">当時の紹介・技術記事</div>
             <div class="archive-article-tags">
               ${
           p.articles.map((art) =>
@@ -88,58 +83,39 @@ function renderHtml(): string {
           </div>`
         : "";
 
-      const tagsHtml = p.tags
-        .map((tag) => `<span class="card-tag">#${escapeHtml(tag)}</span>`)
-        .join("");
-
-      const linksHtml = p.links
-        .map((link) => {
-          const btnClass = link.primary
-            ? "btn btn-primary"
-            : "btn btn-secondary";
-          return `<a href="${link.url}" target="_blank" rel="noopener noreferrer" class="${btnClass}">
-            ${escapeHtml(link.label)}
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M17 17V8H8"/></svg>
-          </a>`;
-        })
-        .join("");
-
       return `
-      <article class="card ${p.category === "featured" ? "featured" : ""} ${
-        isWide ? "wide" : ""
-      }" data-category="${p.category}">
+      <article class="card wide">
         <div class="card-header">
-          <div class="card-title-group">
-            ${
-        p.period
-          ? `<span class="card-period">${escapeHtml(p.period)}</span>`
-          : ""
-      }
-            <h3 class="card-title">${escapeHtml(p.title)}</h3>
-          </div>
-          <span class="card-category-badge ${badgeClass}">${badgeLabel}</span>
+          <h3 class="card-title">${escapeHtml(p.title)}</h3>
+          <span class="card-category-badge badge-peticom">プチコン3号・2018記録</span>
         </div>
         <p class="card-desc">${escapeHtml(p.description)}</p>
-        ${highlightsHtml}
         ${publicKeyHtml}
         ${articlesHtml}
-        <div class="card-tags">${tagsHtml}</div>
-        <div class="card-links">${linksHtml}</div>
       </article>`;
     })
     .join("");
 
-  const writingHtml = siteData.articles
-    .map((item) => {
+  // 📝 ナルミンチョが書いた 記事 (Notion)
+  const notionArticlesHtml = siteData.notionArticles
+    .map((art) => {
+      const tagHtml = art.tag
+        ? `<span class="article-tag">${escapeHtml(art.tag)}</span>`
+        : "";
+      const dateHtml = art.date
+        ? `<span class="article-date">${escapeHtml(art.date)}</span>`
+        : "";
+
       return `
-      <a href="${item.url}" target="_blank" rel="noopener noreferrer" class="writing-card">
-        <div class="writing-platform">${escapeHtml(item.platform)}</div>
-        <div class="writing-topic">${escapeHtml(item.topic)}</div>
-        <div class="btn btn-secondary" style="margin-top:auto; font-size: 0.85rem; padding: 6px 12px;">
-          記事一覧を見る
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M17 17V8H8"/></svg>
+      <li class="notion-article-item">
+        <div class="notion-article-main">
+          <span class="notion-article-title">${escapeHtml(art.title)}</span>
+          <div class="notion-article-meta">
+            ${tagHtml}
+            ${dateHtml}
+          </div>
         </div>
-      </a>`;
+      </li>`;
     })
     .join("");
 
@@ -150,11 +126,10 @@ function renderHtml(): string {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${escapeHtml(siteData.title)}</title>
   <meta name="description" content="${escapeHtml(siteData.description)}">
-  <meta name="author" content="${escapeHtml(siteData.author)}">
   <link rel="icon" type="image/png" href="/icon.png">
   <link rel="apple-touch-icon" href="/icon.png">
 
-  <!-- Open Graph / Social Meta -->
+  <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="${siteData.url}/">
   <meta property="og:title" content="${escapeHtml(siteData.title)}">
@@ -162,12 +137,8 @@ function renderHtml(): string {
   <meta property="og:image" content="${siteData.url}/icon.png">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:site" content="@naru_mincho">
-  <meta name="twitter:creator" content="@naru_mincho">
 
   <link rel="stylesheet" href="/style.css">
-  <script type="application/ld+json">
-    ${JSON.stringify(jsonLd)}
-  </script>
 </head>
 <body>
   <header class="hero">
@@ -175,66 +146,76 @@ function renderHtml(): string {
       <div class="hero-avatar-wrapper">
         <img src="/icon.png" alt="ナルミンチョのアイコン" class="hero-avatar" width="108" height="108">
       </div>
-      <div class="hero-badge">narumincho.com • Instant Static</div>
       <h1 class="hero-title">${escapeHtml(siteData.title)}</h1>
       <div class="hero-author">${escapeHtml(siteData.author)}</div>
       <div class="hero-bio">
         ${siteData.bio.map((line) => `<p>${escapeHtml(line)}</p>`).join("")}
       </div>
-      <div class="accounts-grid" aria-label="ソーシャル・関連リンク">
+      <div class="accounts-grid" aria-label="アカウント・リンク">
         ${accountChipsHtml}
       </div>
     </div>
   </header>
 
   <main class="container">
-    <!-- Projects Section -->
-    <section class="section" id="creations">
+    <!-- ✨ ナルミンチョが作った Webアプリなど -->
+    <section class="section" id="web-apps">
       <div class="section-header">
         <div class="section-title-wrap">
-          <div class="section-icon">✦</div>
-          <h2 class="section-title">創作物・プロジェクト</h2>
+          <div class="section-icon">✨</div>
+          <h2 class="section-title">ナルミンチョが作った Webアプリなど</h2>
         </div>
-        <p class="section-desc">Webブラウザ上で動作するプログラミング言語から、3DS プチコン3号でのRPG制作、各種ツール・ライブラリまで。</p>
+        <p class="section-desc">Notion ページに掲載されている Web アプリケーション一覧です。</p>
       </div>
-
-      <!-- Filter Tabs -->
-      <div class="filter-tabs" role="tablist">
-        <button class="filter-btn active" onclick="filterCategory('all', this)" role="tab" aria-selected="true">すべて</button>
-        <button class="filter-btn" onclick="filterCategory('featured', this)" role="tab" aria-selected="false">代表作 (Definy等)</button>
-        <button class="filter-btn" onclick="filterCategory('peticom_archive', this)" role="tab" aria-selected="false">プチコン3号・過去作</button>
-        <button class="filter-btn" onclick="filterCategory('tool', this)" role="tab" aria-selected="false">ツール・ライブラリ</button>
-      </div>
-
-      <!-- Cards Grid -->
-      <div class="cards-grid" id="projects-grid">
-        ${projectsHtml}
+      <div class="cards-grid">
+        ${webAppsHtml}
       </div>
     </section>
 
-    <!-- 2018 Archive History Banner -->
-    <div class="history-banner">
-      <div class="history-banner-text">
-        <h3>2018年 当時サイトのアーカイブ</h3>
-        <p>プチコン3号 RPG「DESIRED Route」のウィンドウ挙動や漢字フォント解説、NPIME、Gladsheim の開発記録は、当時のまま保存・閲覧可能です。</p>
-      </div>
-      <a href="https://pub-1463f3b1a6d64d348162c5230dfdd105.r2.dev/HomePage/index.html" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
-        当時のサイトを開く
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
-      </a>
-    </div>
-
-    <!-- Writing & Tech Articles Section -->
-    <section class="section" id="articles">
+    <!-- 2018年 創作記録 -->
+    <section class="section" id="archive-2018">
       <div class="section-header">
         <div class="section-title-wrap">
-          <div class="section-icon">✎</div>
-          <h2 class="section-title">記事・執筆活動</h2>
+          <div class="section-icon">🎮</div>
+          <h2 class="section-title">プチコン3号 RPG「DESIRED Route」・NPIME・Gladsheim</h2>
         </div>
-        <p class="section-desc">技術的知見や設計思想、言語処理系の自作プロセスなどを定期的に発信しています。</p>
+        <p class="section-desc">2018年のホームページで公開されていた創作物・技術解説記録です。</p>
       </div>
-      <div class="writing-grid">
-        ${writingHtml}
+      <div class="cards-grid">
+        ${peticomProjectsHtml}
+      </div>
+      <!-- 2018 Archive History Banner -->
+      <div class="history-banner">
+        <div class="history-banner-text">
+          <h3>2018年 当時サイトのアーカイブ</h3>
+          <p>プチコン3号 RPG「DESIRED Route」のウィンドウ挙動や漢字フォント解説、NPIME、Gladsheim の当時のページはこちらから閲覧できます。</p>
+        </div>
+        <a href="https://pub-1463f3b1a6d64d348162c5230dfdd105.r2.dev/HomePage/index.html" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+          当時のサイトを開く
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+        </a>
+      </div>
+    </section>
+
+    <!-- 📝 ナルミンチョが書いた 記事 -->
+    <section class="section" id="notion-articles">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <div class="section-icon">📝</div>
+          <h2 class="section-title">ナルミンチョが書いた 記事</h2>
+        </div>
+        <p class="section-desc">Notion ページに記録されている記事（全 33 件）の一覧です。</p>
+      </div>
+      <div class="notion-articles-card">
+        <ul class="notion-articles-list">
+          ${notionArticlesHtml}
+        </ul>
+        <div style="margin-top: 20px; text-align: center;">
+          <a href="https://narumincho.notion.site/22961d0ee2924074a22ce37f405b941a" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+            Notion で記事を読む
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+          </a>
+        </div>
       </div>
     </section>
   </main>
@@ -242,13 +223,13 @@ function renderHtml(): string {
   <footer>
     <div class="container">
       <div class="footer-links">
+        <a href="https://twitter.com/naru_mincho" target="_blank" rel="noopener noreferrer">Twitter (@naru_mincho)</a>
         <a href="https://github.com/narumincho" target="_blank" rel="noopener noreferrer">GitHub</a>
-        <a href="https://x.com/naru_mincho" target="_blank" rel="noopener noreferrer">X (Twitter)</a>
-        <a href="https://narumincho.notion.site/22961d0ee2924074a22ce37f405b941a" target="_blank" rel="noopener noreferrer">Notion (アーカイブ)</a>
+        <a href="https://zenn.dev/narumincho" target="_blank" rel="noopener noreferrer">Zenn</a>
+        <a href="https://www.youtube.com/channel/UCDGsMJptdPNN_dbPkTl9qjA" target="_blank" rel="noopener noreferrer">YouTube</a>
+        <a href="https://narumincho.notion.site/22961d0ee2924074a22ce37f405b941a" target="_blank" rel="noopener noreferrer">Notion</a>
       </div>
-      <p>&copy; ${
-    new Date().getFullYear()
-  } narumincho (鳴海 敏史). All rights reserved.</p>
+      <p>&copy; ナルミンチョ. All rights reserved.</p>
     </div>
   </footer>
 
@@ -271,26 +252,6 @@ function renderHtml(): string {
       toast.textContent = msg;
       toast.classList.add('show');
       setTimeout(function() { toast.classList.remove('show'); }, 2500);
-    }
-
-    function filterCategory(cat, btn) {
-      var buttons = document.querySelectorAll('.filter-btn');
-      buttons.forEach(function(b) {
-        b.classList.remove('active');
-        b.setAttribute('aria-selected', 'false');
-      });
-      btn.classList.add('active');
-      btn.setAttribute('aria-selected', 'true');
-
-      var cards = document.querySelectorAll('#projects-grid .card');
-      cards.forEach(function(card) {
-        var cardCat = card.getAttribute('data-category');
-        if (cat === 'all' || cardCat === cat) {
-          card.style.display = 'flex';
-        } else {
-          card.style.display = 'none';
-        }
-      });
     }
   </script>
 </body>

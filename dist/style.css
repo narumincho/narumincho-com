@@ -570,47 +570,75 @@ a:hover {
   color: #fff;
 }
 
-/* Articles section */
-.writing-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 16px;
-}
-
-@media (min-width: 640px) {
-  .writing-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-.writing-card {
+/* Notion Articles List */
+.notion-articles-card {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
+  padding: 24px;
+  backdrop-filter: blur(12px);
+}
+
+.notion-articles-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  padding: 0;
+  margin: 0;
+}
+
+@media (min-width: 768px) {
+  .notion-articles-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.notion-article-item {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
   transition: all 0.2s ease;
 }
 
-.writing-card:hover {
+.notion-article-item:hover {
   background: var(--bg-card-hover);
   border-color: rgba(56, 189, 248, 0.3);
-  transform: translateY(-2px);
 }
 
-.writing-platform {
-  font-size: 1.2rem;
-  font-weight: 700;
+.notion-article-main {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.notion-article-title {
+  font-size: 0.95rem;
+  font-weight: 600;
   color: #fff;
-  margin-bottom: 6px;
+  line-height: 1.4;
 }
 
-.writing-topic {
-  font-size: 0.9rem;
-  color: var(--text-secondary);
-  margin-bottom: 16px;
-  flex-grow: 1;
+.notion-article-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+}
+
+.article-tag {
+  background: rgba(56, 189, 248, 0.1);
+  color: var(--accent-cyan);
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  padding: 1px 8px;
+  border-radius: var(--radius-full);
+}
+
+.article-date {
+  color: var(--text-muted);
+  font-family: var(--font-mono);
 }
 
 /* History Banner */

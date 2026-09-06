@@ -4,7 +4,6 @@ export interface AccountLink {
   url: string;
   handle: string;
   iconSvg: string;
-  color?: string;
 }
 
 export interface ArchiveArticle {
@@ -12,35 +11,46 @@ export interface ArchiveArticle {
   url: string;
 }
 
-export interface ProjectItem {
+export interface WebAppItem {
   id: string;
   title: string;
-  category: "featured" | "tool" | "peticom_archive" | "experimental";
+  description?: string;
+  url: string;
+  notionPageId?: string;
+}
+
+export interface PeticomProject {
+  id: string;
+  title: string;
   description: string;
-  highlights?: string[];
-  links: { label: string; url: string; primary?: boolean }[];
-  tags: string[];
-  period?: string;
   publicKey?: string;
-  articles?: ArchiveArticle[];
+  articles: ArchiveArticle[];
+}
+
+export interface NotionArticleItem {
+  title: string;
+  tag?: string;
+  date?: string;
+  notionPath?: string;
 }
 
 export const siteData = {
   title: "ナルミンチョの創作記録",
-  author: "ナルミンチョ (narumincho / 鳴海 敏史)",
+  author: "ナルミンチョ",
   url: "https://narumincho.com",
   description:
-    "ナルミンチョの個人サイト・創作記録。Web標準・Deno・TypeScript・言語処理系・UIデザイン・プチコン3号（DESIRED Route / NPIME）などの創作物を高速かつ美しくまとめています。",
+    "ナルミンチョの創作記録。Webアプリ、definy、プチコン3号（DESIRED Route / NPIME）などの創作物を紹介しています。",
   bio: [
-    "プログラミング、UIデザイン、言語処理系、Web標準が好きな創作者。",
-    "直感的で型安全なビジュアルプログラミング環境「Definy」の開発をはじめ、Webツール、ニンテンドー3DS プチコン3号でのRPG制作など、幅広いものづくりを行っています。",
-    "従来の Notion ページ初期ロードの重さを解消するため、静的HTML/CSSによる超高速配信へリニューアルしました。",
+    "世界樹の迷宮に感動し、プチコン3号で RPGを創作(頓挫)。RPG のシナリオを入力するためにIMEつきエディタを作成。",
+    "つくマート、重力星など様々なWebアプリを得意の型安全を意識して開発。",
+    "マイクラのサバイバルサーバーで作った 巨大な迷宮が自信作。",
+    "Elmを元にした最強のビジュアルプログラミング言語などを日々開発中。",
   ],
   accounts: [
     {
-      id: "x",
-      name: "X (Twitter)",
-      url: "https://x.com/naru_mincho",
+      id: "twitter",
+      name: "Twitter (@naru_mincho)",
+      url: "https://twitter.com/naru_mincho",
       handle: "@naru_mincho",
       iconSvg:
         `<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>`,
@@ -49,7 +59,7 @@ export const siteData = {
       id: "github",
       name: "GitHub",
       url: "https://github.com/narumincho",
-      handle: "@narumincho",
+      handle: "narumincho",
       iconSvg:
         `<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>`,
     },
@@ -57,114 +67,92 @@ export const siteData = {
       id: "zenn",
       name: "Zenn",
       url: "https://zenn.dev/narumincho",
-      handle: "@narumincho",
+      handle: "narumincho",
       iconSvg:
         `<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M.264 23.771h4.984c.264 0 .498-.147.645-.352L19.98 4.776H15.02L.264 23.771zm18.06-18.995h5.412c.147 0 .264-.117.264-.264V.264A.264.264 0 0 0 23.736 0H18.06c-.147 0-.264.117-.264.264v4.248c0 .147.117.264.264.264z"/></svg>`,
     },
     {
-      id: "qiita",
-      name: "Qiita",
-      url: "https://qiita.com/narumincho",
-      handle: "@narumincho",
-      iconSvg:
-        `<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/><path d="M12 7v5l3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`,
-    },
-    {
-      id: "note",
-      name: "note",
-      url: "https://note.com/narumincho",
-      handle: "@narumincho",
-      iconSvg:
-        `<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M4 4h16v16H4V4zm3 4v8h10V8H7z"/></svg>`,
-    },
-    {
-      id: "bluesky",
-      name: "Bluesky",
-      url: "https://bsky.app/profile/narumincho.com",
-      handle: "@narumincho.com",
-      iconSvg:
-        `<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566 1.01 1.5 1.7 1.5 3.7c0 1.25.438 6.55 1.25 8.1 1.25 2.4 3.75 3.2 5.75 2.2-2.5 1.5-5.5 3.5-3.5 7 2.5 4.4 7-2 7-2s4.5 6.4 7 2c2-3.5-1-5.5-3.5-7 2 1 4.5.2 5.75-2.2.812-1.55 1.25-6.85 1.25-8.1 0-2-1.066-2.69-3.702-.895C16.046 4.747 13.087 8.686 12 10.8z"/></svg>`,
-    },
-    {
       id: "youtube",
       name: "YouTube",
-      url: "https://www.youtube.com/@narumincho",
-      handle: "@narumincho",
+      url: "https://www.youtube.com/channel/UCDGsMJptdPNN_dbPkTl9qjA",
+      handle: "ナルミンチョ",
       iconSvg:
         `<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>`,
     },
     {
       id: "notion",
-      name: "Notion (詳細アーカイブ)",
+      name: "Notion (ナルミンチョの創作記録)",
       url: "https://narumincho.notion.site/22961d0ee2924074a22ce37f405b941a",
-      handle: "narumincho.notion.site",
+      handle: "Notion",
       iconSvg:
         `<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M4.459 4.208c.746.606 1.026.56 2.428.466l13.215-.793c.28 0 .047-.28-.093-.373L18.172 2.11c-.56-.42-1.307-.7-2.146-.653L3.992 2.25c-.466.047-.56.28-.373.467l.84 1.491zm-.093 3.312v12.593c0 .84.467 1.166 1.493 1.12l14.194-.84c1.026-.046 1.166-.653 1.166-1.4v-12.64c0-.746-.373-1.026-1.12-1.026l-14.614.887c-.793.047-1.119.42-1.119 1.306zm13.447.886c.093.373 0 .747-.373.793l-.84.14v8.956c0 .793-.42 1.12-1.166 1.12-.56 0-.84-.28-1.26-.84l-4.757-7.464v7.091l1.492.327c.373.093.466.42.466.746 0 .373-.28.467-.653.467l-3.5-.047c-.373 0-.56-.14-.56-.467 0-.373.187-.653.56-.746l1.213-.327V9.48l-1.4-.14c-.374-.047-.467-.373-.467-.653 0-.327.28-.467.653-.467l3.687.047c.56 0 .84.28 1.213.84l4.804 7.51V9.574l-1.306-.187c-.373-.093-.467-.42-.467-.746 0-.374.28-.467.653-.467l3.22.046c.373 0 .56.14.56.467 0 .374-.187.654-.56.747z"/></svg>`,
     },
   ] as AccountLink[],
-  projects: [
+
+  // ✨ ナルミンチョが作った Webアプリなど (Notion 掲載の 8 件)
+  webApps: [
+    {
+      id: "deno-vscode",
+      title: "Deno で VSCode 拡張機能を作れるライブラリ",
+      description:
+        "Rust の SWC で公式の d.ts ファイルのコードを解析し構築している",
+      url: "https://jsr.io/@narumincho/vscode",
+      notionPageId: "Deno-VSCode-c926691c13224b8980f8d5cf30062794",
+    },
     {
       id: "definy",
-      title: "Definy",
-      category: "featured",
-      period: "2020 - 現在",
-      description:
-        "Webブラウザ上で動作する純粋関数型ビジュアルプログラミング言語・共同編集プラットフォーム。型安全性を極め、構文エラーのない直感的なプログラミング体験を追求しています。",
-      highlights: [
-        "Webブラウザだけで完結する共同編集プログラミング環境",
-        "構文エラーが発生しない構造化エディタ",
-        "TypeScript / WebAssembly / Web標準技術による堅牢な実装",
-      ],
-      tags: ["TypeScript", "WebAssembly", "Programming Language", "Compiler"],
-      links: [
-        { label: "Definy を開く", url: "https://definy.me", primary: true },
-        {
-          label: "GitHub リポジトリ",
-          url: "https://github.com/narumincho/definy",
-        },
-      ],
+      title: "代数的データ型をサポートしたビジュアルプログラミング言語 definy",
+      url: "https://definy.app/?hl=ja",
+      notionPageId: "definy-06a613db71624fd09a8682c898e2011b",
     },
     {
-      id: "cryptofinder",
-      title: "CryptoFinder (Web File Encryptor)",
-      category: "featured",
-      period: "2024 - 2026",
-      description:
-        "ローカル環境やサーバー上のファイルを安全に暗号化・復号・プレビューできるモダンなエクスプローラー型Webアプリケーション。強固な暗号化（AES-GCM / Argon2id）と直感的なファイル管理UIを融合。",
-      highlights: [
-        "Web Crypto API と Deno を活用した高速暗号処理",
-        "安全なプレビュー機能付きファイルマネージャーUI",
-      ],
-      tags: ["Deno", "TypeScript", "Web Crypto", "Security"],
-      links: [
-        {
-          label: "GitHub リポジトリ",
-          url: "https://github.com/narumincho/web-file-encryptor",
-          primary: true,
-        },
-      ],
+      id: "cop4k",
+      title: "重力星",
+      url: "https://cop4k.csb.app/",
+      notionPageId: "9b2d50b0d7d34f9883ced2c99f618ee0",
     },
+    {
+      id: "tsukumart",
+      title: "つくマート",
+      url: "https://tsukumart.com/",
+      notionPageId: "2a3806b3761c4ce7a81d74be0731eaac",
+    },
+    {
+      id: "ue45oh",
+      title: "2桁掛け算暗算トレーニング",
+      url: "https://ue45oh.csb.app/",
+      notionPageId: "2-e7241c01cca44fde800b4c1b404e5efd",
+    },
+    {
+      id: "vscode-definy",
+      title: "VSCode 拡張機能版 definy",
+      description:
+        "definy は シンプルさを重視した新しいプログラミング言語です. まだまだ開発中であり, できることは限られます. 上のコードを書いた状態で, add にマウスをホバーすると評価結果を見ることができます.",
+      url:
+        "https://marketplace.visualstudio.com/items?itemName=narumincho.definy",
+      notionPageId: "VSCode-definy-1e0f2d2c58a44c6dbfb53473d16ae352",
+    },
+    {
+      id: "nonogram",
+      title: "narumincho nonogram | お絵かきロジックを解いてくれるアプリ",
+      url: "https://nonogram.narumincho.com/",
+      notionPageId: "narumincho-nonogram-0aedef5cb5d942799bda754ebb96b3a5",
+    },
+    {
+      id: "image-color-canvas-world",
+      title: "アップロードした画像の色に合わせて自動で配置するサイト",
+      url: "https://image-color-canvas-world.deno.dev/",
+      notionPageId: "88789a08cd7e49d5b84ae04e72a24b94",
+    },
+  ] as WebAppItem[],
+
+  // 2018年サイト (https://pub-1463f3b1a6d64d348162c5230dfdd105.r2.dev/HomePage/index.html) の創作記録
+  peticomProjects: [
     {
       id: "desired-route",
-      title: "DESIRED Route (プチコン3号 RPG)",
-      category: "peticom_archive",
-      period: "2015 - 2018",
+      title: "DESIRED Route",
       description:
-        "ニンテンドー3DSの「プチコン3号」上で制作された本格長編RPG。自作の漢字フォントレンダラー、操作性を追求したウィンドウ挙動、独自のエンカウント方式、Excelによるデータ連携など、技術的挑戦が詰まった代表作です。",
-      highlights: [
-        "プチコン3号上で美麗な漢字表示を実現する独自フォントシステム",
-        "RPGとしてのテンポ・GUIの配色・レスポンスの徹底した最適化",
-        "現在も読める詳細な技術解説・設計ドキュメントが多数残存",
-      ],
-      tags: ["Petitcom 3号", "3DS", "RPG", "Game Dev", "2018 Archive"],
-      links: [
-        {
-          label: "2018年 当時サイトを見る",
-          url:
-            "https://pub-1463f3b1a6d64d348162c5230dfdd105.r2.dev/HomePage/index.html",
-          primary: true,
-        },
-      ],
+        "現在、プチコン3号で作っているRPG「DESIRED Route」。ウィンドウの挙動、漢字の表示、GUIの配色などの技術解説を公開しています。",
       articles: [
         {
           title: "ウィンドウの挙動",
@@ -187,7 +175,7 @@ export const siteData = {
             "https://pub-1463f3b1a6d64d348162c5230dfdd105.r2.dev/HomePage/desired_route/guicolor.html",
         },
         {
-          title: "エンカウント方式",
+          title: "エンカウント",
           url:
             "https://pub-1463f3b1a6d64d348162c5230dfdd105.r2.dev/HomePage/desired_route/encount.html",
         },
@@ -210,21 +198,17 @@ export const siteData = {
     },
     {
       id: "npime",
-      title: "N Petitcom IME (NPIME)",
-      category: "peticom_archive",
-      period: "2017 - 2018",
-      description:
-        "プチコン3号環境で動作する画期的な漢字入力IME。ひらがなから漢字への変換ロジックを実装し、ゲーム内外での日本語表現を大幅に拡張しました。",
+      title: "N Petitcom IME",
+      description: "プチコン3号で動く漢字入力IMEです。",
       publicKey: "BEREV2HV",
-      tags: ["Petitcom 3号", "3DS", "IME", "Algorithm", "2018 Archive"],
-      links: [
+      articles: [
         {
-          label: "対応している文字",
+          title: "対応している文字",
           url:
             "https://pub-1463f3b1a6d64d348162c5230dfdd105.r2.dev/HomePage/npime/char.html",
         },
         {
-          label: "変換プログラム解説",
+          title: "変換プログラム",
           url:
             "https://pub-1463f3b1a6d64d348162c5230dfdd105.r2.dev/HomePage/npime/convert_prg.html",
         },
@@ -232,106 +216,193 @@ export const siteData = {
     },
     {
       id: "gladsheim",
-      title: "Gladsheim (グラズヘイム)",
-      category: "peticom_archive",
-      period: "2018",
-      description:
-        "壮大な世界観とキャラクター設定を盛り込んだオリジナルRPGの制作記録・開発ログ。",
-      tags: ["RPG", "Game Design", "Log", "2018 Archive"],
-      links: [
+      title: "Gladsheim",
+      description: "Gladsheim の制作記録。",
+      articles: [
         {
-          label: "Gladsheim 2018-07 ログ",
+          title: "Gladsheim2018-07",
           url:
             "https://pub-1463f3b1a6d64d348162c5230dfdd105.r2.dev/HomePage/Gladsheim/201807/index.html",
         },
         {
-          label: "Gladsheim 2018-08 ログ",
+          title: "Gladsheim2018-08",
           url:
             "https://pub-1463f3b1a6d64d348162c5230dfdd105.r2.dev/HomePage/Gladsheim/201808/index.html",
         },
         {
-          label: "Gladsheim 2018-09 ログ",
+          title: "Gladsheim2018-09",
           url:
             "https://pub-1463f3b1a6d64d348162c5230dfdd105.r2.dev/HomePage/Gladsheim/201809/index.html",
         },
       ],
     },
+  ] as PeticomProject[],
+
+  // 📝 ナルミンチョが書いた 記事 (Notion 掲載の 33 件)
+  notionArticles: [
     {
-      id: "line-stamp-maker",
-      title: "line-stamp-maker",
-      category: "tool",
-      period: "2021",
-      description:
-        "LINEスタンプの厳密な規格（余白、偶数ピクセルサイズ、APNG形式）に沿った画像の一括自動変換・書き出しをブラウザ上で行える支援ツール。",
-      tags: ["Web Tool", "Canvas API", "Productivity"],
-      links: [
-        {
-          label: "GitHub リポジトリ",
-          url: "https://github.com/narumincho/line-stamp-maker",
-        },
-      ],
+      title: "もりぱ 2026年福袋の旅",
+      tag: "⛏️ Minecraft",
+      date: "August 16, 2026",
     },
     {
-      id: "simple-markdown",
-      title: "Simple Markdown",
-      category: "tool",
-      period: "2022",
-      description:
-        "Web標準とTypeScriptで実装された軽量かつ安全なMarkdownパーサー＆HTMLジェネレーター。カスタマイズ性の高い構文木変換を提供。",
-      tags: ["TypeScript", "Parser", "Markdown", "OSS"],
-      links: [
-        {
-          label: "GitHub リポジトリ",
-          url: "https://github.com/narumincho/simple-markdown",
-        },
-      ],
+      title: "隠れ鬼 開催歴",
+      tag: "⛏️ Minecraft",
+      date: "December 13, 2025",
     },
     {
-      id: "speech-balloon",
-      title: "Speech Balloon (Web 吹き出し)",
-      category: "tool",
-      period: "2021",
-      description:
-        "チャットやノベルゲーム風UIを簡単にWebページに組み込める、軽量でカスタマイズ性の高い吹き出しコンポーネントライブラリ。",
-      tags: ["Web Component", "CSS", "UI Component"],
-      links: [
-        {
-          label: "GitHub リポジトリ",
-          url: "https://github.com/narumincho/speech-balloon",
-        },
-      ],
+      title: "もりのパーティー! 地上絵",
+      tag: "⛏️ Minecraft",
+      date: "November 5, 2024",
     },
     {
-      id: "chidori",
-      title: "Chidori (千鳥)",
-      category: "experimental",
-      period: "2023",
-      description:
-        "日本語タイポグラフィ、字形、フォントレンダリングの最適化を探求する実験的プロジェクト。",
-      tags: ["Typography", "Font", "Graphics"],
-      links: [
-        {
-          label: "GitHub リポジトリ",
-          url: "https://github.com/narumincho/chidori",
-        },
-      ],
-    },
-  ] as ProjectItem[],
-  articles: [
-    {
-      platform: "Zenn",
-      topic: "WebAssembly / TypeScript / Deno / プログラミング言語自作",
-      url: "https://zenn.dev/narumincho",
+      title: "Blender で 十二・十二面体 を作る",
+      tag: "Blender",
+      date: "March 19, 2025",
     },
     {
-      platform: "Qiita",
-      topic: "フロントエンド・設計・Web標準API活用法",
-      url: "https://qiita.com/narumincho",
+      title: "バズクリワールド 2.0",
+      tag: "⛏️ Minecraft",
+      date: "May 3, 2023",
     },
     {
-      platform: "Note",
-      topic: "創作に関する思考、UI/UXデザインについての考察",
-      url: "https://note.com/narumincho",
+      title: "Minecraft のクラウド exaroton 試してみた",
+      tag: "⛏️ Minecraft",
+      date: "September 10, 2024",
     },
-  ],
+    {
+      title: "PowerShell で指定したポートを使っているプロセスを特定する",
+      tag: "PowerShell",
+      date: "February 3, 2023",
+    },
+    {
+      title: "DESIRED Route のコード",
+      tag: "DESIRED Route",
+      date: "December 7, 2022",
+    },
+    {
+      title:
+        "Unity で VRoid Studio の キャラクターを FBXに変換せずに Mixamo のアニメーションで動かす",
+      tag: "Unity",
+      date: "November 5, 2022",
+    },
+    {
+      title: "definy について 考えていること",
+      tag: "definy",
+      date: "December 7, 2022",
+    },
+    {
+      title: "JS, TS, Deno ハンズオン資料",
+      tag: "TypeScript",
+      date: "December 12, 2022",
+    },
+    {
+      title: "音階の面白い表現を紹介",
+      date: "September 22, 2022",
+    },
+    {
+      title: "Slack 未読パターン",
+      date: "July 13, 2022",
+    },
+    {
+      title: "HIDELIKE GB のフォントを作った",
+      tag: "font, プチコン",
+      date: "July 26, 2024",
+    },
+    {
+      title: "definy が改善すること",
+      tag: "definy",
+      date: "May 5, 2022",
+    },
+    {
+      title: "クッキーラン キャロット味クッキー が かわいい",
+      tag: "クッキーラン",
+      date: "May 5, 2022",
+    },
+    {
+      title: "DESIRED Routeについて",
+      tag: "DESIRED Route",
+      date: "September 9, 2025",
+    },
+    {
+      title: "メッセージウィンドウの話",
+      tag: "DESIRED Route, UI",
+      date: "February 6, 2026",
+    },
+    {
+      title: "DESIRED RouteとNPIMEのフォントの描画処理",
+      tag: "font, DESIRED Route",
+      date: "February 6, 2026",
+    },
+    {
+      title: "星の図形について",
+      tag: "DESIRED Route",
+      date: "May 5, 2022",
+    },
+    {
+      title: "DESIRED Routeに登場する予定だった敵モンスター",
+      tag: "DESIRED Route",
+      date: "May 5, 2022",
+    },
+    {
+      title: "アドベントカレンダー 20歳の-遺書- ナルミンチョ版",
+      tag: "Advent Calendar, definy, DESIRED Route",
+      date: "May 5, 2022",
+    },
+    {
+      title: "型システムと協力して世界を構築する",
+      tag: "Advent Calendar",
+      date: "May 5, 2022",
+    },
+    {
+      title: "Nプチコン漢字入力(N Petitcom IME)",
+      tag: "プチコン, font",
+      date: "March 5, 2023",
+    },
+    {
+      title: "モンスターとのエンカウントについて",
+      tag: "DESIRED Route",
+      date: "May 5, 2022",
+    },
+    {
+      title: "UIの配色",
+      tag: "UI, DESIRED Route",
+      date: "May 5, 2022",
+    },
+    {
+      title: "リストUIのボタン操作の挙動",
+      tag: "UI, DESIRED Route",
+      date: "May 5, 2022",
+    },
+    {
+      title: "単体SVGと埋め込みSVG",
+      tag: "SVG",
+      date: "May 5, 2022",
+    },
+    {
+      title: "SVGの基本",
+      tag: "SVG",
+      date: "May 5, 2022",
+    },
+    {
+      title:
+        "PowerShell で フォルダ内のファイルに対して 再帰的にコマンドを実行する",
+      tag: "PowerShell",
+      date: "May 5, 2022",
+    },
+    {
+      title: "Notion のデータベスでランダムに1つだけ表示する方法",
+      tag: "Notion",
+      date: "May 5, 2022",
+    },
+    {
+      title: "definy 識別子の仕様",
+      tag: "definy",
+      date: "May 5, 2022",
+    },
+    {
+      title: "M5Stack Narumincho Watch",
+      date: "June 14, 2023",
+    },
+  ] as NotionArticleItem[],
 };
