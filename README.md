@@ -1,6 +1,6 @@
 # ナルミンチョの創作記録 (narumincho.com)
 
-ナルミンチョ（鳴海 敏史）の個人サイト・ポートフォリオ。
+ナルミンチョの個人サイト
 
 Notion ページの初期表示の重さを解消するため、Deno を用いて純粋な静的
 HTML/CSS（Zero Runtime Overhead）を事前生成し、Cloudflare（Workers Static Assets
