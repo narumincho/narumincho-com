@@ -2,40 +2,41 @@
 
 ナルミンチョの個人サイト
 
-Notion ページの初期表示の重さを解消するため、Deno を用いて純粋な静的
-HTML/CSS（Zero Runtime Overhead）を事前生成し、Cloudflare（Workers Static Assets
-/ Pages）で配信します。
+Notion ページの初期表示の重さを解消するため、Deno + Vite + Preact
+を用いて高速な静的サイトを構築し、Cloudflare（Workers Static Assets /
+Pages）で配信します。
 
 ---
 
-## 開発環境 (Deno)
+## 開発環境 (Deno + Vite)
 
-本リポジトリは Node.js や npm を一切使用せず、**Deno**
-のみで開発・ビルドを行います。
+本リポジトリは Node.js を直接使わず、**Deno** をランタイムとして Vite
+を実行します。
 
-### 1. ビルド
-
-```sh
-deno task build
-```
-
-`src/data/siteData.ts` と `src/style.css` から、`dist/`
-ディレクトリ配下に完全静的なサイト（`index.html`, `style.css`,
-`icon.png`）を出力します。
-
-### 2. ローカル開発サーバー起動
+### 1. 開発用サーバー起動
 
 ```sh
 deno task dev
 ```
 
-`http://localhost:8000` でローカルプレビューサーバーが起動します。
+`http://localhost:5173` で Vite の開発用ローカルサーバーが起動します（HMR
+対応）。
 
-### 3. 型チェック
+### 2. ビルド
 
 ```sh
-deno task check
+deno task build
 ```
+
+`dist/` ディレクトリ配下にプロダクション用のアセットが出力されます。
+
+### 3. プレビュー
+
+```sh
+deno task preview
+```
+
+ビルド後の静的アセットをローカルでプレビューします。
 
 ---
 
@@ -44,7 +45,7 @@ deno task check
 ### Cloudflare Workers (Static Assets)
 
 `wrangler.json` が設定済みのため、Cloudflare Workers Static Assets
-としてそのまま高速配信されます。
+としてそのまま配信されます。
 
 ### Cloudflare Pages
 

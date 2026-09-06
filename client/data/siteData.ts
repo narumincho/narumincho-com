@@ -31,7 +31,6 @@ export interface NotionArticleItem {
   title: string;
   tag?: string;
   date?: string;
-  notionPath?: string;
 }
 
 export const siteData = {
@@ -146,7 +145,7 @@ export const siteData = {
     },
   ] as WebAppItem[],
 
-  // 2018年サイト (https://pub-1463f3b1a6d64d348162c5230dfdd105.r2.dev/HomePage/index.html) の創作記録
+  // 2018年サイトの創作記録
   peticomProjects: [
     {
       id: "desired-route",
