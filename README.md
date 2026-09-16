@@ -1,5 +1,12 @@
 # ナルミンチョの創作記録 (narumincho.com)
 
+# 工事中
+
+元情報サイト
+
+- https://narumincho.notion.site/
+- https://pub-1463f3b1a6d64d348162c5230dfdd105.r2.dev/HomePage/index.html
+
 ナルミンチョの個人サイト
 
 Notion ページの初期表示の重さを解消するため、Deno + Vite + Preact
