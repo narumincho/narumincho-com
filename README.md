@@ -15,10 +15,7 @@ Pages）で配信します。
 
 ---
 
-## 開発環境 (Deno + Vite)
-
-本リポジトリは Node.js を直接使わず、**Deno** をランタイムとして Vite
-を実行します。
+## 開発環境 (Deno + Fresh)
 
 ### 1. 開発用サーバー起動
 
@@ -53,10 +50,3 @@ deno task preview
 
 `wrangler.json` が設定済みのため、Cloudflare Workers Static Assets
 としてそのまま配信されます。
-
-### Cloudflare Pages
-
-GitHub 連携でビルドする場合は、以下のように設定します：
-
-- **Build command**: `deno task build`
-- **Build output directory**: `dist`
